@@ -97,19 +97,6 @@ function getTokens(line){
 	}
 }
 
-
-function isToken(type,regex,line){
-	var match = matchIndex(regex,line.substring(line_Pos));
-	if(match[0]){
-		if(type=="$"){type=match[1];}
-		addToken(line_Num,line_Pos,type,match[1]);
-		line_Pos+=match[2];
-		return true;
-	}else{
-		return false;
-	}
-}
-
 function addToken(line_Num, line_Pos, type, lexeme){
 
 	var token ={
@@ -122,16 +109,15 @@ function addToken(line_Num, line_Pos, type, lexeme){
 	tokens.push(token);
 }
 
-function matchIndex(regex, string){
-	var match = regex.exec(string);
-	var myMatch = [];
-		
+function isToken(type,regex,line){
+	var match = regex.exec(line.substring(line_Pos));
 	if (match != null&&match.index==0){
-		myMatch.push(true);
-		myMatch.push(match[0]);
-		myMatch.push(match[0].length);
-	} else {
-		myMatch.push(false);
-	}	
-	return myMatch;
+		if(type=="$"){type=match[0];}
+		addToken(line_Num,line_Pos,type,match[0]);
+		line_Pos+=match[0].length;
+		return true;
+	}else{
+		return false;
+	}
 }
+
