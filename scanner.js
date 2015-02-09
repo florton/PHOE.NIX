@@ -1,104 +1,81 @@
-var keywords, id,string,intLit, bool, XRegExp, byline, error, fs, scan;
+/*
+lines.js takes a file path as an arg and counts the non-blank non-commented lines
+Authors: Flanders Lorton, Maurice Leavell 2014
+*/
+var file= process.argv[2];
+var fs = require('fs');
 
-fs = require('fs');
+var indent = /[\t]|[\s]{4}/
+var id= /[A-Za-z][A-Za-z0-9_]*/;
+var intLit= /[0-9]+/;
+var Double= /intLit\.intLit/;
+var bool= /true|false/;
+var string= /^[“]([^”\\]|[\\][“\\bfnrt])*[“]$'/;
+var type = /^(void|int|double|string|bool)$/;
+var keywords = /^(?:return|print|prompt|args|if|else|elseif|for|while|until|class|lambda|public|private|header)$/;
 
-byline = require('byline');
+var line_Num = 1;
+var line_Pos=0;
+var tokens = [];
 
-XRegExp = require('xregexp').XRegExp;
-
-error = require('./error');
-
-id= XRegExp('[A-Za-z] [A-Za-z0-9_*]')
-
-intLit=XRegExp('[0-9]+')
-
-Double=XRegExp('intLit\.intLit')
-
-bool=XRegex('true|false')
-
-string=XRegExp('^[“]([^”\\]|[\\][“\\bfnrt])*[“]$')
-
-type = /^(void|int|double|string|bool)$/;
-
-keywords = /^(?:return|print|prompt|args|if|else|elseif|for|while|until|class|lambda|public|private|header)$/;
-
-module.exports = function(filename, callback) {
-var baseStream, linenumber, stream, tokens;
-baseStream = fs.createReadStream(filename, {
-encoding: 'utf8'
+fs.readFile(file, {encoding: 'utf-8'}, function (err, data) {
+	if (err) throw err;
+	var array_Of_Lines = data.split("\n");
+	for(line in array_Of_Lines ) {
+			if (!(/^\s+$/g.test(array_Of_Lines[line]))){
+				getTokens(array_Of_Lines[line]);
+			}
+			line_Num++;
+	}
+	for(token in tokens){
+		console.log( tokens[token].line_Num + " " + tokens[token].type);
+	}
 });
-baseStream.on('error', function(err) {
-return error(err);
-});
-stream = byline(baseStream, {
-keepEmptyLines: false
-});
-tokens = [];
-linenumber = 0;
-stream.on('readable', function() {
-return scan(stream.read(), ++linenumber, tokens);
-});
-return stream.once('end', function() {
-tokens.push({
-kind: 'EOF',
-lexeme: 'EOF'
-});
-return callback(tokens);
-});
-};
 
-scan = function(line, linenumber, tokens) {
-var emit, pos, start, word, _ref, _results;
-if (!line) {
-return;
+function getTokens(line){
+	while (line_Pos<line.length-1){
+		//indents
+		var token = isToken("indent",indent,line);
+		if(!token){
+			line_Pos=0;
+			return;}
+		}
 }
-_ref = [0, 0], start = _ref[0], pos = _ref[1];
-emit = function(kind, lexeme) {
-return tokens.push({
-kind: kind,
-lexeme: lexeme || kind,
-line: linenumber,
-col: start + 1
-});
-};
-_results = [];
-while (true) {
-while (/\s/.test(line[pos])) {
-pos++;
+
+
+function isToken(type,regex,line){
+	var match = matchIndex(regex,line.substring(line_Pos));
+	if(match[0]){
+		addToken(line_Num,line_Pos,type,match[1]);
+		line_Pos+=match[2];
+		return true;
+	}else{
+		return false;
+	}
 }
-start = pos;
-if (pos >= line.length) {
-break;
+
+function addToken(line_Num, line_Pos, type, lexeme){
+
+	var token ={
+		line_Num:line_Num,
+		line_Pos:line_Pos,
+		type:type,
+		lexeme:lexeme
+	};
+
+	tokens.push(token);
 }
-if (line[pos] === '/' && line[pos + 1] === '/') {
-break;
+
+function matchIndex(regex, string){
+	var match = regex.exec(string);
+	var myMatch = [];
+		
+	if (match != null&&match.index==0){
+		myMatch.push(true);
+		myMatch.push(match[0]);
+		myMatch.push(match[0].length);
+	} else {
+		myMatch.push(false);
+	}	
+	return myMatch;
 }
-if (/:=:/.test(line.substring(pos, pos + 3))) {
-emit(line.substring(pos, pos + 3));
-_results.push(pos += 3);
-}else if (/==|+=|-=|\/=|*=|%=|++|--|:: /.test(line.substring(pos, pos + 2))) {
-emit(line.substring(pos, pos + 2));
-_results.push(pos += 2);
-} else if (/[+\-*\/(),:=<>&%]/.test(line[pos])) {
-_results.push(emit(line[pos++]));
-} else if (LETTER.test(line[pos])) {
-while (WORD_CHAR.test(line[pos]) && pos < line.length) {
-pos++;
-}
-word = line.substring(start, pos);
-_results.push(emit((KEYWORDS.test(word) ? word : 'ID'), word));
-} else if (DIGIT.test(line[pos])) {
-while (DIGIT.test(line[pos])) {
-pos++;
-}
-_results.push(emit('INTLIT', line.substring(start, pos)));
-} else {
-error("Illegal character: " + line[pos], {
-line: linenumber,
-col: pos + 1
-});
-_results.push(pos++);
-}
-}
-return _results;
-};
