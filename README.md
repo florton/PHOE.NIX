@@ -46,7 +46,19 @@
 ###Arrays
 	int x[4] = [1,2,3,4]  
 	// x = [1,2,3,4] 
-	x[0]= 
+	x[0]= 5
+	//x = [5,2,3,4]
+	
+	//matrixes 
+
+	string s[3][2];
+	//s = [[,],[,],[,]]
+	s[0][0]=99
+	s[0][1]="here I am"
+	//s= [[99,here I am],[,],[,]]
+	s[2]="hello"
+	//s= [[,here I am],[,],[hello]]
+	
 	
 ###Standard IO
 
