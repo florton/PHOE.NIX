@@ -35,7 +35,7 @@ function readFile(file){
 	for(line in array_Of_Lines ) {
 		if (!(/^\s+$/g.test(array_Of_Lines[line]))){
 			getTokens(array_Of_Lines[line]+'');
-			addToken(line_Num,array_Of_Lines[line].length-1,"EOL","\n");
+			addToken(line_Num,array_Of_Lines[line].length,"EOL","\n");
 		}
 		line_Num++;
 	}
