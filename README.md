@@ -214,7 +214,7 @@
 ###Accepts a number of cents x and returns an array containing respectively, the smallest number of quarters, dimes, nickels, and pennies as change
 
 	int makeChange(int x)
-		int coins[4];
+		int coins[4]
 		if x<0
 			print "amount cannot be negative"
 

@@ -15,26 +15,33 @@ var addop= /\+{1,2}|-{1,2}/;
 var multop= /\/|%|\*{1,2}/;
 var relop= />|<|<=|>=|&|!=|\|\|/;
 var misc = /::|:=:|:|\./;
-var quote = /"/;
 
 var line_Num = 1;
 var line_Pos=0;
 var tokens = [];
 
+module.exports = {
+	function scan(filepath){
+		return readFile(file);
+	}
+}
+function readFile(file){
 fs.readFile(file, {encoding: 'utf-8'}, function (err, data) {
 	if (err) throw err;
 	var array_Of_Lines = data.split("\n");
 	for(line in array_Of_Lines ) {
-			if (!(/^\s+$/g.test(array_Of_Lines[line]))){
-				getTokens(array_Of_Lines[line]+'');
-				addToken(line_Num,array_Of_Lines[line].length,"EOL","\n");
-			}
-			line_Num++;
+		if (!(/^\s+$/g.test(array_Of_Lines[line]))){
+			getTokens(array_Of_Lines[line]+'');
+			addToken(line_Num,array_Of_Lines[line].length,"EOL","\n");
+		}
+		line_Num++;
 	}
 	for(token in tokens){
 		console.log(tokens[token]);
 	}
+	return tokens;
 });
+}
 
 function getTokens(line){
 	var indents =true;
