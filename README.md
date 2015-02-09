@@ -152,7 +152,7 @@
 		//do something
 	
 
-###Swap statement (Credit to Cobrascript)
+###Swap statement (Credit to Kobrascript)
 	int a = 5
 	int b = 6
 	a :=: b
@@ -210,18 +210,21 @@
 	print nextOdd(8)
 	//Console prints 9
 
-###accepts a number of cents x and returns an array containing respectively, the smallest number of quarters, dimes, nickels, and pennies
+###Accepts a number of cents x and returns an array containing respectively, the smallest number of quarters, dimes, nickels, and pennies as change
 
 	int makeChange(int x)
-		
+		int coins[4];
 		if x<0
 			print "amount cannot be negative"
-		quarters= x/25
-		int remainder = x % 25
-		dimes=divmod(quarters[1],10)
-		nickles=divmod(dimes[1],5)
-		pennies=nickles[1]
-		return (quarters[0], dimes[0], nickles[0], pennies)
+
+		coins[0]= x/25
+		coins[3] = x % 25
+		coins[1]= coins[3]/10
+		coins[3] %= 10
+		coins[2]= coins[3]/5
+		coins[3] %= 5
+
+		return coins
 
 ## A small C++ program vs its Phoenix equivalent
 
