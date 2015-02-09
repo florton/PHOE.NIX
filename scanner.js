@@ -2,6 +2,7 @@ var file= process.argv[2];
 var fs = require('fs');
 
 var indent = /[\t]|[\s]{4}/
+var comment = /[\/]{2}.*/;
 var id= /[A-Za-z][A-Za-z0-9_]*/;
 var intLit= /[0-9]+/;
 var Double= /intLit\.intLit/;
@@ -15,6 +16,7 @@ var addop= /\+{1,2}|-{1,2}/;
 var multop= /\/|%|\*{1,2}/;
 var relop= />|<|<=|>=|&|!=|\|\|/;
 var misc = /::|:=:|:|\./;
+
 
 var line_Num = 1;
 var line_Pos=0;
@@ -30,7 +32,7 @@ module.exports = {
 
 function readFile(file){
 	fs.readFile(file, {encoding: 'utf-8'}, function (err, data) {
-	if (err) throw "Cannot read file";
+	if (err) throw err;
 	var array_Of_Lines = data.split("\n");
 	for(line in array_Of_Lines ) {
 		if (!(/^\s+$/g.test(array_Of_Lines[line]))){
@@ -55,6 +57,8 @@ function getTokens(line){
 		if(!isToken("indent",indent,line)){break;}
 	}
 	while (line_Pos<line.length-1){
+		if(isToken("comment",comment,line)){}
+		else{
 		if(isToken("$",keyword,line)){}
 		else{
 		if(isToken("type",type,line)){}
@@ -81,6 +85,7 @@ function getTokens(line){
 		else{
 		if(isToken("misc",misc,line)){}
 		else{
+
 		
 		//add more microsyntax lines here if needed
 		
@@ -90,11 +95,11 @@ function getTokens(line){
 		else{
 		var pos = "^";
 		for (var x=0; x<line_Pos; x++){pos = "-"+pos;}
-		var alert = "Syntax Error at: Line " + line_Num + " Char: " + line_Pos;
+		var alert = "Syntax Error at: Line: " + line_Num + " Char: " + line_Pos;
 		var error = alert + "\n" + line + "\n" + pos;
 		throw error;
 		}
-		}}}}}}}}}}}}}
+		}}}}}}}}}}}}}}
 	}
 }
 
