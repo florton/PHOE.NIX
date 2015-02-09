@@ -16,8 +16,6 @@
 	//Scoping is accomplished through indentation
 	//Statements are one line unless the line ends with a comma
 	
-	//All code not within function declarations is run as if it were in a main
-	
 ###Variables
 
 	//There are no semicolons or curly braces in Phoenix
@@ -42,17 +40,18 @@
 	
 ###Standard IO
 
-	//The standard input (cin) is `prompt`
+	//The standard input (cin) is "prompt"
 
 	string s
+
 	prompt s
 	//user enters "hello"
 
-	//The standard output (cout) is `print`
+	//The standard output (cout) is "print"
 
 	print s
 
-	//prints "hello"
+	//prints "hello" to console
 
 
 ###Functions
@@ -66,7 +65,7 @@
 
 ####Command Line arguments
 
-	//Every D++ program has a reserved array args
+	//Every D++ program has a reserved array "args"
 	//args contains command line arguments. 
 	//args[0] contains the name of the program
 	//args[1] is the first argument
@@ -83,7 +82,23 @@
 	print args[3]
 	//prints "5"
 	
+####File layout
+		
+	//All code not within function declarations is run as if it were in a main
 
+	//All function declarations will be automatically placed into the .h file upon compilation
+	//The user can also define additons to the .h file by adding them under a "header" block
+
+	header:
+		//everything here is added to the header file
+
+	//Users can also declare private and public variables like in C++ with "public" and "private"
+
+	public:
+		int x
+	
+	private:
+		string y
 
 
 ##Statements
@@ -175,7 +190,7 @@
 
 ## A small C++ program vs its Phoenix equivalent
 
-###C++
+####C++
 	
 	#include<iostream>
 	 
@@ -213,7 +228,7 @@
 	   return 0;
 	}
 	
-###Phoenix
+####Phoenix
 	class programming
 		private int variable
 	
@@ -234,8 +249,8 @@
 
 ##Phoenix MicroSyntax
 
-	keyword=‘func’|’return’|’print’|’prompt’|’args’|’if’|’else’|’elseif’|’for’|'while'|'until’|’class’|’void’|'lambda'
-	id=[A-Za-z] [A-Za-z0-9_*]
+	keyword=‘func’|’return’|’print’|’prompt’|’args’|’if’|’else’|’elseif’|’for’|'while'|'until’|’class’|’void’|'lambda'|'public'|'private'|'header'
+	id=[A-Za-z][A-Za-z0-9_*]
 	string=^[“]([^”\\]|[\\][“\\bfnrt])*[“]$
 	int=[0-9+]
 	double=int\.int
@@ -243,6 +258,6 @@
 	scope=::
 	swap =:=:
 	assop= ==|=|=+|=-|=*|=\
-	addop=+|-|++|—
+	addop=+|-|++|--
 	multop= *|/|%|**
 	relop= >|<|<=|>=|&| ||
