@@ -29,8 +29,7 @@ module.exports = {
 };
 
 function readFile(file){
-	console.log(process.argv.length);
-fs.readFile(file, {encoding: 'utf-8'}, function (err, data) {
+	fs.readFile(file, {encoding: 'utf-8'}, function (err, data) {
 	if (err) throw "Cannot read file";
 	var array_Of_Lines = data.split("\n");
 	for(line in array_Of_Lines ) {
