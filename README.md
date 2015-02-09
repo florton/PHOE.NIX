@@ -1,4 +1,4 @@
-![PHEO.NIX](http://puu.sh/fGmLp/55ba2e88be.png)
+![PHOE.NIX](http://puu.sh/fGmLp/55ba2e88be.png)
 #[Phoenix Theme Song](https://www.youtube.com/watch?v=h5EofwRzit0)
 
 ####Like the legend of the Phoenix, we understand that C++ is an extremely powerful programming language, but are also aware that it is difficult for modern programmers to adopt. In the spirit of modern syntactical languages like Python, with Phoenix we attempt to retain the functionality of C++ while making it much simpler for the programmer to write.
@@ -269,7 +269,8 @@
 	
 ####Phoenix
 	class programming
-		private int variable
+		private:
+			int variable
 	
 		void input_value()
 			print "In function input_value, Enter an integer\n"

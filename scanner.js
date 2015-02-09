@@ -12,7 +12,7 @@ var keyword = /(?:return|print|prompt|args|if|else|elseif|for|while|until|class|
 var paren = /[()\[\]]/;
 var assop= /==|=|\+=|-=|\/=|\*=|%=/;
 var addop= /\+{1,2}|-{1,2}/;
-var multop= /\/|%|(\*){1,2}/;
+var multop= /\/|%|\*{1,2}/;
 var relop= />|<|<=|>=|&|!=|\|\|/;
 var misc = /::|:=:|:|\./;
 var quote = /"/;
@@ -73,6 +73,8 @@ function getTokens(line){
 		else{
 		
 		//add more microsyntax lines here if needed
+		
+		//if the next char isn't a space it brings up the error dialogue
 		var space = /^\s/;
 		if (space.test(line.substring(line_Pos))){line_Pos++;}
 		else{
