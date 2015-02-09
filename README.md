@@ -145,11 +145,12 @@
 	while x != 10
 		//do something
 ###Until loop
-	until check == true
+	// until functions as a do while and
+	// will run once even if the condition is not met
+
+	until check != true
 		//do something
-######This is equivalent to
-	until check
-		//do something
+
 	
 
 ###Swap statement (Credit to Kobrascript)
@@ -289,7 +290,7 @@
 
 	keyword='return'|'print'|'prompt'|'args'|'if'|'else'|'elseif'|'for'|'while'|'until'|'class'|'lambda'|'public'|'private'|'header'
 	type = 'void'|'int'|'double'|'string'|'bool'|'func'
-	id=[A-Za-z][A-Za-z0-9_*]
+	id=[A-Za-z][A-Za-z0-9_]*
 	string=^[“]([^”\\]|[\\][“\\bfnrt])*[“]$
 	int=[0-9]+
 	double=int\.int
@@ -300,3 +301,4 @@
 	addop=+|-|++|--
 	multop= *|/|%|**
 	relop= >|<|<=|>=|&|!=| ||
+
