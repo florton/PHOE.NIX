@@ -37,6 +37,16 @@
 
 	//strings can be added together 
 	string str = "First part of the string" + "second part of the string"
+
+	//Multiple assignments
+	int x,y = 5
+	double a,b,c,d
+
+
+###Arrays
+	int x[4] = [1,2,3,4]  
+	// x = [1,2,3,4] 
+	x[0]= 
 	
 ###Standard IO
 
@@ -177,7 +187,7 @@
 	print fibonacci(7)
 	//Console prints 21
 
-###returns the next odd number
+###Returns the next odd number
 	int nextOdd(int x)
 		int currentNum = x
 		if x % 2 == 0
@@ -187,6 +197,19 @@
 
 	print nextOdd(8)
 	//Console prints 9
+
+###accepts a number of cents x and returns an array containing respectively, the smallest number of quarters, dimes, nickels, and pennies
+
+	int makeChange(int x)
+		
+		if x<0
+			print "amount cannot be negative"
+		quarters= x/25
+		int remainder = x % 25
+		dimes=divmod(quarters[1],10)
+		nickles=divmod(dimes[1],5)
+		pennies=nickles[1]
+		return (quarters[0], dimes[0], nickles[0], pennies)
 
 ## A small C++ program vs its Phoenix equivalent
 
@@ -249,15 +272,16 @@
 
 ##Phoenix MicroSyntax
 
-	keyword=‘func’|’return’|’print’|’prompt’|’args’|’if’|’else’|’elseif’|’for’|'while'|'until’|’class’|’void’|'lambda'|'public'|'private'|'header'
+	keyword='return'|'print'|'prompt'|'args'|'if'|'else'|'elseif'|'for'|'while'|'until'|'class'|'lambda'|'public'|'private'|'header'
+	type = 'void'|'int'|'double'|'string'|'bool'|'func'
 	id=[A-Za-z][A-Za-z0-9_*]
 	string=^[“]([^”\\]|[\\][“\\bfnrt])*[“]$
-	int=[0-9+]
+	int=[0-9]+
 	double=int\.int
 	bool=true|false
 	scope=::
 	swap =:=:
-	assop= ==|=|=+|=-|=*|=\
+	assop= ==|=|+=|-=|/=|*=|%=
 	addop=+|-|++|--
 	multop= *|/|%|**
-	relop= >|<|<=|>=|&| ||
+	relop= >|<|<=|>=|&|!=| ||
