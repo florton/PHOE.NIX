@@ -126,4 +126,3 @@ function isToken(type,regex,line){
 		return false;
 	}
 }
-
