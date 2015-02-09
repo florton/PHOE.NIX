@@ -20,14 +20,18 @@ var line_Num = 1;
 var line_Pos=0;
 var tokens = [];
 
+if(process.argv.length>2){readFile(file);}
+
 module.exports = {
-	function scan(filepath){
-		return readFile(file);
+	scan : function(filepath){
+		return readFile(filepath);
 	}
-}
+};
+
 function readFile(file){
+	console.log(process.argv.length);
 fs.readFile(file, {encoding: 'utf-8'}, function (err, data) {
-	if (err) throw err;
+	if (err) throw "Cannot read file";
 	var array_Of_Lines = data.split("\n");
 	for(line in array_Of_Lines ) {
 		if (!(/^\s+$/g.test(array_Of_Lines[line]))){
@@ -65,9 +69,7 @@ function getTokens(line){
 		if(isToken("id",id,line)){}
 		else{	
 		if(isToken("paren",paren,line)){}
-		else{	
-		if(isToken("quote",quote,line)){}
-		else{	
+		else{		
 		if(isToken("assop",assop,line)){}
 		else{	
 		if(isToken("relop",relop,line)){}
@@ -92,7 +94,7 @@ function getTokens(line){
 		var error = alert + "\n" + line + "\n" + pos;
 		throw error;
 		}
-		}}}}}}}}}}}}}}
+		}}}}}}}}}}}}}
 	}
 }
 
