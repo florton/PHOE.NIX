@@ -1,7 +1,7 @@
-scanner usage
+scanner usage:
 
 var scanner = require("./scanner.js");
-scanner.scan("filename");
+var tokens = scanner.scan("filename");
 
 scanner sample output for program:
 
@@ -17,7 +17,7 @@ int makeChange(int x)
 	
 	return coins
 	
-scanner.js returns and prints an array containing
+scanner.js returns and prints an array containing:
 
 { line_Num: 1, line_Pos: 0, type: 'type', lexeme: 'int' }
 { line_Num: 1, line_Pos: 4, type: 'id', lexeme: 'makeChange' }

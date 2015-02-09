@@ -35,13 +35,15 @@ function readFile(file){
 	for(line in array_Of_Lines ) {
 		if (!(/^\s+$/g.test(array_Of_Lines[line]))){
 			getTokens(array_Of_Lines[line]+'');
-			addToken(line_Num,array_Of_Lines[line].length,"EOL","\n");
+			addToken(line_Num,array_Of_Lines[line].length-1,"EOL","\n");
 		}
 		line_Num++;
 	}
+	//prints tokens once done
 	for(token in tokens){
 		console.log(tokens[token]);
 	}
+	
 	return tokens;
 });
 }
@@ -87,8 +89,7 @@ function getTokens(line){
 		if (space.test(line.substring(line_Pos))){line_Pos++;}
 		else{
 		var pos = "^";
-		var x;
-		for (x=0; x<line_Pos; x++){pos = "-"+pos;}
+		for (var x=0; x<line_Pos; x++){pos = "-"+pos;}
 		var alert = "Syntax Error at: Line " + line_Num + " Char: " + line_Pos;
 		var error = alert + "\n" + line + "\n" + pos;
 		throw error;
