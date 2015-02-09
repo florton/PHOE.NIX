@@ -66,7 +66,7 @@
 ####Command Line arguments
 
 	//Every D++ program has a reserved array "args"
-	//args contains command line arguments. 
+	//args contains command line arguments
 	//args[0] contains the name of the program
 	//args[1] is the first argument
 
@@ -86,13 +86,13 @@
 		
 	//All code not within function declarations is run as if it were in a main
 
-	//All function declarations will be automatically placed into the .h file upon compilation
+	//All function declarations will be automatically placed into the .h file when compiled
 	//The user can also define additons to the .h file by adding them under a "header" block
 
 	header:
 		//everything here is added to the header file
 
-	//Users can also declare private and public variables like in C++ with "public" and "private"
+	//Users can also declare private and public variables with "public" and "private"
 
 	public:
 		int x
