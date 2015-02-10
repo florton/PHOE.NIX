@@ -23,15 +23,19 @@ var line_Num = 1;
 var line_Pos=0;
 var tokens = [];
 
-if(process.argv.length>2){readFile(file);}
+if(process.argv.length>2){
+	readFile(file, function (arr) {
+		console.log(arr);
+	});
+}
 
 module.exports = {
-	scan : function(filepath){
-		return readFile(filepath);
+	scan : function(filepath, callback){
+		readFile(filepath, callback)
 	}
 };
 
-function readFile(file){
+function readFile(file, callback){
 	fs.readFile(file, {encoding: 'utf-8'}, function (err, data) {
 	if (err) throw err;
 	var array_Of_Lines = data.split("\n");
@@ -42,14 +46,12 @@ function readFile(file){
 		}
 		line_Num++;
 	}
-	//prints tokens once done
-	for(token in tokens){
-		console.log(tokens[token]);
-	}
-	return tokens;
-});
+
+	callback(tokens);
+	});
 }
-	function getTokens(line){
+
+function getTokens(line){
 	var indents =true;
 	line_Pos = 0;
 	while(true){
@@ -83,7 +85,8 @@ function readFile(file){
 		}
 	}	
 }
-	function addToken(line_Num, line_Pos, type, lexeme){
+
+function addToken(line_Num, line_Pos, type, lexeme){
 		var token ={
 		line_Num:line_Num,
 		line_Pos:line_Pos,
@@ -92,7 +95,8 @@ function readFile(file){
 	};
 		tokens.push(token);
 }
-	function isToken(type,regex,line){
+
+function isToken(type,regex,line){
 	var match = regex.exec(line.substring(line_Pos));
 	if (match != null&&match.index==0){
 		if(type=="$"){type=match[0];}

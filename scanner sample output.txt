@@ -1,7 +1,9 @@
 scanner usage:
 
-var scanner = require("./scanner.js");
-var tokens = scanner.scan("filename");
+var scanner = require("./scanner.js").scan;
+scanner("photest.txt", function (tokens) {
+	console.log(tokens[1]);
+});
 
 scanner sample output for program:
 
