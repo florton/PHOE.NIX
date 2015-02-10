@@ -88,14 +88,14 @@ scanner.js returns and prints an array containing:
 { line_Num: 9, line_Pos: 13, type: 'assop', lexeme: '%=' }
 { line_Num: 9, line_Pos: 16, type: 'int', lexeme: '10' }
 { line_Num: 9, line_Pos: 19, type: 'EOL', lexeme: '\n' }
- line_Num: 10, line_Pos: 0, type: 'indent', lexeme: '    ' }
- line_Num: 10, line_Pos: 4, type: 'return', lexeme: 'return' }
- line_Num: 10, line_Pos: 11, type: 'id', lexeme: 'coins' }
+{ line_Num: 10, line_Pos: 0, type: 'indent', lexeme: '    ' }
+{ line_Num: 10, line_Pos: 4, type: 'return', lexeme: 'return' }
+{ line_Num: 10, line_Pos: 11, type: 'id', lexeme: 'coins' }
 { line_Num: 11, line_Pos: 13, type: 'EOL', lexeme: '\n' }
 
 If a syntax error is found:
 
-C:\Users\F\OneDrive\Documents\scanner.js:100
+C:\PHOENIX\scanner.js:100
                 throw error;
                       ^
 Syntax Error at: Line: 7 Char: 19
