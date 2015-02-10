@@ -87,7 +87,7 @@ function getTokens(line){
 }
 
 function addToken(line_Num, line_Pos, type, lexeme){
-		var token ={
+	var token ={
 		line_Num:line_Num,
 		line_Pos:line_Pos,
 		type:type,

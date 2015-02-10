@@ -102,4 +102,4 @@ C:\PHOENIX\scanner.js:100
                       ^
 Syntax Error at: Line: 7 Char: 19
     coins[1] = coin$[3]/10
--------------------^
+                   ^
