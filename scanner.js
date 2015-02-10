@@ -1,5 +1,6 @@
 var file= process.argv[2];
 var fs = require('fs');
+var error = require('./error');
 
 var indent = /[\t]|[\s]{4}/
 var comment = /[\/]{2}.*/;
@@ -17,8 +18,6 @@ var multop= /\/|%|\*{1,2}/;
 var relop= />|<|<=|>=|&|!=|\|\|/;
 var misc = /==|::|:|\.|,/;
 var multistart = /\/\*|\*\//;
-
-
 
 var line_Num = 1;
 var line_Pos=0;
@@ -45,7 +44,7 @@ function readFile(file){
 	}
 	//prints tokens once done
 	for(token in tokens){
-		//console.log(tokens[token]);
+		console.log(tokens[token]);
 	}
 	return tokens;
 });
@@ -79,11 +78,7 @@ function readFile(file){
 			var space = /^\s/;
 			if (space.test(line.substring(line_Pos))){line_Pos++;}
 			else{
-				var pos = "^";
-				for (var x=0; x<line_Pos; x++){pos = "-"+pos;}
-				var alert = "Syntax Error at: Line: " + line_Num + " Char: " + line_Pos;
-				var error = alert + "\n" + line + "\n" + pos;
-				throw error;
+				error.error(line,line_Num,line_Pos);
 			}
 		}
 	}	
