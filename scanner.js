@@ -119,7 +119,7 @@ function addToken(line_num, line_pos, type, lexeme) {
 
 function isToken(type, regex, line) {
     var match = regex.exec(line.substring(line_pos));
-    if (match != null && match.index == 0) {
+    if (match !== null && match.index == 0) {
         if (type == "$") {
             type = match[0];
         }

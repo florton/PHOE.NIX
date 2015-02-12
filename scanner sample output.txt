@@ -2,7 +2,7 @@ scanner usage:
 
 var scanner = require("./scanner.js").scan;
 scanner("photest.txt", function (tokens) {
-	console.log(tokens[1]);
+	console.log(tokens);
 });
 
 scanner sample output for program:
@@ -11,89 +11,92 @@ int makeChange(int x)
     int coins[4]
     if x<0
         print "amount cannot be negative"
-
     coins[0]= x/25
     coins[3] = x % 25
-    coins[1]= coins[3]/10
+    coins[1] = coins[3]/10
     coins[3] %= 10
 	
-	return coins
+    return coins //this is a comment 
 	
 scanner.js returns and prints an array containing:
 
-{ line_Num: 1, line_Pos: 0, type: 'type', lexeme: 'int' }
-{ line_Num: 1, line_Pos: 4, type: 'id', lexeme: 'makeChange' }
-{ line_Num: 1, line_Pos: 14, type: 'paren', lexeme: '(' }
-{ line_Num: 1, line_Pos: 15, type: 'type', lexeme: 'int' }
-{ line_Num: 1, line_Pos: 19, type: 'id', lexeme: 'x' }
-{ line_Num: 1, line_Pos: 20, type: 'paren', lexeme: ')' }
-{ line_Num: 1, line_Pos: 22, type: 'EOL', lexeme: '\n' }
-{ line_Num: 2, line_Pos: 0, type: 'indent', lexeme: '    ' }
-{ line_Num: 2, line_Pos: 4, type: 'type', lexeme: 'int' }
-{ line_Num: 2, line_Pos: 8, type: 'id', lexeme: 'coins' }
-{ line_Num: 2, line_Pos: 13, type: 'paren', lexeme: '[' }
-{ line_Num: 2, line_Pos: 14, type: 'int', lexeme: '4' }
-{ line_Num: 2, line_Pos: 15, type: 'paren', lexeme: ']' }
-{ line_Num: 2, line_Pos: 17, type: 'EOL', lexeme: '\n' }
-{ line_Num: 3, line_Pos: 0, type: 'indent', lexeme: '    ' }
-{ line_Num: 3, line_Pos: 4, type: 'if', lexeme: 'if' }
-{ line_Num: 3, line_Pos: 7, type: 'id', lexeme: 'x' }
-{ line_Num: 3, line_Pos: 8, type: 'relop', lexeme: '<' }
-{ line_Num: 3, line_Pos: 9, type: 'int', lexeme: '0' }
-{ line_Num: 3, line_Pos: 11, type: 'EOL', lexeme: '\n' }
-{ line_Num: 4, line_Pos: 0, type: 'indent', lexeme: '    ' }
-{ line_Num: 4, line_Pos: 4, type: 'indent', lexeme: '    ' }
-{ line_Num: 4, line_Pos: 8, type: 'print', lexeme: 'print' }
-{ line_Num: 4,
-  line_Pos: 14,
-  type: 'string',
-  lexeme: '"amount cannot be negative"' }
-{ line_Num: 4, line_Pos: 42, type: 'EOL', lexeme: '\n' }
-{ line_Num: 6, line_Pos: 0, type: 'indent', lexeme: '    ' }
-{ line_Num: 6, line_Pos: 4, type: 'id', lexeme: 'coins' }
-{ line_Num: 6, line_Pos: 9, type: 'paren', lexeme: '[' }
-{ line_Num: 6, line_Pos: 10, type: 'int', lexeme: '0' }
-{ line_Num: 6, line_Pos: 11, type: 'paren', lexeme: ']' }
-{ line_Num: 6, line_Pos: 12, type: 'assop', lexeme: '=' }
-{ line_Num: 6, line_Pos: 14, type: 'id', lexeme: 'x' }
-{ line_Num: 6, line_Pos: 15, type: 'multop', lexeme: '/' }
-{ line_Num: 6, line_Pos: 16, type: 'int', lexeme: '25' }
-{ line_Num: 6, line_Pos: 19, type: 'EOL', lexeme: '\n' }
-{ line_Num: 7, line_Pos: 0, type: 'indent', lexeme: '    ' }
-{ line_Num: 7, line_Pos: 4, type: 'id', lexeme: 'coins' }
-{ line_Num: 7, line_Pos: 9, type: 'paren', lexeme: '[' }
-{ line_Num: 7, line_Pos: 10, type: 'int', lexeme: '3' }
-{ line_Num: 7, line_Pos: 11, type: 'paren', lexeme: ']' }
-{ line_Num: 7, line_Pos: 13, type: 'assop', lexeme: '=' }
-{ line_Num: 7, line_Pos: 15, type: 'id', lexeme: 'x' }
-{ line_Num: 7, line_Pos: 17, type: 'multop', lexeme: '%' }
-{ line_Num: 7, line_Pos: 19, type: 'int', lexeme: '25' }
-{ line_Num: 7, line_Pos: 22, type: 'EOL', lexeme: '\n' }
-{ line_Num: 8, line_Pos: 0, type: 'indent', lexeme: '    ' }
-{ line_Num: 8, line_Pos: 4, type: 'id', lexeme: 'coins' }
-{ line_Num: 8, line_Pos: 9, type: 'paren', lexeme: '[' }
-{ line_Num: 8, line_Pos: 10, type: 'int', lexeme: '1' }
-{ line_Num: 8, line_Pos: 11, type: 'paren', lexeme: ']' }
-{ line_Num: 8, line_Pos: 12, type: 'assop', lexeme: '=' }
-{ line_Num: 8, line_Pos: 14, type: 'id', lexeme: 'coins' }
-{ line_Num: 8, line_Pos: 19, type: 'paren', lexeme: '[' }
-{ line_Num: 8, line_Pos: 20, type: 'int', lexeme: '3' }
-{ line_Num: 8, line_Pos: 21, type: 'paren', lexeme: ']' }
-{ line_Num: 8, line_Pos: 22, type: 'multop', lexeme: '/' }
-{ line_Num: 8, line_Pos: 23, type: 'int', lexeme: '10' }
-{ line_Num: 8, line_Pos: 26, type: 'EOL', lexeme: '\n' }
-{ line_Num: 9, line_Pos: 0, type: 'indent', lexeme: '    ' }
-{ line_Num: 9, line_Pos: 4, type: 'id', lexeme: 'coins' }
-{ line_Num: 9, line_Pos: 9, type: 'paren', lexeme: '[' }
-{ line_Num: 9, line_Pos: 10, type: 'int', lexeme: '3' }
-{ line_Num: 9, line_Pos: 11, type: 'paren', lexeme: ']' }
-{ line_Num: 9, line_Pos: 13, type: 'assop', lexeme: '%=' }
-{ line_Num: 9, line_Pos: 16, type: 'int', lexeme: '10' }
-{ line_Num: 9, line_Pos: 19, type: 'EOL', lexeme: '\n' }
-{ line_Num: 10, line_Pos: 0, type: 'indent', lexeme: '    ' }
-{ line_Num: 10, line_Pos: 4, type: 'return', lexeme: 'return' }
-{ line_Num: 10, line_Pos: 11, type: 'id', lexeme: 'coins' }
-{ line_Num: 11, line_Pos: 13, type: 'EOL', lexeme: '\n' }
+[ { line_num: 1, line_pos: 0, type: 'type', lexeme: 'int' },
+  { line_num: 1, line_pos: 4, type: 'id', lexeme: 'makeChange' },
+  { line_num: 1, line_pos: 14, type: 'paren', lexeme: '(' },
+  { line_num: 1, line_pos: 15, type: 'type', lexeme: 'int' },
+  { line_num: 1, line_pos: 19, type: 'id', lexeme: 'x' },
+  { line_num: 1, line_pos: 20, type: 'paren', lexeme: ')' },
+  { line_num: 1, line_pos: 22, type: 'EOL', lexeme: '\n' },
+  { line_num: 2, line_pos: 0, type: 'indent', lexeme: '    ' },
+  { line_num: 2, line_pos: 4, type: 'type', lexeme: 'int' },
+  { line_num: 2, line_pos: 8, type: 'id', lexeme: 'coins' },
+  { line_num: 2, line_pos: 13, type: 'paren', lexeme: '[' },
+  { line_num: 2, line_pos: 14, type: 'int', lexeme: '4' },
+  { line_num: 2, line_pos: 15, type: 'paren', lexeme: ']' },
+  { line_num: 2, line_pos: 17, type: 'EOL', lexeme: '\n' },
+  { line_num: 3, line_pos: 0, type: 'indent', lexeme: '    ' },
+  { line_num: 3, line_pos: 4, type: 'if', lexeme: 'if' },
+  { line_num: 3, line_pos: 7, type: 'id', lexeme: 'x' },
+  { line_num: 3, line_pos: 8, type: 'relop', lexeme: '<' },
+  { line_num: 3, line_pos: 9, type: 'int', lexeme: '0' },
+  { line_num: 3, line_pos: 11, type: 'EOL', lexeme: '\n' },
+  { line_num: 4, line_pos: 0, type: 'indent', lexeme: '    ' },
+  { line_num: 4, line_pos: 4, type: 'indent', lexeme: '    ' },
+  { line_num: 4, line_pos: 8, type: 'print', lexeme: 'print' },
+  { line_num: 4,
+    line_pos: 14,
+    type: 'string',
+    lexeme: '"amount cannot be negative"' },
+  { line_num: 4, line_pos: 42, type: 'EOL', lexeme: '\n' },
+  { line_num: 5, line_pos: 0, type: 'indent', lexeme: '    ' },
+  { line_num: 5, line_pos: 4, type: 'id', lexeme: 'coins' },
+  { line_num: 5, line_pos: 9, type: 'paren', lexeme: '[' },
+  { line_num: 5, line_pos: 10, type: 'int', lexeme: '0' },
+  { line_num: 5, line_pos: 11, type: 'paren', lexeme: ']' },
+  { line_num: 5, line_pos: 12, type: 'assop', lexeme: '=' },
+  { line_num: 5, line_pos: 14, type: 'id', lexeme: 'x' },
+  { line_num: 5, line_pos: 15, type: 'multop', lexeme: '/' },
+  { line_num: 5, line_pos: 16, type: 'int', lexeme: '25' },
+  { line_num: 5, line_pos: 19, type: 'EOL', lexeme: '\n' },
+  { line_num: 6, line_pos: 0, type: 'indent', lexeme: '    ' },
+  { line_num: 6, line_pos: 4, type: 'id', lexeme: 'coins' },
+  { line_num: 6, line_pos: 9, type: 'paren', lexeme: '[' },
+  { line_num: 6, line_pos: 10, type: 'int', lexeme: '3' },
+  { line_num: 6, line_pos: 11, type: 'paren', lexeme: ']' },
+  { line_num: 6, line_pos: 13, type: 'assop', lexeme: '=' },
+  { line_num: 6, line_pos: 15, type: 'id', lexeme: 'x' },
+  { line_num: 6, line_pos: 17, type: 'multop', lexeme: '%' },
+  { line_num: 6, line_pos: 19, type: 'int', lexeme: '25' },
+  { line_num: 6, line_pos: 22, type: 'EOL', lexeme: '\n' },
+  { line_num: 7, line_pos: 0, type: 'indent', lexeme: '    ' },
+  { line_num: 7, line_pos: 4, type: 'id', lexeme: 'coins' },
+  { line_num: 7, line_pos: 9, type: 'paren', lexeme: '[' },
+  { line_num: 7, line_pos: 10, type: 'int', lexeme: '1' },
+  { line_num: 7, line_pos: 11, type: 'paren', lexeme: ']' },
+  { line_num: 7, line_pos: 13, type: 'assop', lexeme: '=' },
+  { line_num: 7, line_pos: 15, type: 'id', lexeme: 'coins' },
+  { line_num: 7, line_pos: 20, type: 'paren', lexeme: '[' },
+  { line_num: 7, line_pos: 21, type: 'int', lexeme: '3' },
+  { line_num: 7, line_pos: 22, type: 'paren', lexeme: ']' },
+  { line_num: 7, line_pos: 23, type: 'multop', lexeme: '/' },
+  { line_num: 7, line_pos: 24, type: 'int', lexeme: '10' },
+  { line_num: 7, line_pos: 27, type: 'EOL', lexeme: '\n' },
+  { line_num: 8, line_pos: 0, type: 'indent', lexeme: '    ' },
+  { line_num: 8, line_pos: 4, type: 'id', lexeme: 'coins' },
+  { line_num: 8, line_pos: 9, type: 'paren', lexeme: '[' },
+  { line_num: 8, line_pos: 10, type: 'int', lexeme: '3' },
+  { line_num: 8, line_pos: 11, type: 'paren', lexeme: ']' },
+  { line_num: 8, line_pos: 13, type: 'assop', lexeme: '%=' },
+  { line_num: 8, line_pos: 16, type: 'int', lexeme: '10' },
+  { line_num: 8, line_pos: 19, type: 'EOL', lexeme: '\n' },
+  { line_num: 10, line_pos: 0, type: 'indent', lexeme: '    ' },
+  { line_num: 10, line_pos: 4, type: 'return', lexeme: 'return' },
+  { line_num: 10, line_pos: 11, type: 'id', lexeme: 'coins' },
+  { line_num: 10,
+    line_pos: 17,
+    type: 'comment',
+    lexeme: '//this is a comment ' },
+  { line_num: 10, line_pos: 37, type: 'EOL', lexeme: '\n' } ]
 
 If a syntax error is found:
 
@@ -102,4 +105,4 @@ C:\PHOENIX\scanner.js:100
                       ^
 Syntax Error at: Line: 7 Char: 19
     coins[1] = coin$[3]/10
-                   ^
+-------------------^
