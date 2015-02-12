@@ -138,19 +138,24 @@
 ###For loop:
 	for int x=1 while x<=10 : x++
 		//do something 10 times
-
-	for int x=0 until x==10 : x++
-		//do something 10 times
 ###While loop:
 	while x != 10
 		//do something
-###Until loop
-	// until functions as a do while and
-	// will run once even if the condition is not met
+##Do While
 
-	until check != true
+	do 
 		//do something
+	while false
+	
+	//runs once
 
+	x = 0
+	do 
+		x++
+	while x<5
+	
+	//runs 5 times
+	
 	
 
 ###Swap statement (Credit to Kobrascript)
