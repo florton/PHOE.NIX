@@ -66,31 +66,31 @@ function getTokens(line) {
     while (line_pos < line.length - 1) {
         if (isToken("comment", comment, line)) {
 			
-		} else if (isToken("$", keyword, line)) {
+	} else if (isToken("$", keyword, line)) {
           
         } else if (isToken("type", type, line)) {
 			
-		} else if (isToken("string", string, line)) {
+	} else if (isToken("string", string, line)) {
           
         } else if (isToken("bool", bool, line)) {
 			
-		} else if (isToken("double", Double, line)) {
+	} else if (isToken("double", Double, line)) {
           
         } else if (isToken("int", intLit, line)) {
 			
-		} else if (isToken("id", id, line)) {
+	} else if (isToken("id", id, line)) {
           
         } else if (isToken("paren", paren, line)) {
 			
-		} else if (isToken("assop", assop, line)) {
+	} else if (isToken("assop", assop, line)) {
           
         } else if (isToken("relop", relop, line)) {
 			
-		} else if (isToken("multop", multop, line)) {
+	} else if (isToken("multop", multop, line)) {
           
         } else if (isToken("addop", addop, line)) {
 			
-		} else if (isToken("misc", misc, line)) {
+	} else if (isToken("misc", misc, line)) {
           
         } else {
 
