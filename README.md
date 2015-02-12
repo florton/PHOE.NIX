@@ -87,7 +87,7 @@
 
 ####Command Line arguments
 
-	//Every D++ program has a reserved array "args"
+	//Every Phoenix program has a reserved array "args"
 	//args contains command line arguments
 	//args[0] contains the name of the program
 	//args[1] is the first argument
@@ -141,7 +141,7 @@
 ###While loop:
 	while x != 10
 		//do something
-##Do While
+###Do While:
 
 	do 
 		//do something
@@ -163,9 +163,10 @@
 	int b = 6
 	a :=: b
 	//now a = 6 and b = 5
-
 ##Lambdas Closures and Anonymous Functions
-####The `lambda` keyword has multiple functionality, it can be used for pythonic lambda functions
+####The `lambda` keyword has multiple functionality
+
+####it can be used for basic lambda functions
 	func int f = lambda(int x) x*5
 	int a = f(10)
 	// a = 50

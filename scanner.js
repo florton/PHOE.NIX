@@ -1,109 +1,132 @@
-var file= process.argv[2];
+var file = process.argv[2];
 var fs = require('fs');
 var error = require('./error');
 
 var indent = /[\t]|[\s]{4}/
 var comment = /[\/]{2}.*/;
-var id= /[A-Za-z][A-Za-z0-9_]*/;
-var intLit= /[0-9]+/;
-var Double= /intLit?\.intLit/;
-var bool= /true|false/;
-var string= /"([^"\\]|[\\][\\bfnrt])*"/;
+var id = /[A-Za-z][A-Za-z0-9_]*/;
+var intLit = /[0-9]+/;
+var Double = /intLit?\.intLit/;
+var bool = /true|false/;
+var string = /"([^"\\]|[\\][\\bfnrt])*"/;
 var type = /(void|int|double|string|bool)/;
 var keyword = /(return|print|prompt|args|if|else|elseif|for|while|until|class|lambda|public|private|header)/;
 var paren = /[()\[\]]/;
-var assop= /:=:|=|=|\+=|-=|\/=|\*=|%=/;
-var addop= /\+{1,2}|-{1,2}/;
-var multop= /\/|%|\*{1,2}/;
-var relop= />|<|<=|>=|&|!=|\|\|/;
+var assop = /:=:|=|=|\+=|-=|\/=|\*=|%=/;
+var addop = /\+{1,2}|-{1,2}/;
+var multop = /\/|%|\*{1,2}/;
+var relop = />|<|<=|>=|&|!=|\|\|/;
 var misc = /==|::|:|\.|,/;
 var multistart = /\/\*|\*\//;
 
-var line_Num = 1;
-var line_Pos=0;
+var line_num = 1;
+var line_pos = 0;
 var tokens = [];
 
-if(process.argv.length>2){
-	readFile(file, function (arr) {
-		console.log(arr);
-	});
+// allows to be run individually with filepath as the first arg
+if (process.argv.length > 2) {
+    readFile(file, function(arr) {
+        console.log(arr);
+    });
 }
 
+//call back necessary since fs.readFile is async 
 module.exports = {
-	scan : function(filepath, callback){
-		readFile(filepath, callback)
-	}
+    scan: function(filepath, callback) {
+        readFile(filepath, callback)
+    }
 };
 
-function readFile(file, callback){
-	fs.readFile(file, {encoding: 'utf-8'}, function (err, data) {
-	if (err) throw err;
-	var array_Of_Lines = data.split("\n");
-	for(line in array_Of_Lines ) {
-		if (!(/^\s+$/g.test(array_Of_Lines[line]))){
-			getTokens(array_Of_Lines[line]+'');
-			addToken(line_Num,array_Of_Lines[line].length,"EOL","\n");
-		}
-		line_Num++;
-	}
+function readFile(file, callback) {
+    fs.readFile(file, {
+        encoding: 'utf-8'
+    }, function(err, data) {
+        if (err) throw err;
+        var array_of_lines = data.split("\n");
+        for (line in array_of_lines) {
+            if (!(/^\s+$/g.test(array_of_lines[line]))) {
+                getTokens(array_of_lines[line] + '');
+                addToken(line_num, array_of_lines[line].length, "EOL", "\n");
+            }
+            line_num++;
+        }
 
-	callback(tokens);
-	});
+        callback(tokens);
+    });
 }
 
-function getTokens(line){
-	var indents =true;
-	line_Pos = 0;
-	while(true){
-		if(!isToken("indent",indent,line)){break;}
-	}
-	while (line_Pos<line.length-1){
-		if(isToken("comment",comment,line)){
-		}else if (isToken("$",keyword,line)){
-		}else if (isToken("type",type,line)){
-		}else if (isToken("string",string,line)){
-		}else if (isToken("bool",bool,line)){
-		}else if (isToken("double",Double,line)){
-		}else if (isToken("int",intLit,line)){
-		}else if (isToken("id",id,line)){
-		}else if (isToken("paren",paren,line)){
-		}else if (isToken("assop",assop,line)){
-		}else if (isToken("relop",relop,line)){
-		}else if (isToken("multop",multop,line)){
-		}else if (isToken("addop",addop,line)){
-		}else if (isToken("misc",misc,line)){
-		}else{
+function getTokens(line) {
+    var indents = true;
+    line_pos = 0;
+    while (true) {
+        if (!isToken("indent", indent, line)) {
+            break;
+        }
+    }
+    while (line_pos < line.length - 1) {
+        if (isToken("comment", comment, line)) {
 			
-		//add more microsyntax lines here if needed
-		
-		//if the next char isn't a space it brings up the error dialogue
-			var space = /^\s/;
-			if (space.test(line.substring(line_Pos))){line_Pos++;}
-			else{
-				error.error(line,line_Num,line_Pos);
-			}
-		}
-	}	
+		} else if (isToken("$", keyword, line)) {
+          
+        } else if (isToken("type", type, line)) {
+			
+		} else if (isToken("string", string, line)) {
+          
+        } else if (isToken("bool", bool, line)) {
+			
+		} else if (isToken("double", Double, line)) {
+          
+        } else if (isToken("int", intLit, line)) {
+			
+		} else if (isToken("id", id, line)) {
+          
+        } else if (isToken("paren", paren, line)) {
+			
+		} else if (isToken("assop", assop, line)) {
+          
+        } else if (isToken("relop", relop, line)) {
+			
+		} else if (isToken("multop", multop, line)) {
+          
+        } else if (isToken("addop", addop, line)) {
+			
+		} else if (isToken("misc", misc, line)) {
+          
+        } else {
+
+            //add more microsyntax lines here if needed
+
+            //if the next char isn't a space it brings up the error dialogue
+            var space = /^\s/;
+            if (space.test(line.substring(line_pos))) {
+                line_pos++;
+            } else {
+                error.error(line, line_num, line_pos);
+            }
+        }
+    }
 }
 
-function addToken(line_Num, line_Pos, type, lexeme){
-	var token ={
-		line_Num:line_Num,
-		line_Pos:line_Pos,
-		type:type,
-		lexeme:lexeme
-	};
-		tokens.push(token);
+function addToken(line_num, line_pos, type, lexeme) {
+    var token = {
+        line_num: line_num,
+        line_pos: line_pos,
+        type: type,
+        lexeme: lexeme
+    };
+    tokens.push(token);
 }
 
-function isToken(type,regex,line){
-	var match = regex.exec(line.substring(line_Pos));
-	if (match != null&&match.index==0){
-		if(type=="$"){type=match[0];}
-		addToken(line_Num,line_Pos,type,match[0]);
-		line_Pos+=match[0].length;
-		return true;
-	}else{
-		return false;
-	}
+function isToken(type, regex, line) {
+    var match = regex.exec(line.substring(line_pos));
+    if (match != null && match.index == 0) {
+        if (type == "$") {
+            type = match[0];
+        }
+        addToken(line_num, line_pos, type, match[0]);
+        line_pos += match[0].length;
+        return true;
+    } else {
+        return false;
+    }
 }
