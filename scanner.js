@@ -1,7 +1,6 @@
 var file = process.argv[2];
 var fs = require('fs');
 var error = require('./error');
-
 var indent = /[\t]|[\s]{4}/
 var comment = /[\/]{2}.*/;
 var id = /[A-Za-z][A-Za-z0-9_]*/;
@@ -18,18 +17,15 @@ var multop = /\/|%|\*{1,2}/;
 var relop = />|<|<=|>=|&|!=|\|\|/;
 var misc = /==|::|:|\.|,/;
 var multistart = /\/\*|\*\//;
-
 var line_num = 1;
 var line_pos = 0;
 var tokens = [];
-
 // allows to be run individually with filepath as the first arg
 if (process.argv.length > 2) {
     readFile(file, function(arr) {
         console.log(arr);
     });
 }
-
 //call back necessary since fs.readFile is async 
 module.exports = {
     scan: function(filepath, callback) {
@@ -50,7 +46,6 @@ function readFile(file, callback) {
             }
             line_num++;
         }
-
         callback(tokens);
     });
 }
@@ -64,38 +59,22 @@ function getTokens(line) {
         }
     }
     while (line_pos < line.length - 1) {
-        if (isToken("comment", comment, line)) {
-            
-        } else if (isToken("$", keyword, line)) {
-          
-        } else if (isToken("type", type, line)) {
-            
-        } else if (isToken("string", string, line)) {
-          
-        } else if (isToken("bool", bool, line)) {
-            
-        } else if (isToken("double", Double, line)) {
-          
-        } else if (isToken("int", intLit, line)) {
-            
-        } else if (isToken("id", id, line)) {
-          
-        } else if (isToken("paren", paren, line)) {
-            
-        } else if (isToken("assop", assop, line)) {
-              
-        } else if (isToken("relop", relop, line)) {
-            
-        } else if (isToken("multop", multop, line)) {
-          
+        if (isToken("comment", comment, line)) {           
+        } else if (isToken("$", keyword, line)) {          
+        } else if (isToken("type", type, line)) {           
+        } else if (isToken("string", string, line)) {          
+        } else if (isToken("bool", bool, line)) {           
+        } else if (isToken("double", Double, line)) {          
+        } else if (isToken("int", intLit, line)) {            
+        } else if (isToken("id", id, line)) {          
+        } else if (isToken("paren", paren, line)) {           
+        } else if (isToken("assop", assop, line)) {              
+        } else if (isToken("relop", relop, line)) {            
+        } else if (isToken("multop", multop, line)) {          
         } else if (isToken("addop", addop, line)) {
-            
         } else if (isToken("misc", misc, line)) {
-          
         } else {
-
             //add more microsyntax lines here if needed
-
             //if the next char isn't a space it brings up the error dialogue
             var space = /^\s/;
             if (space.test(line.substring(line_pos))) {
