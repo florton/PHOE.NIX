@@ -18,10 +18,8 @@ scanner("photest.txt", function (tokens) {
     }
 
     function indentLevel() {
-        var indent = 0;
-        if (at('indent')) {
+        while (at('indent')) {
             indents[1]++;
-            indentLevel();
         }
     }
 
@@ -84,18 +82,20 @@ scanner("photest.txt", function (tokens) {
             if (at('paren')) {
                 return parseParens(token[tokenIndex - 1].lexeme);
             } else {
-                return //parseAssmt();}
-            }
-            return false;
+                return //parseAssmt();
+            }   
         }
+        return false;
     }
 
     function parseParens(paren) {
         if (paren === "(") { 
             //function
+            //parseParams()
         }
         if (paren === "[") {
             //array
+            //exp4 or exp1 ?
         }   
     }
     
