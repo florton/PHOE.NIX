@@ -33,7 +33,7 @@ scanner("photest.txt", function (tokens) {
     }
 
     function at(type) {
-        while (tokens[tokenIndex].type === 'comment' || (tokens[tokenIndex].type === 'indent' && type === 'indent')) {
+        while (tokens[tokenIndex].type === 'comment' || (tokens[tokenIndex].type === 'indent' && type !== 'indent')) {
             tokenIndex++;
         }
         if (type === tokens[tokenIndex].type) {
