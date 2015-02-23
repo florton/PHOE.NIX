@@ -12,10 +12,11 @@ scanner("photest.txt", function (tokens) {
 	}
 	//success?
 	
+	
+	
 	function indentLevel(){
 		var indent = 0;
 		if(at('indent')){
-			index++;
 			indents[1]++;
 			indentLevel();
 		}else{
@@ -33,7 +34,12 @@ scanner("photest.txt", function (tokens) {
 		while(tokens[index].type === 'comment'){
 			index++;
 		}
-        return type === tokens[index].type  
+        if(type === tokens[index].type){
+			index++;
+			return true;
+		}else{
+			return false;
+		}  
     }	
 	
 	function parseBlock(){
@@ -48,11 +54,9 @@ scanner("photest.txt", function (tokens) {
 	
 	function parseStatement(){
         if (at('class'){
-			index++;
 			//parseClass();			
 		}
 		if (at('type'){
-			index++;
 			parseType();	
 		}
 		if (at('for'){}
