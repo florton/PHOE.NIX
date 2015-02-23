@@ -2,16 +2,15 @@ var scanner = require("./scanner.js").scan;
 
 scanner("photest.txt", function (tokens) {
 
-	var index = 0;
+	var tokenIndex = 0;
 	var indents = [0,0];
 	
-	while (index<token.length-1){
+	while (tokenIndex<token.length-1){
 		if(!parseBlock()){
 			//error
 		}
 	}
 	//success?
-	
 	
 	
 	function indentLevel(){
@@ -26,16 +25,16 @@ scanner("photest.txt", function (tokens) {
 				indent = -1;
 			}
 			indents = [indents[1],0];
-			return indent;
 		}
+		return indent;
 	}
 	
 	function at(type) {
-		while(tokens[index].type === 'comment'){
-			index++;
+		while(tokens[tokenIndex].type === 'comment'){
+			tokenIndex++;
 		}
-        if(type === tokens[index].type){
-			index++;
+        if(type === tokens[tokenIndex].type){
+			tokenIndex++;
 			return true;
 		}else{
 			return false;
@@ -72,16 +71,16 @@ scanner("photest.txt", function (tokens) {
 
     }
 	
-	parseId(){
+	function parseId(){
 		
 	}
 	
-	parseArray(){
+	function parseArray(){
 		
 		
 	}
 	
-	parseFunction(){
+	function parseFunction(){
 		
 		
 	}
