@@ -182,7 +182,7 @@
 	//prints Hello to console
 	
 #### and for closures
-	func int addTwo(int y)
+	int addTwo(int y)
 		int x = y
 		return lambda()
 			x+2

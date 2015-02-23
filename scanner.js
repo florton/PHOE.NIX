@@ -14,7 +14,7 @@ var paren = /[()\[\]]/;
 var assop = /:=:|=|=|\+=|-=|\/=|\*=|%=/;
 var addop = /\+{1,2}|-{1,2}/;
 var multop = /\/|%|\*{1,2}/;
-var relop = />|<|<=|>=|&|!=|\|\|/;
+var relop = />|<|<=|>=|&{1,2}|!=|\|{1,2}/;
 var misc = /==|::|:|\.|,/;
 var multistart = /\/\*|\*\//;
 var line_num = 1;
