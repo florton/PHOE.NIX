@@ -94,7 +94,7 @@ scanner("photest.txt", function (tokens) {
         if (paren === "(") { 
             //function
         }
-        if (paren === ")") {
+        if (paren === "[") {
             //array
         }   
     }
