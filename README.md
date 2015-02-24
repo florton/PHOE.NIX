@@ -163,37 +163,7 @@
 	int b = 6
 	a :=: b
 	//now a = 6 and b = 5
-##Lambdas Closures and Anonymous Functions
-####The `lambda` keyword has multiple functionality
 
-####it can be used for basic lambda functions
-	func int f = lambda(int x) x*5
-	int a = f(10)
-	// a = 50
-#### it can also be used to declare anonymous functions
-	func void f = lambda()
-		print "Hello"
-	f()
-	//prints Hello to console
-
-	void lambda()
-    	print "foo"
-	()	
-	//prints Hello to console
-	
-#### and for closures
-	int addTwo(int y)
-		int x = y
-		return lambda()
-			x+2
-			print x
-
-	func int a = addTwo(2)
-	a()
-	a()
-	//Console prints:
-	//4
-	//6
 
 ##Examples
 ###Returns the xth number in the Fibonacci sequence, the 0th and 1st numbers being 1
