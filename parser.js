@@ -84,7 +84,6 @@ scanner("photest.nix", function (tokens) {
     }
 
     function parseClassDec() {
-        console.log("parse class dec")
         if (at('id')) {
             if (parseEnd()) {
                 if (parseBlock()) {
@@ -119,8 +118,80 @@ scanner("photest.nix", function (tokens) {
         }   
     }
 
-    // function parseAssignmentStatement(){
+    function parseAssignmentStatement(){
         
-    // }
+    }
+
+        function parseAssignmentStatement(){
+
+    }
+
+    function parseWhileStatement(){
+        // match('while');
+     //    var condition = parseExpression();
+     //    var body = parseBlock();
+     //    return new WhileStatement(condition, body);
+    }
+
+    function parseIfStatement(){
+
+    }
+
+    function parseForStatement(){
+
+    }
+
+    function parseDoStatement(){
+
+    }
+
+    function parseClassDeclaration(){
+
+    }
+
+    function parseElseStatement(){
+
+    }
+
+    function parseMemberDeclaration(){
+
+    }
+
+    function parseLambdaFunction(){
+
+    }
+
+    function parseExp1(){
+
+    }
+
+    function parseExp2(){
+
+    }
+
+    function parseExp3(){
+
+    }
+
+    function parseExp4(){
+
+    }
+
+    function parseExp5(){
+
+    }
+
+    function parseExp6(){
+
+    }
+
+    function parseExp7(){
+
+    }
+
+    function parseExp8(){
+
+    }
+
     
 });
