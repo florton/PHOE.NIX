@@ -1,7 +1,7 @@
 Script ::= Stmt+
 Block ::= indent Script dedent
 Stmt ::= ClassDecl | VarDecl | Call | ForStmt | DoStmt | WhileStmt | IfStmt | FuncDec | PrintStmt | PromptStmt
-ClassDecl ::= 'class' ID Indent
+ClassDecl ::= 'class' ID indent
 MemberDecl ::= Access Type ID
 Access ::= Private | Public
 Type ::= 'void' | 'int' | 'double' | 'string' | 'bool' | 'func'

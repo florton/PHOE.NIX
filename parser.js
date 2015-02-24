@@ -78,9 +78,7 @@ scanner("photest.nix", function (tokens) {
         } else {
             return parseEnd()
         }
-        // else{
-        //     error('no Statement', tokens[0])
-        // }
+
     }
 
     function parseClassDec() {
@@ -108,23 +106,32 @@ scanner("photest.nix", function (tokens) {
 
     function parseParens(paren) {
         console.log('parse Parens')
-        if (paren === "(") { 
-            //function
-            //parseParams()
+        if (paren === '(') { 
+            if(parseExp()){
+                if(at(')')){
+                    return parseEnd();
+                }
+            }
         }
-        if (paren === "[") {
-            //array
-            //exp4 or exp1 ?
+        if (paren === '[') {
+            if(parseExp()){
+                if(at(']'){
+                    return parseEnd();
+                }
+            }
+            
         }   
     }
 
-    function parseAssignmentStatement(){
+    function parseAssmt(){
+        if(at('assop')){
+            if(parseExp()){
+                return parseEnd();
+            } else {return false;}
+        } else {parseEnd();}
         
     }
-
-        function parseAssignmentStatement(){
-
-    }
+    
 
     function parseWhileStatement(){
         // match('while');
@@ -134,7 +141,7 @@ scanner("photest.nix", function (tokens) {
     }
 
     function parseIfStatement(){
-
+        
     }
 
     function parseForStatement(){
@@ -142,10 +149,6 @@ scanner("photest.nix", function (tokens) {
     }
 
     function parseDoStatement(){
-
-    }
-
-    function parseClassDeclaration(){
 
     }
 
@@ -158,6 +161,10 @@ scanner("photest.nix", function (tokens) {
     }
 
     function parseLambdaFunction(){
+
+    }
+    
+    function parseExp(){
 
     }
 
@@ -189,9 +196,6 @@ scanner("photest.nix", function (tokens) {
 
     }
 
-    function parseExp8(){
-
-    }
 
     
 });
