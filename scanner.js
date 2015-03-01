@@ -9,27 +9,29 @@ var Double = /intLit?\.intLit/;
 var bool = /true|false/;
 var string = /"([^"\\]|[\\][\\bfnrt])*"/;
 var type = /(void|int|double|string|bool)/;
-var keyword = /(return|print|prompt|args|if|else|elseif|for|while|until|class|lambda|public|private|header)/;
+var keyword = /(return|print|prompt|args|if|else|elseif|for|while|until|class|public|private|header)/;
 var paren = /[()\[\]]/;
 var assop = /:=:|=|=|\+=|-=|\/=|\*=|%=/;
 var addop = /\+{1,2}|-{1,2}/;
 var multop = /\/|%|\*{1,2}/;
-var relop = />|<|<=|>=|&{1,2}|!=|\|{1,2}/;
-var misc = /==|::|:|\.|,/;
-var multistart = /\/\*|\*\//;
+var relop = /==|>|<|<=|>=|&{1,2}|!=|\|{1,2}/;
+var scope = /::/;
+var colon = /:/;
+var dot = /\./;
+var comma = /,/;
 var line_num = 1;
 var line_pos = 0;
 var tokens = [];
 // allows to be run individually with filepath as the first arg
 if (process.argv.length > 2) {
     readFile(file, function(arr) {
-        console.log(arr);
+       console.log(arr);
     });
 }
 //call back necessary since fs.readFile is async 
 module.exports = {
     scan: function(filepath, callback) {
-        readFile(filepath, callback)
+        readFile(filepath, callback);
     }
 };
 
@@ -67,12 +69,15 @@ function getTokens(line) {
         } else if (isToken("double", Double, line)) {          
         } else if (isToken("int", intLit, line)) {            
         } else if (isToken("id", id, line)) {          
-        } else if (isToken("paren", paren, line)) {           
+        } else if (isToken("$", paren, line)) {           
         } else if (isToken("assop", assop, line)) {              
         } else if (isToken("relop", relop, line)) {            
         } else if (isToken("multop", multop, line)) {          
         } else if (isToken("addop", addop, line)) {
-        } else if (isToken("misc", misc, line)) {
+        } else if (isToken("scope", scope, line)) {
+        } else if (isToken("colon", colon, line)) {
+        } else if (isToken("dot", dot, line)) {
+        } else if (isToken("comma", comma, line)) {
         } else {
             //add more microsyntax lines here if needed
             //if the next char isn't a space it brings up the error dialogue

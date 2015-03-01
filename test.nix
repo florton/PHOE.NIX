@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 /*Multi-line comment*/
 
@@ -9,6 +10,8 @@
 /*Multi Line Comment
 Random Words
 Things typed.*/
+=======
+>>>>>>> master
 
 >>>>>>> origin/master
 //Variables
@@ -31,7 +34,7 @@ x[0]= 5
 
 //matrixes 
 
-string st[3][2];
+string st[3][2]
 //st = [[,],[,],[,]]
 st[0][0]=99
 st[0][1]="here I am"
@@ -77,14 +80,14 @@ int nextOdd(int x)
     else
         return x+2
 if x == 5
-    nextOdd( x );
+    nextOdd( x )
 
 if x <= 5
-    nextOdd( x - 1 );
+    nextOdd( x - 1 )
 else if x > 7
-    nextOdd( x/7 );
+    nextOdd( x/7 )
 else
-    nextOdd( x %5 );
+    nextOdd( x %5 )
 
 for int x=1 while x<=10 : x++
     //do something 10 times

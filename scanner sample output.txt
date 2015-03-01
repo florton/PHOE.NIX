@@ -1,7 +1,7 @@
 scanner usage:
 
 var scanner = require("./scanner.js").scan;
-scanner("photest.txt", function (tokens) {
+scanner("test.nix", function (tokens) {
 	console.log(tokens);
 });
 

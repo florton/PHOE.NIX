@@ -33,12 +33,31 @@ scanner("photest.nix", function (tokens) {
     }
 
     function at(type) {
-        console.log(tokens[tokenIndex].type);
         while (tokens[tokenIndex].type === 'comment' || (tokens[tokenIndex].type === 'indent' && type !== 'indent')) {
             tokenIndex++;
         }
+        if (tokens[tokenIndex].type === ',' && tokens[tokenIndex+1].type === 'EOL'){
+            tokonIndex+=2;
+        }
         if (type === tokens[tokenIndex].type) {
-            console.log("here")
+            tokenIndex++;
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    function match(type){
+        if(at(type)){
+            tokenIndex--;
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    function is(lexeme){
+        if(lexeme === tokens[tokenIndex].lexeme){
             tokenIndex++;
             return true;
         } else {
@@ -58,86 +77,148 @@ scanner("photest.nix", function (tokens) {
     }
 
     function parseStatement() {
-        console.log("parse Statement")
-        if (at('class')) {
-            return parseClassDec()
-        } else if (at('type')) {
+        //ok heres basically where we live
+        //match doesnt modify the tokens index but at advances one if it finds the token
+        //so you need to recheck these matches with at within the parse functions
+        //return true from your functions unless its a block in which case you need
+        //to check parseEnd and parseBlock
+        //otherwise call parseEnd here
+        //use is method to check lexeme and move forward 1 token
+        if (match('class')) {
+            if(!parseClassDec()){
+                return false;
+            }
+        } else if (match('type')) {
             return parseType();
-        } else if (at('id')){
-            return parseAssignmentStatement();
-        } else if (at('while')){
+        } else if (match('id')){
+            return parseAssmt();
+        } else if (match('while')){
             return parseWhileStatement();
-        } else if (at('if')){
+        } else if (match('if')){
             return parseIfStatement();
-        } else if (at('for')){
+        } else if (match('for')){
             return parseForStatement();
-        } else if (at('do')){
+        } else if (match('do')){
             return parseDoStatement();
-        }  else if (at('else')){
+        }  else if (match('else')){
             return parseElseStatement();
-        } else {
-            return parseEnd()
         }
-
-    }
-
-    function parseClassDec() {
-        if (at('id')) {
-            if (parseEnd()) {
-                if (parseBlock()) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    function parseType() {
-        console.log("parse type")
-        if (at('id')) {
-            if (at('paren')) {
-                return parseParens(tokens[tokenIndex - 1].lexeme);
-            } else {
-                return //parseAssmt();
-            }   
-        }
-        return false;
-    }
-
-    function parseParens(paren) {
-        console.log('parse Parens')
-        if (paren === '(') { 
-            if(parseExp()){
-                if(at(')')){
-                    return parseEnd();
-                }
-            }
-        }
-        if (paren === '[') {
-            if(parseExp()){
-                if(at(']'){
-                    return parseEnd();
-                }
-            }
-            
-        }   
-    }
-
-    function parseAssmt(){
-        if(at('assop')){
-            if(parseExp()){
-                return parseEnd();
-            } else {return false;}
-        } else {parseEnd();}
         
+        //not sure if this fall through works for statements with blocks
+        return parseEnd()
+    }
+
+    //should be ok
+    function parseClassDec() {
+        if(at('class')){
+            if (at('id')) {
+                if (parseEnd()) {
+                    return parseBlock();
+                }
+            }
+        }
+        return false;
+    }
+
+    //possibly broken?
+    function parseType() {
+        if(at('type')){
+            if (at('id')) {
+                if (match('paren')) {
+                    if(parseParens()){
+                        if(at('assop')){
+                            if(parseExp()){
+                                return true;
+                            }
+                        }
+                    }
+                } else {
+                    //might not be right
+                    tokenIndex-=2;
+                    return parseVarDec();
+                }   
+            }
+        }
+        return false;
+    }
+
+    //might work?
+    function parseParens() {
+        if (is('(')) {
+            while (at('type')){
+                if(at('id')){
+                    if(!is(',')){break;}
+                }
+            }
+            if(is(')')){
+                return true;
+            }
+        }else{
+            while (is('[')) {
+                if(parseExp()){
+                    if(!is(']'){break;}
+                }  
+            }
+            return true;
+        }
+        return false;
+    }
+
+    //Should be ok hopefully?
+    function parseAssmt(){
+        if(match('id')){
+            while(at('id')){
+                if(!at(',')){break;}
+            }
+            if(at('assop')){
+                return parseExp();
+            }
+            return true;
+        }
+        return false;
     }
     
-
+    //should be ok
+    function parseVarDec(){
+        if(match('type')){
+            while(at('type')){
+                if(at('id')){
+                    if(!at(',')){break;}
+                }else{
+                    return false;
+                }
+            }
+            if(at('assop')){
+                return parseExp();
+            }
+            return true;
+        }
+        return false;    
+    }
+    
+    //use this one as a model
+    //note that parse end and parse block are only called
+    //because a while is followed by a block
+    //otherwise let parseStatement call parseEnd
     function parseWhileStatement(){
-        // match('while');
-     //    var condition = parseExpression();
-     //    var body = parseBlock();
-     //    return new WhileStatement(condition, body);
+        if(at('while')){
+            if(at('id'){
+                if(parseVarDec()){
+                    if(at('while')){
+                        if(parseExp()){
+                            if(is':'){
+                                if(parseExp()){
+                                    if(parseEnd()){
+                                        return parseBlock();
+                                    }
+                                }
+                            }
+                        }
+                    }   
+                }
+            }
+        }
+        return false;
     }
 
     function parseIfStatement(){
@@ -159,9 +240,9 @@ scanner("photest.nix", function (tokens) {
     function parseMemberDeclaration(){
 
     }
-
-    function parseLambdaFunction(){
-
+    
+    function parseHeaderDeclaration(){
+        
     }
     
     function parseExp(){
