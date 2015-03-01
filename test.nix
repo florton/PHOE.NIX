@@ -1,12 +1,3 @@
-/*Multi-line comment*/
-
-/*
-	Multiline Comments
-*/
-
-/*Multi Line Comment
-Random Words
-Things typed.*/
 
 //Variables
 
