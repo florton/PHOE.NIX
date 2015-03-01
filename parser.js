@@ -64,6 +64,7 @@ scanner("photest.nix", function (tokens) {
                 }
             }
         }
+        return false;
     }
 
     function parseStatement() {
@@ -175,17 +176,27 @@ scanner("photest.nix", function (tokens) {
                 }
             }
         }
+        return false;
     }
 
     function parseIfStatement(){
-
+        if(at('if')){
+            if(parseExp()){
+                if(parseEnd()){
+                    return parseBlock();
+                }
+            }
+        }
+        return false;
     }
 
     function parseDoStatement(){
         if(at('do')){
-            parseBlock();
+            if(parseBlock()){
+                return parseWhileStatement();
+            }
         }
-
+        return false;
     }
 
     function parseElseStatement(){
@@ -197,29 +208,56 @@ scanner("photest.nix", function (tokens) {
     }
 
     function parseExp(){
-        tokenIndex++;
-        return true
+        if(parseExp1())
+            if(at('relop')){
+                return parseExp();
+            }
+            return true;
+        }
+        return false;
     }
-
+ 
     function parseExp1(){
-        //if()
-
+        if(parseExp2())
+            if(at('mulop')){
+                return parseExp1();
+            }
+            return true;
+        }
+        return false;
     }
-
+ 
     function parseExp2(){
-
+        if(parseExp3())
+            if(at('addop')){
+                return parseExp2();
+            }
+            return true;
+        }
+        return false;
     }
-
+ 
     function parseExp3(){
-
+        at('fixop');
+        return parseExp4();
     }
-
+ 
     function parseExp4(){
-
+        if(parseExp5()){
+            at('fixop');
+            return true;
+        }
+        return false;
     }
-
+ 
     function parseExp5(){
-
+        if(at('id')){
+            if (at('scope')){
+                return parseExp5();
+            }
+            return true;
+        }
+        return false;
     }
 
     function parseExp6(){
