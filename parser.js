@@ -33,34 +33,24 @@ scanner("photest.nix", function (tokens) {
     }
 
     function at(type) {
+        console.log(tokens[tokenIndex].type);
         while (tokens[tokenIndex].type === 'comment' || (tokens[tokenIndex].type === 'indent' && type !== 'indent')) {
             tokenIndex++;
         }
-        if (tokens[tokenIndex].type === ',' && tokens[tokenIndex+1].type === 'EOL'){
-            tokonIndex+=2;
-        }
         if (type === tokens[tokenIndex].type) {
+            console.log("here")
             tokenIndex++;
             return true;
         } else {
             return false;
         }
     }
-    
+
     function match(type){
         if(at(type)){
             tokenIndex--;
             return true;
         }else{
-            return false;
-        }
-    }
-    
-    function is(lexeme){
-        if(lexeme === tokens[tokenIndex].lexeme){
-            tokenIndex++;
-            return true;
-        } else {
             return false;
         }
     }
@@ -74,24 +64,17 @@ scanner("photest.nix", function (tokens) {
                 }
             }
         }
+        return false;
     }
 
     function parseStatement() {
-        //ok heres basically where we live
-        //match doesnt modify the tokens index but at advances one if it finds the token
-        //so you need to recheck these matches with at within the parse functions
-        //return true from your functions unless its a block in which case you need
-        //to check parseEnd and parseBlock
-        //otherwise call parseEnd here
-        //use is method to check lexeme and move forward 1 token
+        console.log("parse Statement")
         if (match('class')) {
-            if(!parseClassDec()){
-                return false;
-            }
+            return parseClassDec()
         } else if (match('type')) {
             return parseType();
         } else if (match('id')){
-            return parseAssmt();
+            return parseAssignmentStatement();
         } else if (match('while')){
             return parseWhileStatement();
         } else if (match('if')){
@@ -102,13 +85,14 @@ scanner("photest.nix", function (tokens) {
             return parseDoStatement();
         }  else if (match('else')){
             return parseElseStatement();
+        } else {
+            return parseEnd()
         }
-        
-        //not sure if this fall through works for statements with blocks
-        return parseEnd()
+        // else{
+        //     error('no Statement', tokens[0])
+        // }
     }
 
-    //should be ok
     function parseClassDec() {
         if(at('class')){
             if (at('id')) {
@@ -120,94 +104,58 @@ scanner("photest.nix", function (tokens) {
         return false;
     }
 
-    //possibly broken?
     function parseType() {
+        console.log("parse TYPE");
         if(at('type')){
             if (at('id')) {
-                if (match('paren')) {
+                if (match('(')||match('[')) {
                     if(parseParens()){
-                        if(at('assop')){
-                            if(parseExp()){
-                                return true;
-                            }
-                        }
+                        return parseAssignmentStatement();
                     }
+
                 } else {
                     //might not be right
-                    tokenIndex-=2;
-                    return parseVarDec();
+                    tokenIndex--;
+                    return parseAssignmentStatement();
                 }   
             }
         }
         return false;
     }
 
-    //might work?
-    function parseParens() {
-        if (is('(')) {
-            while (at('type')){
-                if(at('id')){
-                    if(!is(',')){break;}
-                }
+    function parseParens(paren) {
+        console.log('parse Parens')
+        if (paren === "(") { 
+            //function
+            //parseParams()
+        }
+        if (paren === "[") {
+            //array
+            //exp4 or exp1 ?
+        }   
+    }
+
+    function parseAssignmentStatement(){
+        if(match('id')){
+            while(at('id')){
+                if(!at('comma')){break;}
             }
-            if(is(')')){
-                return true;
-            }
-        }else{
-            while (is('[')) {
-                if(parseExp()){
-                    if(!is(']'){break;}
-                }  
+            if(at('assop')){
+                return parseExp();
             }
             return true;
         }
         return false;
     }
 
-    //Should be ok hopefully?
-    function parseAssmt(){
-        if(match('id')){
-            while(at('id')){
-                if(!at(',')){break;}
-            }
-            if(at('assop')){
-                return parseExp();
-            }
-            return true;
-        }
-        return false;
-    }
-    
-    //should be ok
-    function parseVarDec(){
-        if(match('type')){
-            while(at('type')){
-                if(at('id')){
-                    if(!at(',')){break;}
-                }else{
-                    return false;
-                }
-            }
-            if(at('assop')){
-                return parseExp();
-            }
-            return true;
-        }
-        return false;    
-    }
-    
-    //use this one as a model
-    //note that parse end and parse block are only called
-    //because a while is followed by a block
-    //otherwise let parseStatement call parseEnd
-    function parseWhileStatement(){
-        if(at('while')){
-            if(at('id'){
-                if(parseVarDec()){
+    function parseForStatement(){
+        console.log("For Statement");
+        if(at('for')){
+                if(parseStatement()){
                     if(at('while')){
                         if(parseExp()){
-                            if(is':'){
-                                if(parseExp()){
+                            if(at('colon')){
+                                if(parseStatement()){
                                     if(parseEnd()){
                                         return parseBlock();
                                     }
@@ -216,21 +164,39 @@ scanner("photest.nix", function (tokens) {
                         }
                     }   
                 }
+        }
+        return false;
+    }
+
+    function parseWhileStatement(){
+        if(at('while')){
+            if(parseExp()){
+                if(parseEnd()){
+                    return parseBlock();
+                }
             }
         }
         return false;
     }
 
     function parseIfStatement(){
-        
-    }
-
-    function parseForStatement(){
-
+        if(at('if')){
+            if(parseExp()){
+                if(parseEnd()){
+                    return parseBlock();
+                }
+            }
+        }
+        return false;
     }
 
     function parseDoStatement(){
-
+        if(at('do')){
+            if(parseBlock()){
+                return parseWhileStatement();
+            }
+        }
+        return false;
     }
 
     function parseElseStatement(){
@@ -240,33 +206,58 @@ scanner("photest.nix", function (tokens) {
     function parseMemberDeclaration(){
 
     }
-    
-    function parseHeaderDeclaration(){
-        
-    }
-    
+
     function parseExp(){
-
+        if(parseExp1())
+            if(at('relop')){
+                return parseExp();
+            }
+            return true;
+        }
+        return false;
     }
-
+ 
     function parseExp1(){
-
+        if(parseExp2())
+            if(at('mulop')){
+                return parseExp1();
+            }
+            return true;
+        }
+        return false;
     }
-
+ 
     function parseExp2(){
-
+        if(parseExp3())
+            if(at('addop')){
+                return parseExp2();
+            }
+            return true;
+        }
+        return false;
     }
-
+ 
     function parseExp3(){
-
+        at('fixop');
+        return parseExp4();
     }
-
+ 
     function parseExp4(){
-
+        if(parseExp5()){
+            at('fixop');
+            return true;
+        }
+        return false;
     }
-
+ 
     function parseExp5(){
-
+        if(at('id')){
+            if (at('scope')){
+                return parseExp5();
+            }
+            return true;
+        }
+        return false;
     }
 
     function parseExp6(){
