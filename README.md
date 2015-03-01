@@ -51,7 +51,7 @@
 	
 	//matrixes 
 
-	string s[3][2];
+	string s[3][2]
 	//s = [[,],[,],[,]]
 	s[0][0]=99
 	s[0][1]="here I am"
