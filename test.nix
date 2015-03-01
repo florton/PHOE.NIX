@@ -1,19 +1,4 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-/*Multi-line comment*/
 
-/*
-	Multiline Comments
-*/
-
-/*Multi Line Comment
-Random Words
-Things typed.*/
-=======
->>>>>>> master
-
->>>>>>> origin/master
 //Variables
 
 int x = 5004
