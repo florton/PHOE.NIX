@@ -42,3 +42,6 @@ Network Trash Folder
 Temporary Items
 .apdisk
 photest.txt
+
+#node modules directory
+node_modules
