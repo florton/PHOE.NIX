@@ -36,7 +36,7 @@ function parseFile(file){
             }
             
         }
-
+        
         function indentLevel() {
             console.log("indent level");            
             while (at('indent')) {
@@ -78,6 +78,7 @@ function parseFile(file){
             }
         }
 
+        //doesnt seem to work
         function parseBlock() {
             console.log("parse block")
             return (indents[1] >= indents[0]);
@@ -89,8 +90,10 @@ function parseFile(file){
                 return parseClassDec()
             } else if (match('type')) {
                 return parseType();
-            } else if (at('id')){
-                return parseAssignmentStatement();
+            } else if (match('id')){
+               if(!parseMethodCall()){
+                    return parseAssignmentStatement();
+               }else{return true;}
             } else if (match('while')){
                 return parseWhileStatement();
             } else if (match('if')){
@@ -114,10 +117,23 @@ function parseFile(file){
             }
         }
       
+        function parseMethodCall(){
+            if(at('id')){
+                if(at('(')){
+                    while (parseExp()){
+                        if(!at('comma')){break;}
+                    }
+                    if(at(')')){
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+      
         function parsePrintStatement() {
             console.log("print Statement")
             if (at('print')) {
-                console.log("print Statement")
                 return parseExp();
             }
             return false;
@@ -140,7 +156,7 @@ function parseFile(file){
  
         function parseMemberDeclaration() {
             if (at('access')) {
-                if (at(parseEnd())) {
+                if (parseEnd()) {
                     return parseBlock();
                 }
             }
@@ -160,20 +176,10 @@ function parseFile(file){
         function parseType() {
             console.log("parse TYPE");
             if(at('type')){
-                if (at('id')) {
-                    if (match('(')) {
-                        return parseFunctionDec();
-                    }
-                    if (match('[')) {
-                        if(parseArray()){
-                            return parseAssignmentStatement();
-                        }   
-                    }
-                    else {
-                        //might not be right
-                        tokenIndex--;
+                if (match('id')) {
+                    if(parseExp()){  
                         return parseAssignmentStatement();
-                    }   
+                    } 
                 }
             }
             return false;
@@ -215,22 +221,21 @@ function parseFile(file){
 
 
         function parseAssignmentStatement(){
-                if(parseEnd()){return true;}
-                if(at('fixop')){return true;}
-                
-                if (match('[')){
-                    if(!parseArray()){return false;}
-                }else
-                if(at('comma')){
-                    if(at('id')){
-                        return parseAssignmentStatement();
-                    }
+            console.log("parse assignment");
+            if(parseEnd()){return true;}
+            if(at('fixop')){return true;}
+               
+            if (match('[')){
+                if(!parseArray()){return false;}
+            }else
+            if(at('comma')){
+                if(at('id')){
+                    return parseAssignmentStatement();
                 }
-
-                if(at('assop')){
-                    return parseExp();
-                }
-   
+            }
+             if(at('assop')){
+                return parseExp();
+            }
             return false;
         }
 
@@ -300,9 +305,6 @@ function parseFile(file){
             return false;
         }
 
-        function parseMemberDeclaration(){
-
-        }
 
         function parseExp(){
             console.log("exp");
@@ -373,8 +375,10 @@ function parseFile(file){
                 return parseExp5Helper();
             }
             if(at('(')){
+                at('type');
                 while (parseExp()){
                     if(!at('comma')){break;}
+                    at('type');
                 }
                 if(at(')')){
                     return parseExp5Helper();
@@ -400,7 +404,12 @@ function parseFile(file){
         
         function parseExp7(){
             console.log("exp7");
-            if(at('id')){return true;}
+            if(at('id')){
+                if(match('[')){
+                    return parseArray();
+                }
+                return true;
+            }
             if(match('[')){
                 return parseArray();
             }
@@ -411,8 +420,6 @@ function parseFile(file){
             
             return false;
         }
-
-
-        
+ 
     });
 }
