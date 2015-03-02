@@ -5,7 +5,7 @@ var indent = /[\t]|[\s]{4}/
 var comment = /[\/]{2}.*/;
 var id = /[A-Za-z][A-Za-z0-9_]*/;
 var intLit = /[0-9]+/;
-var Double = /intLit?\.intLit/;
+var Double = /([0-9]+)?\.([0-9]+)/;
 var bool = /true|false/;
 var string = /"([^"\\]|[\\][\\bfnrt])*"/;
 var type = /(void|int|double|string|bool)/;
@@ -77,13 +77,13 @@ function getTokens(line) {
         } else if (isToken("relop", equals, line)) {   
         } else if (isToken("assop", assop, line)) {      
         } else if (isToken("relop", relop, line)) {            
-        } else if (isToken("multop", multop, line)) {          
+        } else if (isToken("multop", multop, line)) {   
+        } else if (isToken("fixop", fixop, line)) {  
         } else if (isToken("addop", addop, line)) {
         } else if (isToken("scope", scope, line)) {
         } else if (isToken("colon", colon, line)) {
         } else if (isToken("dot", dot, line)) {
         } else if (isToken("comma", comma, line)) {
-        } else if (isToken("fixop", fixop, line)) {  
         } else if (isToken("access", access, line)) { 
         
         } else if (isToken("id", id, line)) { 

@@ -21,6 +21,8 @@ function parseFile(file){
         while (tokenIndex < tokens.length - 1) {
             parseScript();
         }
+        
+        console.log("you did it!");
 
         function parseScript() {
             indentLevel();
@@ -32,7 +34,7 @@ function parseFile(file){
                 console.log(tokens[tokenIndex].line_pos);
                 throw "error";
             }
-            console.log("you did it!");
+            
         }
 
         function indentLevel() {
@@ -87,7 +89,7 @@ function parseFile(file){
                 return parseClassDec()
             } else if (match('type')) {
                 return parseType();
-            } else if (match('id')){
+            } else if (at('id')){
                 return parseAssignmentStatement();
             } else if (match('while')){
                 return parseWhileStatement();
@@ -164,7 +166,7 @@ function parseFile(file){
                     }
                     if (match('[')) {
                         if(parseArray()){
-                            return parseEnd();
+                            return parseAssignmentStatement();
                         }   
                     }
                     else {
@@ -197,6 +199,9 @@ function parseFile(file){
         function parseArray(){
             if (at('[')){
                 if (parseExp()){
+                    while(at('comma')){
+                        if (!parseExp()){return false;}
+                    }
                     if(at(']')){
                         if(match('[')){
                             return parseArray();
@@ -210,16 +215,22 @@ function parseFile(file){
 
 
         function parseAssignmentStatement(){
-            if(at('id')){
+                if(parseEnd()){return true;}
+                if(at('fixop')){return true;}
+                
                 if (match('[')){
                     if(!parseArray()){return false;}
-                }else if(at('comma')){return parseAssignmentStatement();}
+                }else
+                if(at('comma')){
+                    if(at('id')){
+                        return parseAssignmentStatement();
+                    }
+                }
 
                 if(at('assop')){
                     return parseExp();
                 }
-                return true;
-            }
+   
             return false;
         }
 
@@ -389,16 +400,15 @@ function parseFile(file){
         
         function parseExp7(){
             console.log("exp7");
-            if(at('id')){
-                if(match('[')){
-                    if(!parseArray()){return false;}
-                }
-                return true;
+            if(at('id')){return true;}
+            if(match('[')){
+                return parseArray();
             }
+            else if (at('double')){return true;}
             else if (at('int')){return true;}
             else if (at('string')){return true;}
             else if (at('bool')){return true;}
-            else if (at('double')){return true;}
+            
             return false;
         }
 
