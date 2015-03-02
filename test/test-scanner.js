@@ -1,8 +1,6 @@
 var should = require('should');
-var describe = require('describe');
 var scanner = require("../scanner.js").scan;
 var i = require('util').inspect;
-
 (5).should.be.exactly(5).and.be.a.Number
 
 scanner('data/hello.nix', function (tokens) {
@@ -113,32 +111,48 @@ scanner('data/variables.nix', function (tokens) {
 
 })
 
-// scanner('data/arrays.nix', function (tokens) {
-    // tokens.length.should.equal(3)
-    // console.log(tokens)
-    // i(tokens[0]).should.equal(i({line_num:1,line_pos:0,type:'print',lexeme:'print'}))
-    // i(tokens[1]).should.equal(i({line_num:1,line_pos:6,type:'string',lexeme:'"hello world"'}))
-    // i(tokens[2]).should.equal(i({ line_num: 1, line_pos: 19, type: 'EOL', lexeme: '\n' }))
-// })
+scanner('data/arrays.nix', function (tokens) {
+    tokens.length.should.equal(185)
+    i(tokens[2]).should.equal(i({ line_num: 1, line_pos: 5, type: '[', lexeme: '[' }))
+    i(tokens[3]).should.equal(i({ line_num: 1, line_pos: 6, type: 'int', lexeme: '6' }))
+    i(tokens[4]).should.equal(i({ line_num: 1, line_pos: 7, type: ']', lexeme: ']' }))
+    i(tokens[12]).should.equal(i({ line_num: 2, line_pos: 11, type: '[', lexeme: '[' }))
+    i(tokens[13]).should.equal(i({ line_num: 2, line_pos: 12, type: 'int', lexeme: '1' }))
+    i(tokens[14]).should.equal(i({ line_num: 2, line_pos: 13, type: 'comma', lexeme: ',' }))
+    i(tokens[15]).should.equal(i({ line_num: 2, line_pos: 14, type: 'int', lexeme: '2' }))
+    i(tokens[16]).should.equal(i({ line_num: 2, line_pos: 15, type: 'comma', lexeme: ',' }))
+    i(tokens[17]).should.equal(i({ line_num: 2, line_pos: 16, type: 'int', lexeme: '3' }))
+    i(tokens[18]).should.equal(i({ line_num: 2, line_pos: 17, type: 'comma', lexeme: ',' }))
+    i(tokens[19]).should.equal(i({ line_num: 2, line_pos: 18, type: 'int', lexeme: '4' }))
+    i(tokens[20]).should.equal(i({ line_num: 2, line_pos: 19, type: ']', lexeme: ']' }))
+    i(tokens[58]).should.equal(i({ line_num: 7, line_pos: 7, type: 'id', lexeme: 'st' }))
+    i(tokens[59]).should.equal(i({ line_num: 7, line_pos: 9, type: '[', lexeme: '[' }))
+    i(tokens[60]).should.equal(i({ line_num: 7, line_pos: 10, type: 'int', lexeme: '3' }))
+    i(tokens[61]).should.equal(i({ line_num: 7, line_pos: 11, type: ']', lexeme: ']' }))
+    i(tokens[62]).should.equal(i({ line_num: 7, line_pos: 12, type: '[', lexeme: '[' }))
+    i(tokens[63]).should.equal(i({ line_num: 7, line_pos: 13, type: 'int', lexeme: '2' }))
+    i(tokens[64]).should.equal(i({ line_num: 7, line_pos: 14, type: ']', lexeme: ']' }))
+    i(tokens[74]).should.equal(i({ line_num: 8, line_pos: 9, type: 'string', lexeme: '"99"' }))
+    i(tokens[97]).should.equal(i({ line_num: 11, line_pos: 4, type: '[', lexeme: '[' }))
+    i(tokens[98]).should.equal(i( {line_num: 11, line_pos: 5, type: '[', lexeme: '[' }))
+    i(tokens[99]).should.equal(i({ line_num: 11, line_pos: 6, type: 'string', lexeme: '"10"' }))
+    i(tokens[100]).should.equal(i({ line_num: 11, line_pos: 10, type: 'comma', lexeme: ',' }))
+    i(tokens[101]).should.equal(i({ line_num: 11,line_pos: 11,type: 'string',lexeme: '"here you go"' }))
+    i(tokens[102]).should.equal(i({ line_num: 11, line_pos: 24, type: ']', lexeme: ']' }))
+    i(tokens[103]).should.equal(i({ line_num: 11, line_pos: 25, type: 'comma', lexeme: ',' }))
+    i(tokens[104]).should.equal(i({ line_num: 11, line_pos: 26, type: '[', lexeme: '[' }))
+    i(tokens[105]).should.equal(i({ line_num: 11, line_pos: 27, type: 'string', lexeme: '"pi"' }))
+    i(tokens[106]).should.equal(i({ line_num: 11, line_pos: 31, type: 'comma', lexeme: ',' }))
+    i(tokens[107]).should.equal(i({ line_num: 11,line_pos: 32,type: 'string',lexeme: '"chicken"' }))
+    i(tokens[108]).should.equal(i({ line_num: 11, line_pos: 41, type: ']', lexeme: ']' }))
+    i(tokens[109]).should.equal(i({ line_num: 11, line_pos: 42, type: ']', lexeme: ']' }))
 
-// scanner('data/conditionals.nix', function (tokens) {
-    // tokens.length.should.equal(3)
-    // console.log(tokens)
-    // i(tokens[0]).should.equal(i({line_num:1,line_pos:0,type:'print',lexeme:'print'}))
-    // i(tokens[1]).should.equal(i({line_num:1,line_pos:6,type:'string',lexeme:'"hello world"'}))
-    // i(tokens[2]).should.equal(i({ line_num: 1, line_pos: 19, type: 'EOL', lexeme: '\n' }))
-// })
-// describe('The scanner', function () {
-     // hello.nix
-    // it('scans the simplest program', function (done) {
-        // scanner('data/hello.nix', function (tokens) {
-            // tokens.length.should.equal(3)
-            // console.log(tokens)
-            // i(tokens[0]).should.equal(i({line_num:1,line_pos:0,type:'print',lexeme:'print'}))
-            // i(tokens[1]).should.equal(i({line_num:1,line_pos:6,type:'string',lexeme:'"hello world"'}))
-            // i(tokens[2]).should.equal(i({ line_num: 1, line_pos: 19, type: 'EOL', lexeme: '\n' }))
-        //})
-   // })
-    // console.log(describe.getResults)
-    // More its
- // })
+})
+
+scanner('data/conditionals.nix', function (tokens) {
+    tokens.length.should.equal(14)
+    console.log(tokens)
+    i(tokens[0]).should.equal(i({line_num:1,line_pos:0,type:'print',lexeme:'print'}))
+    i(tokens[1]).should.equal(i({line_num:1,line_pos:6,type:'string',lexeme:'"hello world"'}))
+    i(tokens[2]).should.equal(i({ line_num: 1, line_pos: 19, type: 'EOL', lexeme: '\n' }))
+})
