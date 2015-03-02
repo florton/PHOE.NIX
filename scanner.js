@@ -38,6 +38,8 @@ module.exports = {
 };
 
 function readFile(file, callback) {
+    line_num = 1;
+    tokens = [];
     fs.readFile(file, {
         encoding: 'utf-8'
     }, function(err, data) {
