@@ -71,8 +71,7 @@ function getTokens(line) {
         } else if (isToken("string", string, line)) {          
         } else if (isToken("bool", bool, line)) {           
         } else if (isToken("double", Double, line)) {          
-        } else if (isToken("int", intLit, line)) {            
-        } else if (isToken("id", id, line)) {          
+        } else if (isToken("int", intLit, line)) {                     
         } else if (isToken("$", paren, line)) {           
         } else if (isToken("assop", assop, line)) {              
         } else if (isToken("relop", relop, line)) {            
@@ -83,7 +82,9 @@ function getTokens(line) {
         } else if (isToken("dot", dot, line)) {
         } else if (isToken("comma", comma, line)) {
         } else if (isToken("fixop", fixop, line)) {  
-        } else if (isToken("access", access, line)) {         
+        } else if (isToken("access", access, line)) { 
+        
+        } else if (isToken("id", id, line)) { 
         } else {
             //add more microsyntax lines here if needed
             //if the next char isn't a space it brings up the error dialogue
