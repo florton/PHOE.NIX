@@ -12,7 +12,8 @@ var type = /(void|int|double|string|bool)/;
 var keyword = /(return|print|prompt|args|if|else|elseif|for|while|until|class|public|private|header)/;
 var paren = /[()\[\]]/;
 var assop = /:=:|=|=|\+=|-=|\/=|\*=|%=/;
-var addop = /\+{1,2}|-{1,2}/;
+var addop = /\+|-/;
+var fixop = /\+\+|--/;
 var multop = /\/|%|\*{1,2}/;
 var relop = /==|>|<|<=|>=|&{1,2}|!=|\|{1,2}/;
 var scope = /::/;
@@ -78,6 +79,7 @@ function getTokens(line) {
         } else if (isToken("colon", colon, line)) {
         } else if (isToken("dot", dot, line)) {
         } else if (isToken("comma", comma, line)) {
+        } else if (isToken("fixop", fixop, line)) {   
         } else {
             //add more microsyntax lines here if needed
             //if the next char isn't a space it brings up the error dialogue
