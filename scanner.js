@@ -64,7 +64,7 @@ function getTokens(line) {
             break;
         }
     }
-    while (line_pos < line.length - 1) {
+    while (line_pos < line.length) {
         if (isToken("comment", comment, line)) {           
         } else if (isToken("$", keyword, line)) {          
         } else if (isToken("type", type, line)) {           
