@@ -12,7 +12,8 @@ var type = /(void|int|double|string|bool)/;
 var keyword = /(return|print|prompt|args|if|else|elseif|for|while|until|class|header)/;
 var access = /(public|private)/;
 var paren = /[()\[\]]/;
-var assop = /:=:|=|=|\+=|-=|\/=|\*=|%=/;
+var equals = /[=]{2,3}/;
+var assop = /:=:|=|\+=|-=|\/=|\*=|%=/;
 var addop = /\+|-/;
 var fixop = /\+\+|--/;
 var multop = /\/|%|\*{1,2}/;
@@ -72,11 +73,12 @@ function getTokens(line) {
         } else if (isToken("bool", bool, line)) {           
         } else if (isToken("double", Double, line)) {          
         } else if (isToken("int", intLit, line)) {                     
-        } else if (isToken("$", paren, line)) {                       
+        } else if (isToken("$", paren, line)) {   
+        } else if (isToken("relop", equals, line)) {   
+        } else if (isToken("assop", assop, line)) {      
         } else if (isToken("relop", relop, line)) {            
         } else if (isToken("multop", multop, line)) {          
         } else if (isToken("addop", addop, line)) {
-        } else if (isToken("assop", assop, line)) {  
         } else if (isToken("scope", scope, line)) {
         } else if (isToken("colon", colon, line)) {
         } else if (isToken("dot", dot, line)) {
