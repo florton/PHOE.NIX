@@ -263,34 +263,36 @@
 	Script ::= Stmt+
 	Block ::= indent Script dedent
 	Stmt ::= ClassDecl | VarDecl | Call | ForStmt | DoStmt | WhileStmt | IfStmt | FuncDec | PrintStmt | PromptStmt
-	ClassDecl ::= 'class' ID Indent
-	MemberDecl ::= Access Type ID
+	ClassDecl ::= 'class' id Indent
+	MemberDecl ::= Access Type id
+	VarDecl ::= Type (id|array) ( ',' (id|array))* ( AssOp Exp)?
 	Access ::= Private | Public
 	Type ::= 'void' | 'int' | 'double' | 'string' | 'bool' | 'func'
-	VarDecl ::= Type ID ( ',' ID)* ( AssOp Exp)?
-	Call ::= ID '(' ( Exp ( ',' Exp)*)? ')' 
-	ForStmt ::= 'for' AssmtStmt 'while' Exp ':' Stmt
-	DoStmt ::= 'do' Block WhileStmt
-	WhileStmt ::= 'while' Exp
-	IfStmt ::= 'if' Exp
-	ElseStmt ::= 'else' Exp
-	AssmtStmt ::= ID AssOp Exp
-	FuncDec ::= Type Call Block
+	ForStmt ::= 'for' AssmtStmt 'while' Exp ':' Stmt Block
+	DoStmt ::= 'do' Block WhileStmt 
+	WhileStmt ::= 'while' Exp Block
+	IfStmt ::= 'if' Exp Block
+	ElseStmt ::= 'else' Exp Block
+	AssmtStmt ::= ID AssOp Exp 
+	FuncDec ::= Type Call Block Block
 	PrintStmt ::= 'print' Exp
 	PromptStmt ::= 'prompt' Exp
-
 
 	Exp ::= Exp1 (RelOp Exp1)*
 	Exp1 ::= Exp2 (MulOp Exp2)*
 	Exp2 ::= Exp3 (AddOp Exp3)*
 	Exp3 ::= (PrefixOp)? Exp4
 	Exp4 ::= Exp5 (PostfixOp)?
-	Exp5 ::= (ID? '::')? ID?
+	Exp5 ::= Exp6 ('.' id | '[' Exp ']' | '(' ( Exp ( ',' Exp)*)? ')' )*
+	Exp6 ::= (Exp7? '::')? Exp7
+	Exp7 ::= id|string|int|double|bool|array
 
 ##Phoenix MicroSyntax
 
 	keyword ::='return'|'print'|'prompt'|'args'|'if'|'else'|'elseif'|'for'|'while'|'until'|'class'|'public'|'private'|'header'
 	type ::= 'void'|'int'|'double'|'string'|'bool'|'func'
+	array ::= id ('['  (Exp  (','  Exp)*)?  ']')*
+	call ::= Id '(' ( Exp ( ',' Exp)*)? ')' 
 	id ::=[A-Za-z][A-Za-z0-9_]*
 	string::=[“]([\\][“\\bfnrt])*[“]
 	int ::=[0-9]+
