@@ -41,6 +41,9 @@ function readFile(file, callback) {
     }, function(err, data) {
         if (err) throw err;
         var array_of_lines = data.split("\n");
+        // Resetting line number and tokens array in case of scanner use on multiple files
+        line_num = 1;
+        tokens = [];
         for (line in array_of_lines) {
             if (!(/^\s+$/g.test(array_of_lines[line]))) {
                 getTokens(array_of_lines[line] + '');
@@ -49,6 +52,7 @@ function readFile(file, callback) {
             line_num++;
         }
         callback(tokens);
+
     });
 }
 
@@ -61,14 +65,14 @@ function getTokens(line) {
         }
     }
     while (line_pos < line.length - 1) {
-        if (isToken("comment", comment, line)) {           
+        if (isToken("comment", comment, line)) {   
         } else if (isToken("$", keyword, line)) {          
-        } else if (isToken("type", type, line)) {           
+        } else if (isToken("type", type, line)) { 
         } else if (isToken("string", string, line)) {          
         } else if (isToken("bool", bool, line)) {           
         } else if (isToken("double", Double, line)) {          
         } else if (isToken("int", intLit, line)) {            
-        } else if (isToken("id", id, line)) {          
+        } else if (isToken("id", id, line)) {    
         } else if (isToken("$", paren, line)) {           
         } else if (isToken("assop", assop, line)) {              
         } else if (isToken("relop", relop, line)) {            
