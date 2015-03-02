@@ -192,15 +192,25 @@ scanner("photest.nix", function (tokens) {
 
     function parseDoStatement(){
         if(at('do')){
-            if(parseBlock()){
-                return parseWhileStatement();
+            if(parseEnd()){
+                if(parseBlock()){
+                    return parseWhileStatement();
+                }
             }
         }
         return false;
     }
 
     function parseElseStatement(){
-
+        if(at('else')){
+            if(parseEnd()){
+                return parseBlock();
+            }
+            if(match('if')){
+                return parseIfStatement();
+            }
+        }
+        return false;
     }
 
     function parseMemberDeclaration(){
@@ -208,7 +218,7 @@ scanner("photest.nix", function (tokens) {
     }
 
     function parseExp(){
-        if(parseExp1())
+        if(parseExp1()){
             if(at('relop')){
                 return parseExp();
             }
@@ -218,7 +228,7 @@ scanner("photest.nix", function (tokens) {
     }
  
     function parseExp1(){
-        if(parseExp2())
+        if(parseExp2()){
             if(at('mulop')){
                 return parseExp1();
             }
@@ -228,7 +238,7 @@ scanner("photest.nix", function (tokens) {
     }
  
     function parseExp2(){
-        if(parseExp3())
+        if(parseExp3()){
             if(at('addop')){
                 return parseExp2();
             }
