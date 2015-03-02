@@ -9,7 +9,8 @@ var Double = /intLit?\.intLit/;
 var bool = /true|false/;
 var string = /"([^"\\]|[\\][\\bfnrt])*"/;
 var type = /(void|int|double|string|bool)/;
-var keyword = /(return|print|prompt|args|if|else|elseif|for|while|until|class|public|private|header)/;
+var keyword = /(return|print|prompt|args|if|else|elseif|for|while|until|class|header)/;
+var access = /(public|private)/;
 var paren = /[()\[\]]/;
 var assop = /:=:|=|=|\+=|-=|\/=|\*=|%=/;
 var addop = /\+|-/;
@@ -79,7 +80,8 @@ function getTokens(line) {
         } else if (isToken("colon", colon, line)) {
         } else if (isToken("dot", dot, line)) {
         } else if (isToken("comma", comma, line)) {
-        } else if (isToken("fixop", fixop, line)) {   
+        } else if (isToken("fixop", fixop, line)) {  
+        } else if (isToken("access", access, line)) {         
         } else {
             //add more microsyntax lines here if needed
             //if the next char isn't a space it brings up the error dialogue
