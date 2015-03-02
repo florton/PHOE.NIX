@@ -39,13 +39,13 @@ module.exports = {
 };
 
 function readFile(file, callback) {
-    line_num = 1;
-    tokens = [];
     fs.readFile(file, {
         encoding: 'utf-8'
     }, function(err, data) {
         if (err) throw err;
         var array_of_lines = data.split("\n");
+        line_num = 1;
+        tokens = [];
         for (line in array_of_lines) {
             if (!(/^\s+$/g.test(array_of_lines[line]))) {
                 getTokens(array_of_lines[line] + '');
