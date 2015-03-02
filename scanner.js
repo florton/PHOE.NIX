@@ -17,7 +17,7 @@ var assop = /:=:|=|\+=|-=|\/=|\*=|%=/;
 var addop = /\+|-/;
 var fixop = /\+\+|--/;
 var multop = /\/|%|\*{1,2}/;
-var relop = /==|>|<|<=|>=|&{1,2}|!=|\|{1,2}/;
+var relop = /==|<=|>=|>|<|&{1,2}|!=|\|{1,2}/;
 var scope = /::/;
 var colon = /:/;
 var dot = /\./;
