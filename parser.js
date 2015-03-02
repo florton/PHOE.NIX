@@ -94,12 +94,48 @@ function parseFile(file){
                 return parseDoStatement();
             }  else if (match('else')){
                 return parseElseStatement();
+            }else if (match('access')) {
+                return parseMemberDeclaration();
+            } else if (match('print')) {
+                return parsePrintStatement();
+            } else if (match('prompt')) {
+                return parsePromptStatement();
             } else {
-                return parseEnd()
+                return parseEnd();
             }
-
         }
-
+      
+        function parsePrintStatement() {
+            console.log("print Statement")
+            if (at('print')) {
+                console.log("print Statement")
+                return parseExp();
+            }
+            return false;
+        }
+ 
+        function parsePromptStatement() {
+            if (at('prompt')) {
+                return parseExp();
+            }
+            return false;
+        }
+ 
+        function parseReturnStatement() {
+            if (at('return')) {
+                return parseExp();
+            }
+            return false;
+        }
+ 
+        function parseMemberDeclaration() {
+            if (at('access')) {
+                if (at(parseEnd())) {
+                    return parseBlock();
+                }
+            }
+        }
+      
         function parseClassDec() {
             if(at('class')){
                 if (at('id')) {

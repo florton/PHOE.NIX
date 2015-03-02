@@ -72,11 +72,11 @@ function getTokens(line) {
         } else if (isToken("bool", bool, line)) {           
         } else if (isToken("double", Double, line)) {          
         } else if (isToken("int", intLit, line)) {                     
-        } else if (isToken("$", paren, line)) {           
-        } else if (isToken("assop", assop, line)) {              
+        } else if (isToken("$", paren, line)) {                       
         } else if (isToken("relop", relop, line)) {            
         } else if (isToken("multop", multop, line)) {          
         } else if (isToken("addop", addop, line)) {
+        } else if (isToken("assop", assop, line)) {  
         } else if (isToken("scope", scope, line)) {
         } else if (isToken("colon", colon, line)) {
         } else if (isToken("dot", dot, line)) {
