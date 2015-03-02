@@ -123,7 +123,7 @@ function parseFile(file){
                     while (parseExp()){
                         if(!at('comma')){break;}
                     }
-                    if(at(')')){
+                    if(at(')')){ 
                         return true;
                     }
                 }
