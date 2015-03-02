@@ -27,7 +27,7 @@ function parseFile(file){
             if (!parseStatement()) {
                 throw "error";
             }
-            //success?
+            console.log("you did it!");
         }
 
         function indentLevel() {
@@ -100,6 +100,8 @@ function parseFile(file){
                 return parsePrintStatement();
             } else if (match('prompt')) {
                 return parsePromptStatement();
+            } else if (match('return')) {    
+                return parseReturnStatement();
             } else {
                 return parseEnd();
             }
@@ -122,6 +124,7 @@ function parseFile(file){
         }
  
         function parseReturnStatement() {
+            console.log("parse return");
             if (at('return')) {
                 return parseExp();
             }
@@ -202,10 +205,11 @@ function parseFile(file){
 
 
         function parseAssignmentStatement(){
-            if(match('id')){
-                while(at('id')){
-                    if(!at('comma')){break;}
-                }
+            if(at('id')){
+                if (match('[')){
+                    if(!parseArray()){return false;}
+                }else if(at('comma')){return parseAssignmentStatement();}
+
                 if(at('assop')){
                     return parseExp();
                 }
@@ -288,6 +292,7 @@ function parseFile(file){
             console.log("exp");
             if(parseExp1()){
                 if(at('relop')){
+                    console.log("hi");
                     return parseExp();
                 }
                 return true;
@@ -298,7 +303,8 @@ function parseFile(file){
         function parseExp1(){
             console.log("exp1");
             if(parseExp2()){
-                if(at('mulop')){
+                if(at('multop')){
+                    console.log("hello");
                     return parseExp1();
                 }
                 return true;
