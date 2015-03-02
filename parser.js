@@ -358,5 +358,4 @@ function parseFile(file){
 
         
     });
-
 }
