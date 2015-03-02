@@ -25,6 +25,11 @@ function parseFile(file){
         function parseScript() {
             indentLevel();
             if (!parseStatement()) {
+                
+                console.log(tokens[tokenIndex].type);
+                console.log(tokens[tokenIndex].lexeme);
+                console.log(tokens[tokenIndex].line_num);
+                console.log(tokens[tokenIndex].line_pos);
                 throw "error";
             }
             console.log("you did it!");
