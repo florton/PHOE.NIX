@@ -90,10 +90,10 @@ function parseFile(file) {
             } else if (match('type')) {
                 return parseType();
             } else if (match('id')) {
-                if (!parseMethodCall()) {
-                    return parseAssignmentStatement();
-                } else {
+                if (parseMethodCall()) {
                     return true;
+                } else {
+                    return parseAssignmentStatement();
                 }
             } else if (match('while')) {
                 return parseWhileStatement();

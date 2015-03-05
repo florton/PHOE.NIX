@@ -86,7 +86,7 @@ while false
     x =true
 //runs once
 
-x = 0
+x = 4**9
 do 
     x++
 while x<5

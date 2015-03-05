@@ -258,7 +258,7 @@
 
 #Syntax
 
-[Go Here For Syntax Railroad Diagrams](http://my.cs.lmu.edu/~florton/diagram.xhtml)
+##[Go Here For Syntax Railroad Diagrams](http://my.cs.lmu.edu/~florton/diagram.xhtml)
 
 ##Phoenix MacroSyntax
 
