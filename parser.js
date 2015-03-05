@@ -283,7 +283,6 @@ function parseFile(file) {
         }
 
         function parseIfStatement() {
-
             if (at('if')) {
                 if (parseExp()) {
                     if (parseEnd()) {
@@ -298,12 +297,20 @@ function parseFile(file) {
             if (at('do')) {
                 if (parseEnd()) {
                     if (parseBlock()) {
-                        return parseWhileStatement();
+                        while (!match('while')){
+                            parseStatement()
+                        }
+                        if(at('while')){
+                            if (parseExp()){
+                                return parseEnd();
+                            } 
+                        }     
                     }
                 }
             }
             return false;
         }
+        
 
         function parseElseStatement() {
             if (at('else')) {
