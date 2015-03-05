@@ -120,6 +120,9 @@ function parseFile(file) {
 
         function parseMethodCall() {
             if (at('id')) {
+                if(at('dot')){
+                    parseExp();
+                }
                 if (at('(')) {
                     while (parseExp()) {
                         if (!at('comma')) {
