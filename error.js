@@ -15,8 +15,10 @@ function scanError (line,line_num,line_pos){
     if (location.line_pos) {
       message = message.concat(', column ', location.line_pos)
     }
+    // console.log("got here")
   } else if (location && location.path) {
-    message = message.concat(', found ', location.path)
+    console.log("got here")
+    message = message.concat(', found in ', location.path)
   }
 
   if (!parseError.quiet) {

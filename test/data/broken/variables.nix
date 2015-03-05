@@ -1,7 +1,7 @@
 int x
 int y,p
 double a,b,c,e
-int z = 5004
+inx z = 5004
 double d = 10.432
 string s = "Hello"
 bool t = true
