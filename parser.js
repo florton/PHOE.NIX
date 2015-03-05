@@ -1,5 +1,5 @@
 var scanner = require("./Scanner.js").scan;
-var error = require("./error.js");
+var error = require("./error.js").parseError;
 
 var err;
 
@@ -8,36 +8,36 @@ if (process.argv.length > 2) {
 }
 
 module.exports = {
-    parse: function (filepath) {
-        parseFile(filepath);
+    parse: function (filepath, callback) {
+        parseFile(filepath, callback);
     }
 };
 
 
-function parseFile(file) {
-
+function parseFile(file, callback) {
     scanner(file, function (tokens) {
         //main
         var tokenIndex = 0;
         var indents = [0, 0];
-
         while (tokenIndex < tokens.length - 1) {
             if(!parseScript()){
                 console.log(err);
-                return false;
+                callback(false);
+                return;
             }
         }
-
         console.log("you did it!");
+        callback(true);
+        //console.log(tokens.length);
 
         function parseScript() {
             indentLevel();
             if (!parseStatement()) {
                 
-                console.log(tokens[tokenIndex].type);
-                console.log(tokens[tokenIndex].lexeme);
-                console.log(tokens[tokenIndex].line_num);
-                console.log(tokens[tokenIndex].line_pos);
+                //console.log(tokens[tokenIndex].type);
+                //console.log(tokens[tokenIndex].lexeme);
+                //console.log(tokens[tokenIndex].line_num);
+                //console.log(tokens[tokenIndex].line_pos);
                 err = error(" Invalid token", {line_num: tokens[tokenIndex].line_num, 
                     line_pos: tokens[tokenIndex].line_pos});
                 return false;
@@ -46,14 +46,14 @@ function parseFile(file) {
         }
 
         function indentLevel() {
-            console.log("indent level");
+            //console.log("indent level");
             while (at('indent')) {
                 indents[1]++;
             }
         }
 
         function parseEnd() {
-            console.log("parse end");
+            //console.log("parse end");
             if (at('EOL')) {
                 indents = [indents[1], 0];
                 indentLevel();
@@ -62,14 +62,14 @@ function parseFile(file) {
         }
 
         function at(type) {
-            if(tokenIndex==tokens.length){console.log("reached end of tokenstream"); return;}
+            if(tokenIndex==tokens.length){ return;}
             while (tokens[tokenIndex].type === 'comment' || (tokens[tokenIndex].type === 'indent' && type !== 'indent')) {
                 tokenIndex++;
             }
             if (type === tokens[tokenIndex].type) {
-                console.log(tokens[tokenIndex].type);
-                console.log(tokens[tokenIndex].lexeme);
-                console.log("here");
+                //console.log(tokens[tokenIndex].type);
+                //console.log(tokens[tokenIndex].lexeme);
+                //console.log("here");
                 tokenIndex++;
                 return true;
             } else {
@@ -87,12 +87,12 @@ function parseFile(file) {
         }
 
         function parseBlock() {
-            console.log("parse block");
+            //console.log("parse block");
             return (indents[1] > indents[0]);
         }
 
         function parseStatement() {
-            console.log("parse Statement");
+            //console.log("parse Statement");
             if (match('class')) {
                 return parseClassDec();
             } else if (match('type')) {
@@ -146,7 +146,7 @@ function parseFile(file) {
         }
 
         function parsePrintStatement() {
-            console.log("print Statement");
+            //console.log("print Statement");
             if (at('print')) {
                 return parseExp();
             }
@@ -161,7 +161,7 @@ function parseFile(file) {
         }
 
         function parseReturnStatement() {
-            console.log("parse return");
+            //console.log("parse return");
             if (at('return')) {
                 return parseExp();
             }
@@ -188,7 +188,7 @@ function parseFile(file) {
         }
 
         function parseType() {
-            console.log("parse TYPE");
+            //console.log("parse TYPE");
             if (at('type')) {
                 if (match('id')) {
                     if (parseExp()) {
@@ -200,7 +200,7 @@ function parseFile(file) {
         }
 
         function parseFunctionDec() {
-            console.log("Parse Function Dec");
+            //console.log("Parse Function Dec");
             if (at('(')) {
                 while (at('type')) {
                     if (at('id')) {
@@ -239,7 +239,7 @@ function parseFile(file) {
 
 
         function parseAssignmentStatement() {
-            console.log("parse assignment");
+            //console.log("parse assignment");
             if (parseEnd()) {
                 return true;
             }
@@ -263,7 +263,7 @@ function parseFile(file) {
         }
 
         function parseForStatement() {
-            console.log("For Statement");
+            //console.log("For Statement");
             if (at('for')) {
                 if (parseStatement()) {
                     if (at('while')) {
@@ -305,7 +305,7 @@ function parseFile(file) {
         }
 
         function parseDoStatement() {
-        console.log("parse do");
+        //console.log("parse do");
             if (at('do')) {
                 if (parseEnd()) {
                     if (parseBlock()) {
@@ -338,10 +338,10 @@ function parseFile(file) {
 
 
         function parseExp() {
-            console.log("exp");
+            //console.log("exp");
             if (parseExp1()) {
                 if (at('relop')) {
-                    console.log("hi");
+                    //console.log("hi");
                     return parseExp();
                 }
                 return true;
@@ -350,10 +350,10 @@ function parseFile(file) {
         }
 
         function parseExp1() {
-            console.log("exp1");
+            //console.log("exp1");
             if (parseExp2()) {
                 if (at('multop')) {
-                    console.log("hello");
+                    //console.log("hello");
                     return parseExp1();
                 }
                 return true;
@@ -362,7 +362,7 @@ function parseFile(file) {
         }
 
         function parseExp2() {
-            console.log("exp2");
+            //console.log("exp2");
             if (parseExp3()) {
                 if (at('addop')) {
                     return parseExp2();
@@ -373,13 +373,13 @@ function parseFile(file) {
         }
 
         function parseExp3() {
-            console.log("exp3");
+            //console.log("exp3");
             at('fixop');
             return parseExp4();
         }
 
         function parseExp4() {
-            console.log("exp4");
+            //console.log("exp4");
             if (parseExp5()) {
                 at('fixop');
                 return true;
@@ -388,7 +388,7 @@ function parseFile(file) {
         }
 
         function parseExp5() {
-            console.log("exp5");
+            //console.log("exp5");
             if (parseExp6()) {
                 return parseExp5Helper();
             }
@@ -424,7 +424,7 @@ function parseFile(file) {
         }
 
         function parseExp6() {
-            console.log("exp6");
+            //console.log("exp6");
             if (parseExp7()) {
                 if (at('scope')) {
                     return parseExp7();
@@ -438,7 +438,7 @@ function parseFile(file) {
         }
 
         function parseExp7() {
-            console.log("exp7");
+            //console.log("exp7");
             if (at('id')) {
                 if (match('[')) {
                     return parseArray();

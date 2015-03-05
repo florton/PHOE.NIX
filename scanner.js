@@ -1,6 +1,6 @@
 var file = process.argv[2];
 var fs = require('fs');
-var error = require('./error');
+var error = require('./error').scanError;
 var indent = /[\t]|[\s]{4}/
 var comment = /[\/]{2}.*/;
 var id = /[A-Za-z][A-Za-z0-9_]*/;
@@ -100,7 +100,7 @@ function getTokens(line) {
             if (space.test(line.substring(line_pos))) {
                 while(space.test(line.substring(line_pos))){line_pos++;}
             } else {
-                error.error(line, line_num, line_pos);
+                error(line, line_num, line_pos);
             }
         }
     }
