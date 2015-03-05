@@ -9,7 +9,7 @@ var Double = /([0-9]+)?\.([0-9]+)/;
 var bool = /true|false/;
 var string = /"([^"\\]|[\\][\\bfnrt])*"/;
 var type = /(void|int|double|string|bool)/;
-var keyword = /(return|print|prompt|if|else|elseif|for|while|until|class)/;
+var keyword = /(return|print|prompt|if|else|elseif|for|while|until|class|do)/;
 var access = /(public:|private:|header:)/;
 var paren = /[()\[\]]/;
 var equals = /[=]{2,3}/;
