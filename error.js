@@ -1,11 +1,33 @@
-module.exports = {
-    error : function(line,line_num,line_pos){
-    var pos = "^";
-    for (var x=0; x<line_pos; x++){
-        pos = "-"+pos;
+/*
+ * Error module
+ *
+ *   var error = require('./error')
+ *
+ *   error('Something happened', {line: 7, col: 22})
+ *   error('Something else happened', {line: 70, col: 1})
+ *   error('That\'s strange')
+ *   console.log(error.count)
+ */
+
+function error(message, location) {
+  if (location && location.line_num) {
+    message = message.concat(' at line ', location.line)
+    if (location.line_pos) {
+      message = message.concat(', column ', location.line_pos)
     }
-    var alert = "Lexical Error at: Line: " + line_num + " Char: " + line_pos;
-    var error = alert + "\n" + line + "\n" + pos;
-    throw error;
-    }
-};
+  } else if (location && location.path) {
+    message = message.concat(', found ', location.path)
+  }
+
+  if (!error.quiet) {
+      console.log('Error: ' + message)
+  }
+
+  error.count++
+}
+
+error.quiet = false
+
+error.count = 0
+
+module.exports = error
