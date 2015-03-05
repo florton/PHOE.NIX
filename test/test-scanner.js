@@ -1,7 +1,6 @@
 var should = require('should');
 var scanner = require("../scanner.js").scan;
 var i = require('util').inspect;
-(5).should.be.exactly(5).and.be.a.Number;
 
 scanner('data/hello.nix', function (tokens) {
     tokens.length.should.equal(3)

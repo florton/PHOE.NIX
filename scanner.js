@@ -8,8 +8,9 @@ var intLit = /[0-9]+/;
 var Double = /([0-9]+)?\.([0-9]+)/;
 var bool = /true|false/;
 var string = /"([^"\\]|[\\][\\bfnrt])*"/;
-var type = /(void|int|double|string|bool)/;
-var keyword = /(return|print|prompt|if|else|elseif|for|while|until|class)/;
+var type = "void|int|double|string|bool";
+var keyword = /(return|print|prompt|if|else|elseif|for|while|until|do)/;
+var classDec = /class/;
 var access = /(public:|private:|header:)/;
 var paren = /[()\[\]]/;
 var equals = /[=]{2,3}/;
@@ -22,6 +23,7 @@ var scope = /::/;
 var colon = /:/;
 var dot = /\./;
 var comma = /,/;
+var space = /^\s/;
 var line_num = 1;
 var line_pos = 0;
 var tokens = [];
@@ -66,12 +68,12 @@ function getTokens(line) {
         }
     }
     while (line_pos < line.length) {
-        if (isToken("comment", comment, line)) {           
-        } else if (isToken("$", keyword, line)) {          
-        } else if (isToken("type", type, line)) {           
+        if (isToken("comment", comment, line)) {                   
+        } else if (isToken("type", new RegExp(type), line)) { 
         } else if (isToken("string", string, line)) {          
         } else if (isToken("bool", bool, line)) {           
-        } else if (isToken("double", Double, line)) {          
+        } else if (isToken("double", Double, line)) {
+        } else if (isToken("$", keyword, line)) {  
         } else if (isToken("int", intLit, line)) {                     
         } else if (isToken("$", paren, line)) {   
         } else if (isToken("relop", equals, line)) {   
@@ -85,14 +87,18 @@ function getTokens(line) {
         } else if (isToken("dot", dot, line)) {
         } else if (isToken("comma", comma, line)) {
         } else if (isToken("access", access, line)) { 
-        
+        } else if (isToken("access", access, line)) {
+        } else if (isToken("class", classDec, line)) {
+            while(space.test(line.substring(line_pos))){line_pos++;}
+            if (isToken("id", id, line)){
+                type+="|"+tokens[tokens.length-1].lexeme;
+            }
         } else if (isToken("id", id, line)) { 
         } else {
             //add more microsyntax lines here if needed
             //if the next char isn't a space it brings up the error dialogue
-            var space = /^\s/;
             if (space.test(line.substring(line_pos))) {
-                line_pos++;
+                while(space.test(line.substring(line_pos))){line_pos++;}
             } else {
                 error.error(line, line_num, line_pos);
             }
