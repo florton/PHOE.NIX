@@ -41,10 +41,10 @@ print userIn
 
 //Functions
 
-void printX(int x)
+void prinX(int x)
     print x
 
-int returnX(int x)
+int returX(int x)
     return x
 
 print args[0]
@@ -78,19 +78,19 @@ for int x=1 while x<=10 : x++
     //do something 10 times
 
 while x != 10
-    //do something
+    int x
 
 do 
-    //do something
+    x+=5004
 while false
-
+    x =true
 //runs once
 
 x = 0
 do 
     x++
 while x<5
-
+    x=5
 //runs 5 times
 
 int fibonacci(int x)
