@@ -11,7 +11,7 @@
 
 function error(message, location) {
   if (location && location.line_num) {
-    message = message.concat(' at line ', location.line)
+    message = message.concat(' at line ', location.line_num)
     if (location.line_pos) {
       message = message.concat(', column ', location.line_pos)
     }
@@ -20,7 +20,7 @@ function error(message, location) {
   }
 
   if (!error.quiet) {
-      console.log('Error: ' + message)
+      return('Error: ' + message)
   }
 
   error.count++

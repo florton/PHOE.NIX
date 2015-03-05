@@ -1,4 +1,7 @@
 var scanner = require("./Scanner.js").scan;
+var error = require("./error.js");
+
+var err;
 
 if (process.argv.length > 2) {
     parseFile(process.argv[2]);
@@ -19,7 +22,10 @@ function parseFile(file) {
         var indents = [0, 0];
 
         while (tokenIndex < tokens.length - 1) {
-            parseScript();
+            if(!parseScript()){
+                console.log(err);
+                return false;
+            }
         }
 
         console.log("you did it!");
@@ -27,14 +33,16 @@ function parseFile(file) {
         function parseScript() {
             indentLevel();
             if (!parseStatement()) {
-
+                
                 console.log(tokens[tokenIndex].type);
                 console.log(tokens[tokenIndex].lexeme);
                 console.log(tokens[tokenIndex].line_num);
                 console.log(tokens[tokenIndex].line_pos);
-                throw "error";
+                err = error(" Invalid token", {line_num: tokens[tokenIndex].line_num, 
+                    line_pos: tokens[tokenIndex].line_pos});
+                return false;
             }
-
+            return true;
         }
 
         function indentLevel() {
@@ -54,7 +62,7 @@ function parseFile(file) {
         }
 
         function at(type) {
-
+            if(tokenIndex==tokens.length){console.log("reached end of tokenstream"); return;}
             while (tokens[tokenIndex].type === 'comment' || (tokens[tokenIndex].type === 'indent' && type !== 'indent')) {
                 tokenIndex++;
             }
@@ -297,6 +305,7 @@ function parseFile(file) {
         }
 
         function parseDoStatement() {
+        console.log("parse do");
             if (at('do')) {
                 if (parseEnd()) {
                     if (parseBlock()) {
