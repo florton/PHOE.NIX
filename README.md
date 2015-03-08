@@ -123,10 +123,10 @@
 ###If statement:
     if x == 5
 		//do something
-###If Else & Elseif statements:
+###If Else & Else if statements:
 	if x <= 5
 		//do something
-	elseif x > 7
+	else if x > 7
 		//do something
 	else
 		//do something
@@ -274,7 +274,7 @@
 	DoStmt ::= 'do' Block WhileStmt 
 	WhileStmt ::= 'while' Exp Block
 	IfStmt ::= 'if' Exp Block
-	ElseStmt ::= 'else' Exp Block
+	IfElseStmt ::= IfStmt 'else' Exp Block
 	AssmtStmt ::= ID AssOp Exp 
 	FuncDec ::= Type Call Block Block
 	PrintStmt ::= 'print' Exp
@@ -301,9 +301,9 @@
 	double::=int '.' int
 	bool ::=true|false
 	scope::= '::'
-	assop ::= '=='|'='|'+='|'-='|'/='|'*='|'%=|:=:'
+	assop ::= '='|'+='|'-='|'/='|'*='|'%='|':=:'
 	addop ::= '+'|'-'|'++'|'--'
-	multop ::=  '*'|'|%'|'**'
-	relop ::= '>'|'<'|'<='|'>='|'&'|'&&'|'!='|'|'|'||'
-	indent ::= [\t]|[\s{4}]
+	multop ::=  '*'|'%'|'**'
+	relop ::= '=='|'>'|'<'|'<='|'>='|'&'|'&&'|'!='|'|'|'||'
+	indent ::= tab|'    '
 
