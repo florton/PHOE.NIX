@@ -21,7 +21,7 @@ function parseFile(file, callback) {
         var indents = [0, 0];
         while (tokenIndex < tokens.length - 1) {
             if (!parseScript()) {
-                console.log(err);
+                console.log("\n"+err+"\n");
                 callback(false);
                 return;
             }
@@ -35,7 +35,7 @@ function parseFile(file, callback) {
                 err = error(" Invalid token", {
                     line_num: tokens[tokenIndex].line_num,
                     line_pos: tokens[tokenIndex].line_pos
-                });
+                })+" token is "+tokens[tokenIndex].lexeme;
                 return false;
             }
             return true;
@@ -400,12 +400,14 @@ function parseFile(file, callback) {
         }
 
         function parseExp6() {
+            
             if (parseExp7()) {
                 if (at('scope')) {
                     return parseExp7();
                 }
                 return true;
             }
+            
             if (at('scope')) {
                 return parseExp7();
             }
@@ -430,7 +432,7 @@ function parseFile(file, callback) {
             } else if (at('bool')) {
                 return true;
             }
-
+            
             return false;
         }
 
