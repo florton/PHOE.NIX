@@ -1,9 +1,9 @@
-![PHOE.NIX](http://puu.sh/fGmLp/55ba2e88be.png)
+![PHOE.NIX](logo\logo.png)
 #[Phoenix Theme Song](https://www.youtube.com/watch?v=h5EofwRzit0)
 
 ####Like the legend of the Phoenix, we understand that C++ is an extremely powerful programming language, but are also aware that it is difficult for modern programmers to adopt. In the spirit of modern syntactical languages like Python, with Phoenix we attempt to retain the functionality of C++ while making it much simpler for the programmer to write.
 
-####Phoenix files end in `.nix` and are compiled down into a C++11 `.cpp` file and a `.h` header. Our initial goal is primary functionality, but we will continue to expand and have been discussing ways  to eventually allow all valid C++ code, however, in the alpha version, only what is specified within the Phoenix Documentation will be valid Phoenix code.
+####Phoenix files end in `.nix` and are compiled down into a C++11 `.cpp` file and a `.h` header. Our initial goal is primary functionality, but we will continue to expand and have been discussing ways  to eventually allow all valid C++ code, however, in the alpha version, only what is specified within the Phoenix Documentation will be valid Phoenix code. Using the `<extern>` scope will allow cpp classes and functions to be used
 
 ##Basic Syntax
 	//Comments start with double backslash
@@ -160,6 +160,15 @@
 	//now a = 6 and b = 5
 
 
+##C++ standard library use
+	//methods and classes used in the standard c++ 11 library can be used by scoping them
+	//with the "<extern>" keyword just as you would use "std::" in c++
+	
+	//such as 
+
+	<extern>::map<string, int> wordcounts
+
+
 ##Examples
 ###Returns the xth number in the Fibonacci sequence, the 0th and 1st numbers being 1
 	int fibonacci(int x)
@@ -264,7 +273,7 @@
 
 	Script ::= Stmt+
 	Block ::= indent Script dedent
-	Stmt ::= ClassDecl | VarDecl | Call | ForStmt | DoStmt | WhileStmt | IfStmt | FuncDec | PrintStmt | PromptStmt
+	Stmt ::= ClassDecl | VarDecl | call | ForStmt | DoStmt | WhileStmt | IfStmt | FuncDec | PrintStmt | PromptStmt
 	ClassDecl ::= 'class' id Indent
 	MemberDecl ::= Access Type id
 	VarDecl ::= Type (id|array) ( ',' (id|array))* ( AssOp Exp)?
@@ -276,7 +285,7 @@
 	IfStmt ::= 'if' Exp Block
 	IfElseStmt ::= IfStmt 'else' Exp Block
 	AssmtStmt ::= ID AssOp Exp 
-	FuncDec ::= Type Call Block Block
+	FuncDec ::= Type call Block
 	PrintStmt ::= 'print' Exp
 	PromptStmt ::= 'prompt' Exp
 
