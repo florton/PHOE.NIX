@@ -1,4 +1,4 @@
-![PHOE.NIX](logo\logo.png)
+![PHOE.NIX](logo/logo.png)
 #[Phoenix Theme Song](https://www.youtube.com/watch?v=h5EofwRzit0)
 
 ####Like the legend of the Phoenix, we understand that C++ is an extremely powerful programming language, but are also aware that it is difficult for modern programmers to adopt. In the spirit of modern syntactical languages like Python, with Phoenix we attempt to retain the functionality of C++ while making it much simpler for the programmer to write.
