@@ -9,28 +9,10 @@ function scanError (line,line_num,line_pos){
 }
 
 
- function parseError(message, location) {
-  if (location && location.line_num) {
-    message = message.concat(' at line ', location.line_num)
-    if (location.line_pos) {
-      message = message.concat(', column ', location.line_pos)
-    }
-    // console.log("got here")
-  } else if (location && location.path) {
-    console.log("got here")
-    message = message.concat(', found in ', location.path)
-  }
-
-  if (!parseError.quiet) {
-      return('Error: ' + message)
-  }
-
-  error.count++
+function parseError(message, line_num, line_pos, lexeme) {
+    throw message + " at line " + line_num + ", column " + line_pos + " token is '" + lexeme + "'"
 }
 
-parseError.quiet = false
-
-parseError.count = 0
 
 exports.parseError = parseError
 
