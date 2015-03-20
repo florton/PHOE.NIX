@@ -1,174 +1,182 @@
-var scanner = require("./Scanner.js").scan;
-var error = require("./error.js").parseError;
-var booleanLit = require("./booleanLit.js");
-var stringLit = require("./string.js");
-var intLit = require("./int.js");
-var type = require("./type.js")
-var doubleLit = require("./double.js");
-var Block = require("./block.js")
-
-
+var scanner = require("./Scanner.js").scan
+var error = require("./error.js").parseError
+var booleanLit = require("./entities/booleanLit.js")
+var stringLit = require("./entities/string.js")
+var intLit = require("./entities/int.js")
+var type = require("./entities/type.js")
+var doubleLit = require("./entities/double.js")
+var Block = require("./entities/block.js")
+var err
 
 if (process.argv.length > 2) {
-    parseFile(process.argv[2], function () {console.log("woohoo")});
+    parseFile(process.argv[2], function () {})
 }
 
 module.exports = {
     parse: function (filepath, callback) {
-        parseFile(filepath, callback);
+        parseFile(filepath, callback)
     }
-};
+}
 
 
 function parseFile(file, callback) {
     scanner(file, function (tokens) {
         //main
-        var statements = [];
-        var tokenIndex = 0;
-        var indents = [-1, 0];
+        var statements = []
+        var tokenIndex = 0
+        var indents = [-1, 0]
         while (tokenIndex < tokens.length - 1) {
-            if(!parseScript()){
-                console.log(error);
-                callback(false);
-                return;
+            if (!parseScript()) {
+                console.log("\n" + err + "\n")
+                callback(false)
+                return
             }
         }
-        callback(true);
+        console.log("you did it!")
+        callback(true)
 
         function parseScript() {
-            indentLevel();
+            indentLevel()
             if (!parseStatement()) {
-                error(" Invalid token", {line_num: tokens[tokenIndex].line_num, line_pos: tokens[tokenIndex].line_pos});
+                err = error(" Invalid token", {
+                    line_num: tokens[tokenIndex].line_num,
+                    line_pos: tokens[tokenIndex].line_pos
+                }) + " token is '" + tokens[tokenIndex].lexeme + "'"
+                return false
             }
-            return parseBlock();
+            return true
         }
 
         function indentLevel() {
             while (at('indent')) {
-                indents[1]++;
+                indents[1]++
             }
         }
 
         function parseEnd() {
             if (at('EOL')) {
-                indents = [indents[1], 0];
-                indentLevel();
-                return true;
+                indents = [indents[1], 0]
+                indentLevel()
+                return true
             }
         }
 
         function at(type) {
-            if(tokenIndex === tokens.length){ return;}
+            if (tokenIndex == tokens.length) {
+                return
+            }
             while (tokens[tokenIndex].type === 'comment' || (tokens[tokenIndex].type === 'indent' && type !== 'indent')) {
-                tokenIndex++;
+                tokenIndex++
             }
             if (type === tokens[tokenIndex].type) {
-                tokenIndex++;
-                return true;
+                tokenIndex++
+                return true
             } else {
-                return false;
+                return false
             }
         }
 
         function match(type) {
             if (at(type)) {
-                tokenIndex--;
-                return true;
+                tokenIndex--
+                return true
             } else {
-                return false;
+                return false
             }
         }
 
         function parseBlock() {
-            console.log("new Block")
-            if(indents[1] > indents[0]){
-                do{
+            if (indents[1] > indents[0]) {
+                do {
+                    var stmt = parseStatement()
+                    if (!stmt) {
+                        return false;
+                    }
                     statements.push(parseStatement())
-                }while(!match('EOF'))
-                return new Block(statements);
+                } while (!match('EOF') || indents[1] >= indents[0])
+                return new Block(statements)
             }
-            return false;
+            return false
         }
 
         function parseStatement() {
             if (match('class')) {
-                return parseClassDec();
+                return parseClassDec()
             } else if (match('type')) {
-                return parseType();
+                return parseType()
             } else if (match('id')) {
                 if (parseMethodCall()) {
-                    return true;
+                    return true
                 } else {
-                    return parseAssignmentStatement();
+                    return parseAssignmentStatement()
                 }
             } else if (match('while')) {
-                return parseWhileStatement();
+                return parseWhileStatement()
             } else if (match('if')) {
-                return parseIfStatement();
+                return parseIfStatement()
             } else if (match('for')) {
-                return parseForStatement();
+                return parseForStatement()
             } else if (match('do')) {
-                return parseDoStatement();
+                return parseDoStatement()
             } else if (match('else')) {
-                return parseElseStatement();
+                return parseElseStatement()
             } else if (match('access')) {
-                return parseMemberDeclaration();
+                return parseMemberDeclaration()
             } else if (match('print')) {
-                return parsePrintStatement();
+                return parsePrintStatement()
             } else if (match('prompt')) {
-                return parsePromptStatement();
+                return parsePromptStatement()
             } else if (match('return')) {
-                return parseReturnStatement();
+                return parseReturnStatement()
             } else {
-                return parseEnd();
+                return parseEnd()
             }
         }
 
         function parseMethodCall() {
             if (at('id')) {
-                if(at('dot')){
-                    parseExp();
+                if (at('dot')) {
+                    parseExp()
                 }
                 if (at('(')) {
                     while (parseExp()) {
                         if (!at('comma')) {
-                            break;
+                            break
                         }
                     }
                     if (at(')')) {
-                        return true;
+                        return true
                     }
                 }
             }
-            error(" Invalid Method Call", {line_num: tokens[tokenIndex].line_num, line_pos: tokens[tokenIndex].line_pos});
+            return false
         }
 
         function parsePrintStatement() {
             if (at('print')) {
-                return parseExp();
+                return parseExp()
             }
-            error(" Invalid Print Statement", {line_num: tokens[tokenIndex].line_num, line_pos: tokens[tokenIndex].line_pos});
+            return false
         }
 
         function parsePromptStatement() {
             if (at('prompt')) {
-                return parseExp();
+                return parseExp()
             }
-            error(" Invalid Prompt Statement", {line_num: tokens[tokenIndex].line_num, line_pos: tokens[tokenIndex].line_pos});
+            return false
         }
 
         function parseReturnStatement() {
-            //console.log("parse return");
             if (at('return')) {
-                return parseExp();
+                return parseExp()
             }
-            error(" Invalid Return Statement", {line_num: tokens[tokenIndex].line_num, line_pos: tokens[tokenIndex].line_pos});
+            return false
         }
 
         function parseMemberDeclaration() {
             if (at('access')) {
                 if (parseEnd()) {
-                    return parseBlock();
+                    return parseBlock()
                 }
             }
         }
@@ -177,22 +185,22 @@ function parseFile(file, callback) {
             if (at('class')) {
                 if (at('id')) {
                     if (parseEnd()) {
-                        return parseBlock();
+                        return parseBlock()
                     }
                 }
             }
-            error(" Invalid Class Declaration", {line_num: tokens[tokenIndex].line_num, line_pos: tokens[tokenIndex].line_pos});
+            return false
         }
 
         function parseType() {
             if (at('type')) {
                 if (match('id')) {
                     if (parseExp()) {
-                        return parseAssignmentStatement();
+                        return parseAssignmentStatement()
                     }
                 }
             }
-            error(" Invalid Type", {line_num: tokens[tokenIndex].line_num, line_pos: tokens[tokenIndex].line_pos});
+            return false
         }
 
         function parseFunctionDec() {
@@ -200,17 +208,17 @@ function parseFile(file, callback) {
                 while (at('type')) {
                     if (at('id')) {
                         if (!at('comma')) {
-                            break;
+                            break
                         }
                     }
                 }
                 if (at(')')) {
                     if (parseEnd()) {
-                        return parseBlock();
+                        return parseBlock()
                     }
                 }
             }
-            error(" Invalid Function Declaration", {line_num: tokens[tokenIndex].line_num, line_pos: tokens[tokenIndex].line_pos});
+            return false
         }
 
         function parseArray() {
@@ -218,42 +226,42 @@ function parseFile(file, callback) {
                 if (parseExp()) {
                     while (at('comma')) {
                         if (!parseExp()) {
-                            return false;
+                            return false
                         }
                     }
                     if (at(']')) {
                         if (match('[')) {
-                            return parseArray();
+                            return parseArray()
                         }
-                        return true;
+                        return true
                     }
                 }
             }
-            error(" Invalid Array", {line_num: tokens[tokenIndex].line_num, line_pos: tokens[tokenIndex].line_pos});
+            return false
         }
 
 
         function parseAssignmentStatement() {
             if (parseEnd()) {
-                return true;
+                return true
             }
             if (at('fixop')) {
-                return true;
+                return true
             }
 
             if (match('[')) {
                 if (!parseArray()) {
-                    return false;
+                    return false
                 }
             } else if (at('comma')) {
                 if (at('id')) {
-                    return parseAssignmentStatement();
+                    return parseAssignmentStatement()
                 }
             }
             if (at('assop')) {
-                return parseExp();
+                return parseExp()
             }
-            error(" Invalid Assignment Statement", {line_num: tokens[tokenIndex].line_num, line_pos: tokens[tokenIndex].line_pos});
+            return false
         }
 
         function parseForStatement() {
@@ -264,7 +272,7 @@ function parseFile(file, callback) {
                             if (at('colon')) {
                                 if (parseStatement()) {
                                     if (parseEnd()) {
-                                        return parseBlock();
+                                        return parseBlock()
                                     }
                                 }
                             }
@@ -272,174 +280,183 @@ function parseFile(file, callback) {
                     }
                 }
             }
-            error(" Invalid For Statement", {line_num: tokens[tokenIndex].line_num, line_pos: tokens[tokenIndex].line_pos});
+            return false
         }
 
         function parseWhileStatement() {
             if (at('while')) {
                 if (parseExp()) {
                     if (parseEnd()) {
-                        return parseBlock();
+                        return parseBlock()
                     }
                 }
             }
-            error(" Invalid While Statement", {line_num: tokens[tokenIndex].line_num, line_pos: tokens[tokenIndex].line_pos});
+            return false
         }
 
         function parseIfStatement() {
             if (at('if')) {
                 if (parseExp()) {
                     if (parseEnd()) {
-                        return parseBlock();
+                        return parseBlock()
                     }
                 }
             }
-            error(" Invalid If Statement", {line_num: tokens[tokenIndex].line_num, line_pos: tokens[tokenIndex].line_pos});
+            return false
         }
 
         function parseDoStatement() {
             if (at('do')) {
                 if (parseEnd()) {
                     if (parseBlock()) {
-                        while (!match('while')){
+                        while (!match('while')) {
                             parseStatement()
                         }
-                        if(at('while')){
-                            if (parseExp()){
-                                return parseEnd();
-                            } 
-                        }     
+                        if (at('while')) {
+                            if (parseExp()) {
+                                return parseEnd()
+                            }
+                        }
                     }
                 }
             }
-            error(" Invalid Do Statement", {line_num: tokens[tokenIndex].line_num, line_pos: tokens[tokenIndex].line_pos});
+            return false
         }
-        
+
 
         function parseElseStatement() {
             if (at('else')) {
                 if (parseEnd()) {
-                    return parseBlock();
+                    return parseBlock()
                 }
                 if (match('if')) {
-                    return parseIfStatement();
+                    return parseIfStatement()
                 }
             }
-            error(" Invalid Else Statement", {line_num: tokens[tokenIndex].line_num, line_pos: tokens[tokenIndex].line_pos});
+            return false
         }
 
 
         function parseExp() {
             if (parseExp1()) {
                 if (at('relop')) {
-                    return parseExp();
+                    return parseExp()
                 }
-                return true;
+                return true
             }
-            return false;
+            return false
         }
 
         function parseExp1() {
             if (parseExp2()) {
                 if (at('multop')) {
-                    return parseExp1();
+                    return parseExp1()
                 }
-                return true;
+                return true
             }
-            return false;
+            return false
         }
 
         function parseExp2() {
             if (parseExp3()) {
                 if (at('addop')) {
-                    return parseExp2();
+                    return parseExp2()
                 }
-                return true;
+                return true
             }
-            return false;
+            return false
         }
 
         function parseExp3() {
-            at('fixop');
-            return parseExp4();
+            at('fixop')
+            return parseExp4()
         }
 
         function parseExp4() {
             if (parseExp5()) {
-                at('fixop');
-                return true;
+                at('fixop')
+                return true
             }
-            return false;
+            return false
         }
 
         function parseExp5() {
             if (parseExp6()) {
-                return parseExp5Helper();
+                return parseExp5Helper()
             }
         }
 
         function parseExp5Helper() {
             if (at('dot')) {
                 if (at('id')) {
-                    return parseExp5Helper();
+                    return parseExp5Helper()
                 }
-                return false;
+                return false
+            }
+            if (at('id')) {
+                if (match('(')) {
+                    tokenIndex--
+                    return parseMemberDeclaration()
+                }
             }
             if (match('[')) {
                 if (!parseArray()) {
-                    return false;
+                    return false
                 }
-                return parseExp5Helper();
+                return parseExp5Helper()
             }
             if (at('(')) {
-                at('type');
+                at('type')
                 while (parseExp()) {
                     if (!at('comma')) {
-                        break;
+                        break
                     }
-                    at('type');
+                    at('type')
                 }
                 if (at(')')) {
-                    return parseExp5Helper();
+                    return parseExp5Helper()
                 }
-                return false;
+                return false
             }
-            return true;
+            return true
         }
 
         function parseExp6() {
+
             if (parseExp7()) {
                 if (at('scope')) {
-                    return parseExp7();
+                    return parseExp7()
                 }
-                return true;
+                return true
             }
+
             if (at('scope')) {
-                return parseExp7();
+                return parseExp7()
             }
-            return false;
+            return false
         }
 
         function parseExp7() {
             if (at('id')) {
                 if (match('[')) {
-                    return parseArray();
+                    return parseArray()
                 }
-                return true;
+                return true
             }
             if (match('[')) {
-                return parseArray();
+                return parseArray()
             } else if (at('double')) {
-                return new doubleLit(tokens[tokenIndex - 1].lexeme);
+                return new doubleLit(tokens[tokenIndex - 1].lexeme)
             } else if (at('int')) {
-                return new intLit(tokens[tokenIndex - 1].lexeme);
+                return new intLit(tokens[tokenIndex - 1].lexeme)
             } else if (at('string')) {
                 return new stringLit(tokens[tokenIndex - 1].lexeme)
             } else if (at('bool')) {
-                return new booleanLit(tokens[tokenIndex - 1].lexeme);
+                return new booleanLit(tokens[tokenIndex - 1].lexeme)
             }
-            return false;
+
+            return false
         }
 
-    });
+    })
 }

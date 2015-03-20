@@ -9,7 +9,6 @@ var Double = /([0-9]+)?\.([0-9]+)/;
 var bool = /true|false/;
 var string = /"([^"\\]|[\\][\\bfnrt])*"/;
 var type = "void|int|double|string|bool";
-var extern = /<extern>/;
 var keyword = /(return|print|prompt|if|else|elseif|for|while|until|do)/;
 var classDec = /class/;
 var access = /(public:|private:|header:)/;
@@ -56,6 +55,7 @@ function readFile(file, callback) {
             }
             line_num++;
         }
+        addToken(line_num,array_of_lines.length,"EOF","");
         callback(tokens);
     });
 }
@@ -73,8 +73,7 @@ function getTokens(line) {
         } else if (isToken("type", new RegExp(type), line)) { 
         } else if (isToken("string", string, line)) {          
         } else if (isToken("bool", bool, line)) {           
-        } else if (isToken("double", Double, line)) {
-        } else if (isToken("extern", extern, line)) {     
+        } else if (isToken("double", Double, line)) {     
         } else if (isToken("$", keyword, line)) {  
         } else if (isToken("int", intLit, line)) {                     
         } else if (isToken("$", paren, line)) {   

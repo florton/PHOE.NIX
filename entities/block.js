@@ -1,4 +1,4 @@
-var initialContext = require('./analyzer.js').initialContext
+var initialContext = require('../analyzer.js').initialContext
 var HashMap = require('hashmap').HashMap
 
 function Block(statements) {
