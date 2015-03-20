@@ -1,10 +1,16 @@
 var scanner = require("./Scanner.js").scan;
 var error = require("./error.js").parseError;
+var booleanLit = require("./booleanLit.js");
+var stringLit = require("./string.js");
+var intLit = require("./int.js");
+var type = require("./type.js")
+var doubleLit = require("./double.js");
+var Block = require("./block.js")
 
-var err;
+
 
 if (process.argv.length > 2) {
-    parseFile(process.argv[2]);
+    parseFile(process.argv[2], function () {console.log("woohoo")});
 }
 
 module.exports = {
@@ -17,28 +23,24 @@ module.exports = {
 function parseFile(file, callback) {
     scanner(file, function (tokens) {
         //main
+        var statements = [];
         var tokenIndex = 0;
-        var indents = [0, 0];
+        var indents = [-1, 0];
         while (tokenIndex < tokens.length - 1) {
-            if (!parseScript()) {
-                console.log("\n"+err+"\n");
+            if(!parseScript()){
+                console.log(error);
                 callback(false);
                 return;
             }
         }
-        console.log("you did it!");
         callback(true);
 
         function parseScript() {
             indentLevel();
             if (!parseStatement()) {
-                err = error(" Invalid token", {
-                    line_num: tokens[tokenIndex].line_num,
-                    line_pos: tokens[tokenIndex].line_pos
-                })+" token is "+tokens[tokenIndex].lexeme;
-                return false;
+                error(" Invalid token", {line_num: tokens[tokenIndex].line_num, line_pos: tokens[tokenIndex].line_pos});
             }
-            return true;
+            return parseBlock();
         }
 
         function indentLevel() {
@@ -56,9 +58,7 @@ function parseFile(file, callback) {
         }
 
         function at(type) {
-            if (tokenIndex == tokens.length) {
-                return;
-            }
+            if(tokenIndex === tokens.length){ return;}
             while (tokens[tokenIndex].type === 'comment' || (tokens[tokenIndex].type === 'indent' && type !== 'indent')) {
                 tokenIndex++;
             }
@@ -80,7 +80,14 @@ function parseFile(file, callback) {
         }
 
         function parseBlock() {
-            return (indents[1] > indents[0]);
+            console.log("new Block")
+            if(indents[1] > indents[0]){
+                do{
+                    statements.push(parseStatement())
+                }while(!match('EOF'))
+                return new Block(statements);
+            }
+            return false;
         }
 
         function parseStatement() {
@@ -119,7 +126,7 @@ function parseFile(file, callback) {
 
         function parseMethodCall() {
             if (at('id')) {
-                if (at('dot')) {
+                if(at('dot')){
                     parseExp();
                 }
                 if (at('(')) {
@@ -133,28 +140,29 @@ function parseFile(file, callback) {
                     }
                 }
             }
-            return false;
+            error(" Invalid Method Call", {line_num: tokens[tokenIndex].line_num, line_pos: tokens[tokenIndex].line_pos});
         }
 
         function parsePrintStatement() {
             if (at('print')) {
                 return parseExp();
             }
-            return false;
+            error(" Invalid Print Statement", {line_num: tokens[tokenIndex].line_num, line_pos: tokens[tokenIndex].line_pos});
         }
 
         function parsePromptStatement() {
             if (at('prompt')) {
                 return parseExp();
             }
-            return false;
+            error(" Invalid Prompt Statement", {line_num: tokens[tokenIndex].line_num, line_pos: tokens[tokenIndex].line_pos});
         }
 
         function parseReturnStatement() {
+            //console.log("parse return");
             if (at('return')) {
                 return parseExp();
             }
-            return false;
+            error(" Invalid Return Statement", {line_num: tokens[tokenIndex].line_num, line_pos: tokens[tokenIndex].line_pos});
         }
 
         function parseMemberDeclaration() {
@@ -173,7 +181,7 @@ function parseFile(file, callback) {
                     }
                 }
             }
-            return false;
+            error(" Invalid Class Declaration", {line_num: tokens[tokenIndex].line_num, line_pos: tokens[tokenIndex].line_pos});
         }
 
         function parseType() {
@@ -184,7 +192,7 @@ function parseFile(file, callback) {
                     }
                 }
             }
-            return false;
+            error(" Invalid Type", {line_num: tokens[tokenIndex].line_num, line_pos: tokens[tokenIndex].line_pos});
         }
 
         function parseFunctionDec() {
@@ -202,7 +210,7 @@ function parseFile(file, callback) {
                     }
                 }
             }
-            return false;
+            error(" Invalid Function Declaration", {line_num: tokens[tokenIndex].line_num, line_pos: tokens[tokenIndex].line_pos});
         }
 
         function parseArray() {
@@ -221,7 +229,7 @@ function parseFile(file, callback) {
                     }
                 }
             }
-            return false;
+            error(" Invalid Array", {line_num: tokens[tokenIndex].line_num, line_pos: tokens[tokenIndex].line_pos});
         }
 
 
@@ -245,7 +253,7 @@ function parseFile(file, callback) {
             if (at('assop')) {
                 return parseExp();
             }
-            return false;
+            error(" Invalid Assignment Statement", {line_num: tokens[tokenIndex].line_num, line_pos: tokens[tokenIndex].line_pos});
         }
 
         function parseForStatement() {
@@ -264,7 +272,7 @@ function parseFile(file, callback) {
                     }
                 }
             }
-            return false;
+            error(" Invalid For Statement", {line_num: tokens[tokenIndex].line_num, line_pos: tokens[tokenIndex].line_pos});
         }
 
         function parseWhileStatement() {
@@ -275,7 +283,7 @@ function parseFile(file, callback) {
                     }
                 }
             }
-            return false;
+            error(" Invalid While Statement", {line_num: tokens[tokenIndex].line_num, line_pos: tokens[tokenIndex].line_pos});
         }
 
         function parseIfStatement() {
@@ -286,27 +294,27 @@ function parseFile(file, callback) {
                     }
                 }
             }
-            return false;
+            error(" Invalid If Statement", {line_num: tokens[tokenIndex].line_num, line_pos: tokens[tokenIndex].line_pos});
         }
 
         function parseDoStatement() {
             if (at('do')) {
                 if (parseEnd()) {
                     if (parseBlock()) {
-                        while (!match('while')) {
-                            parseStatement();
+                        while (!match('while')){
+                            parseStatement()
                         }
-                        if (at('while')) {
-                            if (parseExp()) {
+                        if(at('while')){
+                            if (parseExp()){
                                 return parseEnd();
-                            }
-                        }
+                            } 
+                        }     
                     }
                 }
             }
-            return false;
+            error(" Invalid Do Statement", {line_num: tokens[tokenIndex].line_num, line_pos: tokens[tokenIndex].line_pos});
         }
-
+        
 
         function parseElseStatement() {
             if (at('else')) {
@@ -317,7 +325,7 @@ function parseFile(file, callback) {
                     return parseIfStatement();
                 }
             }
-            return false;
+            error(" Invalid Else Statement", {line_num: tokens[tokenIndex].line_num, line_pos: tokens[tokenIndex].line_pos});
         }
 
 
@@ -400,14 +408,12 @@ function parseFile(file, callback) {
         }
 
         function parseExp6() {
-            
             if (parseExp7()) {
                 if (at('scope')) {
                     return parseExp7();
                 }
                 return true;
             }
-            
             if (at('scope')) {
                 return parseExp7();
             }
@@ -424,15 +430,14 @@ function parseFile(file, callback) {
             if (match('[')) {
                 return parseArray();
             } else if (at('double')) {
-                return true;
+                return new doubleLit(tokens[tokenIndex - 1].lexeme);
             } else if (at('int')) {
-                return true;
+                return new intLit(tokens[tokenIndex - 1].lexeme);
             } else if (at('string')) {
-                return true;
+                return new stringLit(tokens[tokenIndex - 1].lexeme)
             } else if (at('bool')) {
-                return true;
+                return new booleanLit(tokens[tokenIndex - 1].lexeme);
             }
-            
             return false;
         }
 
