@@ -16,6 +16,12 @@ var postfixopExp = require("./entities/postfixop.js")
 var printStatement = require("./entities/printStatement.js")
 var IfStatement = require("./entities/IfStatement.js")
 var forStatement = require("./entities/forStatement.js")
+var multopExp = require("./entities/multop.js")
+var addopExp = require("./entities/addop.js")
+var VariableDeclaration = require("./entities/variableDeclaration.js")
+var elseStatement = require("./entities/elseStatement.js")
+var whileStatement = require("./entities/whileStatement.js")
+var functionDeclaration = require("./entities/functionDeclaration.js")
 
 
 if (process.argv.length > 2) {
@@ -36,7 +42,7 @@ function parseFile(file, callback) {
         var indents = [-1, 0]
         while (tokenIndex < tokens.length - 1) {
             script = parseScript()
-            if(!script){callback(true)}
+            if(!script){callback(false)}
         }
         console.log("you did it!")
         callback(script)
@@ -108,6 +114,7 @@ function parseFile(file, callback) {
         }
 
         function parseStatement() {
+            
             if (match('class')) {
                 return parseClassDec()
             } else if (match('type')) {
@@ -140,12 +147,12 @@ function parseFile(file, callback) {
         function parseMethodCall() {
             startIndex = tokenIndex
             var name = tokens[tokenIndex].lexeme
-            var attribute
+            var attrib
             var args = []
             at('id')
             if (match('dot')) {
-                attribute = parseExp5()
-                name = new attribute(name, attribute)
+                attrib = parseExp5()
+                name = new attribute(name, attrib)
             }
             if(at('(')){
                 while(at('comma')|!at(')')){
@@ -208,7 +215,7 @@ function parseFile(file, callback) {
             return false
         }
 
-        function parseType() {
+        function parseType() {            
             var varType = tokens[tokenIndex].lexeme
             at('type')
             var name = tokens[tokenIndex].lexeme
@@ -219,7 +226,7 @@ function parseFile(file, callback) {
             }
             tokenIndex--
             var assmt = parseAssignmentStatement()
-            if(parseEnd()){return new VariableDeclaration(varType,name,assmt)}
+            return new VariableDeclaration(varType,name,assmt)
             return false
         }
 
@@ -238,7 +245,7 @@ function parseFile(file, callback) {
             at(')')
             if (parseEnd()) {
                 var block = parseBlock()
-                return new Function(type,name,params,block)
+                return new functionDeclaration(type,name,params,block)
             }
             return false
         }
@@ -254,7 +261,7 @@ function parseFile(file, callback) {
                     exps.push(parseExp())
                 }
                 if (match('[')) {
-                    exp.push(parseArray())
+                    exps.push(parseArray())
                 }
                 return new arrayIndex(exps)
             }
@@ -411,21 +418,17 @@ function parseFile(file, callback) {
                 right.push(parseArray())
                 return new attribute(right,exp5Helper())
             }
-            if (at('id')) {
-                if (match('(')) {
-                    tokenIndex--
-                    right.push(parseMethodCall())
-                }else{
-                    right.push(tokens[tokenIndex-1].lexeme)
-                }
+            if (match('(')) {
+                tokenIndex--
+                right.push(parseMethodCall())
                 return new attribute(right,exp5Helper())
             }
             return undefined
         }
 
         function parseExp6() {
-            var left = null
-            var right = null
+            var left
+            var right
             if (at('scope')) {
                 var op = tokens[tokenIndex-1].lexeme
                 right = parseExp7()
