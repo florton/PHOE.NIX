@@ -2,11 +2,11 @@ var initialContext = require('../analyzer.js').initialContext
 var HashMap = require('hashmap').HashMap
 
 function Block(statements) {
-  this.statements = statements;
+  this.statements = statements
 }
 
 Block.prototype.toString = function () {
-  return '(Block ' + this.statements.join(' ') + ')'
+  return '(Block ' + this.statements.join('\n') + ')'
 }
 
 Block.prototype.analyze = function (context) {
