@@ -22,7 +22,8 @@ var VariableDeclaration = require("./entities/variableDeclaration.js")
 var elseStatement = require("./entities/elseStatement.js")
 var whileStatement = require("./entities/whileStatement.js")
 var functionDeclaration = require("./entities/functionDeclaration.js")
-
+var promptStatement = require("./entities/promptStatement.js")
+var returnStatement = require("./entities/returnStatement.js")
 
 if (process.argv.length > 2) {
     parseFile(process.argv[2], function () {})
@@ -39,7 +40,7 @@ function parseFile(file, callback) {
     scanner(file, function (tokens) {
         //main
         var tokenIndex = 0
-        var indents = [-1, 0]
+        var indents = [0, 0]
         while (tokenIndex < tokens.length - 1) {
             script = parseScript()
             if(!script){callback(false)}
@@ -48,7 +49,7 @@ function parseFile(file, callback) {
         callback(script)
 
         function parseScript() {
-            indentLevel()
+            indents[0]-=2
             block = parseBlock()
             if (!block) {
                 error(" Invalid token", 
@@ -67,8 +68,7 @@ function parseFile(file, callback) {
                 do {
                     var stmt = parseStatement()
                     if(stmt){statements.push(stmt)}
-                    else{return false}
-                } while (!match('EOF') || indents[1] >= indents[0])
+                } while (!at('EOF') && indents[1] >= indents[0])
                 return new Block(statements)
             }
             return false
@@ -173,6 +173,7 @@ function parseFile(file, callback) {
             var expressions=[]
             expressions.push(parseExp())
             if(!expressions[0]){return false}
+            parseEnd()
             return new printStatement(expressions)
         }
 
@@ -181,7 +182,8 @@ function parseFile(file, callback) {
             var expressions=[]
             expressions.push(parseExp())
             if(!expressions[0]){return false}
-            return new printStatement(expressions)
+            parseEnd()
+            return new promptStatement(expressions)
         }
 
         function parseReturnStatement() {
@@ -189,7 +191,8 @@ function parseFile(file, callback) {
             var expressions=[]
             expressions.push(parseExp())
             if(!expressions[0]){return false}
-            return new printStatement(expressions)
+            parseEnd()
+            return new returnStatement(expressions)
         }
 
         function parseMemberDeclaration() {
@@ -227,7 +230,6 @@ function parseFile(file, callback) {
             tokenIndex--
             var assmt = parseAssignmentStatement()
             return new VariableDeclaration(varType,name,assmt)
-            return false
         }
 
         function parseFunctionDec() {
