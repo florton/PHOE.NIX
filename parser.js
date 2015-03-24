@@ -84,7 +84,7 @@ function parseFile(file, callback) {
                     if (stmt) {
                         statements.push(stmt)
                     }
-                } while (!at('EOF') && indents[1] >= indents[0])
+                } while (!match('EOF') && indents[1] >= indents[0])
                 return new Block(statements)
             }
             return false
@@ -101,6 +101,7 @@ function parseFile(file, callback) {
                 if(!match('EOF')){
                     indents = [indents[1], 0]
                     indentLevel()
+                    
                 }
                 return true
             }
@@ -115,7 +116,7 @@ function parseFile(file, callback) {
                 tokenIndex++
             }
             if (type === tokens[tokenIndex].type) {
-                console.log("found: " + tokens[tokenIndex].type + tokens[tokenIndex].lexeme)
+                console.log("found: " + tokens[tokenIndex].type + " " + tokens[tokenIndex].lexeme)
                 tokenIndex++
                 return true
             } else {
@@ -217,8 +218,10 @@ function parseFile(file, callback) {
             if (!expressions[0]) {
                 return false
             }
-            parseEnd()
-            return new returnStatement(expressions)
+            if(parseEnd()){
+                return new returnStatement(expressions)
+            }
+            return false
         }
 
         function parseMemberDeclaration() {
@@ -331,7 +334,6 @@ function parseFile(file, callback) {
             var statement = parseStatement()
             at('while')
             var condition = parseExp()
-            console.log(tokens[tokenIndex].line_pos)
             if (!at('colon')) {
                 return false
             }
