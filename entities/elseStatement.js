@@ -3,7 +3,7 @@ function elseStatement(block){
 }
 
 elseStatement.prototype.toString = function () {
-    return "else" + "\n" + block.toString()
+    return "else" + "\n" + this.block.toString()
 }
 
 module.exports = elseStatement
