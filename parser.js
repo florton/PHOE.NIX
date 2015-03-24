@@ -97,7 +97,6 @@ function parseFile(file, callback) {
         }
 
         function parseEnd() {
-            console.log("parse end")
             if (at('EOL')) {
                 if(!match('EOF')){
                     indents = [indents[1], 0]
@@ -141,9 +140,7 @@ function parseFile(file, callback) {
             } else if (match('type')) {
                 return parseType()
             } else if (match('id')) {
-                console.log("sup")
                 var stmt = parseMethodCall()
-                console.log("here too!")
                 if(parseEnd()){return stmt}
             } else if (match('while')) {
                 return parseWhileStatement()
@@ -180,7 +177,6 @@ function parseFile(file, callback) {
                     }
                     args.push(parseExp())
                 }
-                console.log("im here!")
                 return new methodCall(names, args)
             }
             tokenIndex = startIndex
@@ -459,7 +455,6 @@ function parseFile(file, callback) {
                 right = parseMethodCall()
                 return new attribute(right, parseExp5())
             }
-            console.log(left + "\n" + right)
             if(right!=''){left = attribute(left, right)}
             return left
         }
