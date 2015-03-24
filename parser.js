@@ -28,7 +28,7 @@ var Script = require("./entities/script.js")
 var MemberDeclaration = require("./entities/MemberDeclaration.js")
 var scope = require("./entities/scope.js")
 var doStatement = require("./entities/doStatement.js")
-var classDec = require("./entities/classDec.js")
+var ClassDec = require("./entities/classDec.js")
 
 if (process.argv.length > 2) {
     parseFile(process.argv[2], function() {})

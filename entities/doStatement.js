@@ -6,3 +6,5 @@ function doStatement(condition,block){
 doStatement.prototype.toString = function(){
 	return "do " + "\n" + this.block.toString() + "\n" + "while" + this.condition.toString()
 }
+
+module.exports = doStatement
