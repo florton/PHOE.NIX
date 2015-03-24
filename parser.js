@@ -24,6 +24,8 @@ var whileStatement = require("./entities/whileStatement.js")
 var functionDeclaration = require("./entities/functionDeclaration.js")
 var promptStatement = require("./entities/promptStatement.js")
 var returnStatement = require("./entities/returnStatement.js")
+var Script = require("./entities/script.js")
+var MemberDeclaration = require("./entities/MemberDeclaration.js")
 
 if (process.argv.length > 2) {
     parseFile(process.argv[2], function () {})
@@ -42,11 +44,11 @@ function parseFile(file, callback) {
         var tokenIndex = 0
         var indents = [0, 0]
         while (tokenIndex < tokens.length - 1) {
-            script = parseScript()
+            var script = parseScript()
             if(!script){callback(false)}
         }
         console.log("you did it!")
-        callback(script)
+        callback(true)
 
         function parseScript() {
             indents[0]-=2
@@ -59,7 +61,7 @@ function parseFile(file, callback) {
                 ) 
                 return false
             }           
-            return block
+            return new Script(block)
         }
         
         function parseBlock() {
