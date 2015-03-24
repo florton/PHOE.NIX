@@ -443,7 +443,9 @@ function parseFile(file, callback) {
 
         function parseExp5() {
             var left = parseExp6()
-            return new attribute(left, exp5Helper())
+            var right = exp5Helper()
+            if(right!=undefined){left = new attribute(left, right)}
+            return left
         }
 
         function exp5Helper() {
