@@ -98,8 +98,10 @@ function parseFile(file, callback) {
 
         function parseEnd() {
             if (at('EOL')) {
-                indents = [indents[1], 0]
-                indentLevel()
+                if(!match('EOF')){
+                    indents = [indents[1], 0]
+                    indentLevel()
+                }
                 return true
             }
         }
@@ -116,7 +118,6 @@ function parseFile(file, callback) {
                 tokenIndex++
                 return true
             } else {
-                console.log(type)
                 return false
             }
         }
@@ -328,6 +329,7 @@ function parseFile(file, callback) {
             var statement = parseStatement()
             at('while')
             var condition = parseExp()
+            console.log(tokens[tokenIndex].line_pos)
             if (!at('colon')) {
                 return false
             }
