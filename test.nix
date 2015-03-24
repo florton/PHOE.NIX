@@ -33,7 +33,7 @@ string userIn
 prompt userIn
 //user enters "hello"
 
-//The standard output (cout) is "print"
+//The standard output (cout) is "print"     
 
 print userIn
 

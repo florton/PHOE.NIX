@@ -104,20 +104,22 @@ function parseFile(file, callback) {
                 }
                 return true
             }
+            return false
         }
 
         function at(type) {
             if (tokenIndex == tokens.length) {
                 return
             }
-            while (tokens[tokenIndex].type === 'comment' || (tokens[tokenIndex].type === 'indent' && type !== 'indent')) {
+            while (tokens[tokenIndex].type === 'comment' || (tokens[tokenIndex].type === 'indent' && type !== 'indent' && type !== 'EOF')) {
                 tokenIndex++
             }
             if (type === tokens[tokenIndex].type) {
-                console.log(tokens[tokenIndex].lexeme)
+                console.log("found: " + tokens[tokenIndex].type + tokens[tokenIndex].lexeme)
                 tokenIndex++
                 return true
             } else {
+                console.log("->"+type)
                 return false
             }
         }
