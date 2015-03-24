@@ -323,7 +323,7 @@ function parseFile(file, callback) {
                     exp = parseExp()
                 } 
             }
-            else{if(at('fixop')){exp = ''}} 
+            if(at('fixop')||exp===undefined){exp = ''}
             
             return new assignmentStatement(names, operator, exp)
 
