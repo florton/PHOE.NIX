@@ -161,7 +161,7 @@ function parseFile(file, callback) {
             } else if (match('return')) {
                 return parseReturnStatement()
             } else {
-                return parseEnd()
+                parseEnd()
             }
         }
 
