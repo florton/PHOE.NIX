@@ -3,6 +3,6 @@ function classDec(name,block){
 	this.block = block
 }
 
-classDec.prototype.toString(){
-	
+classDec.prototype.toString = function(){
+   return "class " + this.name + "\n" + this.block.toString()	
 }
