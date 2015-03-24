@@ -3,7 +3,7 @@ function promptStatement(exps){
 }
 
 promptStatement.prototype.toString = function () {
-    return "prompt " + this.exps.toString()
+    return "(prompt " + this.exps.toString() + ")"
 }
 
 module.exports = promptStatement

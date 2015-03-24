@@ -5,7 +5,7 @@ function varDec(type,name,exp){
 }
 
 varDec.prototype.toString = function () {
-    return this.type + " " + this.op + " " + this.right
+    return "(varDec"+ this.type + " " + this.op + " " + this.right+")"
 }
 
 module.exports = varDec

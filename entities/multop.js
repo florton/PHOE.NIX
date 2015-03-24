@@ -5,7 +5,7 @@ function multop(left,op,right){
 }
 
 multop.prototype.toString = function () {
-    return this.left + this.op + this.right
+    return "(multop"+this.left + this.op + this.right+")"
 }
 
 module.exports = multop

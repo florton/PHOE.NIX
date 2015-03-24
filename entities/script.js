@@ -5,7 +5,7 @@ function script(block){
 }
 
 script.prototype.toString = function () {
-    return this.block.toString()
+    return "(script"+this.block.toString() + ")"
 }
 
 module.exports = script

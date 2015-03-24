@@ -5,7 +5,7 @@ function scope(left,op,right){
 }
 
 scope.prototype.toString = function(){
-	return this.left + this.op + this.right
+	return "(scope"+this.left + this.op + this.right +")"
 }
 
 module.exports = scope

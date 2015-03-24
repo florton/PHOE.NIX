@@ -4,7 +4,7 @@ function IfStatement(condition,block){
 }
 
 IfStatement.prototype.toString = function () {
-    return "if " + this.condition.toString() + "\n" + this.block.toString()
+    return "(if " + this.condition.toString() + "\n" + this.block.toString() +")"
 }
 
 module.exports = IfStatement

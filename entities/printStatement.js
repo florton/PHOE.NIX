@@ -3,7 +3,7 @@ function printStatement(exps){
 }
 
 printStatement.prototype.toString = function () {
-    return "print " + this.exps.toString()
+    return "(print " + this.exps.toString() +")"
 }
 
 module.exports = printStatement

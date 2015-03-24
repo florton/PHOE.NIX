@@ -4,7 +4,7 @@ function methodDec(access,block){
 }
 
 methodDec.prototype.toString = function () {
-    return this.access.toString() + "\n" + this.block.toString() 
+    return "(methoddec"+this.access.toString() + "\n" + this.block.toString() +")"
 }
 
 module.exports = methodDec

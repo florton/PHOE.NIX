@@ -6,7 +6,7 @@ function funcDec(type,name,params,block){
 }
 
 funcDec.prototype.toString = function () {
-    return this.type + " " + this.name + " " + this.params.toString() + "\n" + this.block.toString() 
+    return "(function"+this.type + " " + this.name + " " + this.params.toString() + "\n" + this.block.toString() +")"
 }
 
 module.exports = funcDec

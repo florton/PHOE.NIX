@@ -4,7 +4,7 @@ function prefixop(op,exp){
 }
 
 prefixop.prototype.toString = function () {
-    return this.op + this.exp.toString()
+    return "(prefixop"+this.op + this.exp.toString() +")"
 }
 
 module.exports = prefixop

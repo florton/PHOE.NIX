@@ -5,7 +5,7 @@ function addop(left,op,right){
 }
 
 addop.prototype.toString = function () {
-    return this.left + this.op + this.right
+    return "(addop"+ this.left + this.op + this.right + ")"
 }
 
 module.exports = addop
