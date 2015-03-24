@@ -82,7 +82,7 @@ function parseFile(file, callback) {
                 do {
                     var stmt = parseStatement()
                     if (stmt) {
-                        statements.push(stmt)
+                        if(stmt!==true)statements.push(stmt)
                     }
                 } while (!match('EOF') && indents[1] >= indents[0])
                 return new Block(statements)
@@ -161,7 +161,7 @@ function parseFile(file, callback) {
             } else if (match('return')) {
                 return parseReturnStatement()
             } else {
-                parseEnd()
+                return parseEnd()
             }
         }
 
