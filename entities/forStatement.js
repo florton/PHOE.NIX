@@ -6,7 +6,7 @@ function forStatement(statement,condition,incrementer,block){
 }
 
 forStatement.prototype.toString = function () {
-    return "(for " + this.statement.toString() + " while " + this.condition.toString() + 
+    return "(for: " + this.statement.toString() + " while " + this.condition.toString() + 
     " : " + this.incrementer.toString() + "\n" + this.block.toString()+")"
 }
 

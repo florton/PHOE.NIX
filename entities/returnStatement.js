@@ -3,7 +3,7 @@ function returnStatement(exps){
 }
 
 returnStatement.prototype.toString = function () {
-    return "(return " + this.exps.toString() + ")"
+    return "(return: " + this.exps.toString() + ")"
 }
 
 module.exports = returnStatement

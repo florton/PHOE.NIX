@@ -4,7 +4,7 @@ function whileStatement(condition,block){
 }
 
 whileStatement.prototype.toString = function () {
-    return "(while " + this.condition.toString() + "\n" + this.block.toString() +")"
+    return "(while: " + this.condition.toString() + "\n" + this.block.toString() +")"
 }
 
 module.exports = whileStatement

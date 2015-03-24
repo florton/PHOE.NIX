@@ -5,7 +5,7 @@ function assignmentStatement(names,operator,exp){
 }
 
 assignmentStatement.prototype.toString = function () {
-    return "(assignmentStatement"+ this.names.toString() + this.operator + this.exp+ ")"
+    return "(assignmentStatement: "+ this.names.toString() + this.operator + this.exp+ ")"
 }
 
 module.exports = assignmentStatement

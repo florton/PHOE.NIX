@@ -4,7 +4,7 @@ function methodCall(name,args){
 }
 
 methodCall.prototype.toString = function () {
-    return "methodCall"+this.name.toString + "(" + this.args.toString() + ")"+")"
+    return "methodCall: " + "("+ this.name.toString() + "(" + this.args.toString() + ")"+")"
 }
 
 module.exports = methodCall

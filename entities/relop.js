@@ -5,7 +5,7 @@ function relop(left,op,right){
 }
 
 relop.prototype.toString = function () {
-    return "(relop"+this.left + this.op + this.right + ")"
+    return "(relop: "+this.left + this.op + this.right + ")"
 }
 
 module.exports = relop

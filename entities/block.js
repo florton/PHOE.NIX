@@ -3,7 +3,7 @@ function Block(statements) {
 }
 
 Block.prototype.toString = function () {
-  return '(Block ' + this.statements.join('\n') + ")"
+  return '(Block: ' + this.statements.join('\n') + ")"
 }
 
 Block.prototype.analyze = function (context) {

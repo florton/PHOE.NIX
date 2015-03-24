@@ -3,7 +3,7 @@ function arrayIndex(exps){
 }
 
 arrayIndex.prototype.toString = function () {
-    return "(arrayIndex" + this.exps.toString() + ")"
+    return "(arrayIndex: " + this.exps.toString() + ")"
 }
 
 module.exports = arrayIndex

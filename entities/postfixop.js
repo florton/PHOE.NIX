@@ -4,7 +4,7 @@ function postfixop(exp, op){
 }
 
 postfixop.prototype.toString = function () {
-    return "(postfixop"+this.exp.toString() + this.op+")"
+    return "(postfixop: "+this.exp.toString() + this.op+")"
 }
 
 module.exports = postfixop
