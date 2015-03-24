@@ -28,7 +28,7 @@ var Script = require("./entities/script.js")
 var MemberDeclaration = require("./entities/MemberDeclaration.js")
 var scope = require("./entities/scope.js")
 var doStatement = require("./entities/doStatement.js")
-var ClassDec = require("./entities/classDec.js")
+var classDec = require("./entities/classDec.js")
 
 if (process.argv.length > 2) {
     parseFile(process.argv[2], function() {})
@@ -55,7 +55,7 @@ function parseFile(file, callback) {
                 }
             }
             console.log("you did it!")
-            callback(true)
+            callback(script.toString())
         }
 
         function parseScript() {
@@ -237,7 +237,7 @@ function parseFile(file, callback) {
             at('id')
             if (parseEnd()) {
                 var block = parseBlock()
-                return new ClassDec(name, block)
+                return new classDec(name, block)
             }
             return false
         }
