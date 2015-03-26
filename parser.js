@@ -54,7 +54,6 @@ function parseFile(file, callback) {
                     callback(false)
                 }
             }
-            //console.log("you did it!"+"\n")
             callback(script.toString())
         }
 
@@ -63,7 +62,7 @@ function parseFile(file, callback) {
             do {
                 var stmt = parseStatement()
                 if (stmt) {
-                    block.push(stmt)
+                    if(stmt!==true)block.push(stmt)
                 }else{
                     error(" Invalid token",
                     tokens[tokenIndex].line_num,
@@ -73,7 +72,7 @@ function parseFile(file, callback) {
                 }
             } while (!at('EOF'))
 
-            return new Script(block)
+            return new Block(block)
         }
 
         function parseBlock() {
@@ -316,27 +315,24 @@ function parseFile(file, callback) {
             do {
                 names.push(parseAtttribute())
             } while (at('comma'))
+
             var operator = tokens[tokenIndex].lexeme
             var exp
             if(at('assop')){
-                if (!match('EOL')) {
-                    exp = parseExp()
-                } 
+                if (!match('EOL')) {exp = parseExp()} 
             }
-            if(at('fixop')||exp===undefined){exp = ''}
-            
+            if(at('fixop')||exp===undefined){exp = ''}            
             return new assignmentStatement(names, operator, exp)
 
         }
 
         function parseForStatement() {
             at('for')
-            var statement = parseStatement()
+            if(match('type')){var statement = parseType()}
+            else {var statement = parseAssignmentStatement()}
             at('while')
             var condition = parseExp()
-            if (!at('colon')) {
-                return false
-            }
+            if (!at('colon')) {return false}
             var incrementer = parseAssignmentStatement()
             parseEnd()
             var block = parseBlock()

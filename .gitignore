@@ -46,3 +46,4 @@ photest.nix
 parser2.js
 scanner2.js
 node_modules
+test/test-parser.js
