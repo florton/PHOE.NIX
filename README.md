@@ -280,10 +280,10 @@
 	Access ::= 'private' | 'public'
 	Type ::= 'void' | 'int' | 'double' | 'string' | 'bool' | 'func'
 	ForStmt ::= 'for' AssmtStmt 'while' Exp ':' AssmtStmt Block
-	DoStmt ::= 'do' Block WhileStmt 
+	DoStmt ::= 'do' Block 'while' Exp 
 	WhileStmt ::= 'while' Exp Block
 	IfStmt ::= 'if' Exp Block
-	IfElseStmt ::= IfStmt 'else' Exp Block
+	ElseStmt ::='else'('if' Exp)? Block
 	AssmtStmt ::= id AssOp Exp 
 	FuncDec ::= Type id'(' (type id)? (',' type id)* ')' Block?
 	PrintStmt ::= 'print' Exp
