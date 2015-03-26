@@ -1,0 +1,31 @@
+//photest.nix
+int makeChange(int x)
+    int x = 5
+    int coins[4]
+    for int x[5] = [1,2,3] while x < 4 : x++
+        if x==0
+            print x
+            coins[0]= x/25.5
+            coins[3] = x % 25
+            coins[1] = coins[3]/10
+            coins[3] /= 10
+    
+                return coins //this is a comment 
+                
+makeChange(302)
+
+
+C:\PHOE.NIX>node phoenix.js photest.nix
+(Block: (function: int makeChange (varDec: int x )
+(Block: (varDec: int x (assignmentStatement: x=5))
+(varDec: int coins (assignmentStatement: (attribute: coins(Array: 4))
+))
+(for: (varDec: int x (assignmentStatement: (attribute: x(Array: 5))=(Array: 1,2,3))) while (relop: x<4) : (assignmentStatement: x++)
+(Block: (if: (relop: x==0)
+(Block: (print: x)
+(assignmentStatement: (attribute: coins(Array: 0))=(multop: x/25.5))
+(assignmentStatement: (attribute: coins(Array: 3))=(multop: x%25))
+(assignmentStatement: (attribute: coins(Array: 1))=(multop: (attribute: coins(Array: 3))/10))
+(assignmentStatement: (attribute: coins(Array: 3))/=10)
+(return: coins)))))))
+methodCall: (makeChange(302)))
