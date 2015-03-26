@@ -56,6 +56,13 @@ function parseFile(file, callback) {
             }
             callback(script.toString())
         }
+        
+        function throwError(){
+            error(" Invalid token",
+            tokens[tokenIndex].line_num,
+            tokens[tokenIndex].line_pos,
+            tokens[tokenIndex].lexeme)
+        }
 
         function parseScript() {
             var block = []
@@ -64,10 +71,7 @@ function parseFile(file, callback) {
                 if (stmt) {
                     if(stmt!==true)block.push(stmt)
                 }else{
-                    error(" Invalid token",
-                    tokens[tokenIndex].line_num,
-                    tokens[tokenIndex].line_pos,
-                    tokens[tokenIndex].lexeme)
+                    throwError()
                     return false
                 }
             } while (!at('EOF'))
@@ -140,7 +144,9 @@ function parseFile(file, callback) {
                 return parseType()
             } else if (match('id')) {
                 var stmt = parseMethodCall()
-                if(parseEnd()){return stmt}
+                if(parseEnd()){
+                    return stmt
+                } else {return false}
             } else if (match('while')) {
                 return parseWhileStatement()
             } else if (match('if')) {
@@ -176,7 +182,9 @@ function parseFile(file, callback) {
                     }
                     args.push(parseExp())
                 }
-                return new methodCall(names, args)
+                var method = new methodCall(names, args)
+                while(at('dot')){method = new attribute(method, parseAtttribute())}
+                return method
             }
             tokenIndex = startIndex
             return parseAssignmentStatement()
@@ -185,7 +193,7 @@ function parseFile(file, callback) {
         function parseAtttribute(){
             var names =[]
             var name = (tokens[tokenIndex].lexeme)
-            at('id')
+            if(!at('id')){return false}
             if (at('dot')){
                 names.push(new attribute(name, parseAtttribute()))
             } else if (match('[')) {
@@ -204,8 +212,10 @@ function parseFile(file, callback) {
             if (!expressions[0]) {
                 return false
             }
-            parseEnd()
-            return new printStatement(expressions)
+            if(parseEnd()){
+                return new printStatement(expressions)
+            }
+            return false
         }
 
         function parsePromptStatement() {
@@ -215,8 +225,10 @@ function parseFile(file, callback) {
             if (!expressions[0]) {
                 return false
             }
-            parseEnd()
-            return new promptStatement(expressions)
+            if(parseEnd()){
+                return new promptStatement(expressions)
+            }
+            return false
         }
 
         function parseReturnStatement() {
@@ -259,7 +271,7 @@ function parseFile(file, callback) {
             var varType = tokens[tokenIndex].lexeme
             at('type')
             var name = tokens[tokenIndex].lexeme
-            at('id')
+            if(!at('id')){}
             if (match('(')) {
                 tokenIndex -= 2
                 return parseFunctionDec()
@@ -296,15 +308,20 @@ function parseFile(file, callback) {
             if (at('[')) {
                 var exps = []
                 while (at('comma') || !at(']')) {
-                    if (at('comma')) {
-                        exps.push('')
-                        continue
+                    if(match('[')){
+                        var arr = parseArray()
+                        if(arr){
+                            exps.push(arr)
+                        }else {return false}
                     }
-                    exps.push(parseExp())
+                    while (at('comma')) {
+                        exps.push('')
+                    }
+                    if(!match(']')){exps.push(parseExp())}
                 }
-                if (match('[')) {
+                    if (match('[')) {
                     exps.push(parseArray())
-                }
+                }             
                 return new arrayIndex(exps)
             }
             return false
@@ -313,7 +330,9 @@ function parseFile(file, callback) {
         function parseAssignmentStatement() {
             var names = []
             do {
-                names.push(parseAtttribute())
+                var attr = parseAtttribute()
+                if(attr){names.push()}
+                else{return false}
             } while (at('comma'))
 
             var operator = tokens[tokenIndex].lexeme
@@ -333,7 +352,7 @@ function parseFile(file, callback) {
             var condition = parseExp()
             if (!at('colon')) {return false}
             var incrementer = parseAssignmentStatement()
-            parseEnd()
+            if(!parseEnd()){return false}
             var block = parseBlock()
             return new forStatement(statement, condition, incrementer, block)
         }
@@ -364,7 +383,7 @@ function parseFile(file, callback) {
             if (parseEnd()) {
                 var block = parseBlock()
                 while (!match('while')) {
-                    parseStatement()
+                    if(!parseStatement()){return false}
                 }
                 at('while')
                 var condition = parseExp()
@@ -439,18 +458,21 @@ function parseFile(file, callback) {
 
         function parseExp5() {
             var left = parseExp6()
+            if(!left){throwError()}           
             var right = ''
             if (at('dot')) {
-                right = new attribute(right,parseExp5())
+                return new attribute(left, parseExp5())               
             } else if (match('[')) {
                 right = parseArray()
-                right = new attribute(right,parseExp5())
+                left = new attribute(left, right)
+                if(at('dot')){
+                    return new attribute(left, parseExp5())
+                }  
             } else if (match('(')) {
                 tokenIndex--
                 right = parseMethodCall()
-                return new attribute(right, parseExp5())
+                return new attribute(right,parseExp5())
             }
-            if(right!=''){left = attribute(left, right)}
             return left
         }
 
