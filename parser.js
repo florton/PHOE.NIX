@@ -271,7 +271,7 @@ function parseFile(file, callback) {
             var varType = tokens[tokenIndex].lexeme
             at('type')
             var name = tokens[tokenIndex].lexeme
-            if(!at('id')){}
+            if(!at('id')){return false}
             if (match('(')) {
                 tokenIndex -= 2
                 return parseFunctionDec()
