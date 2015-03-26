@@ -30,7 +30,7 @@ var tokens = [];
 // allows to be run individually with filepath as the first arg
 if (process.argv.length > 2) {
     readFile(file, function(arr) {
-       console.log(arr);
+       //console.log(arr);
     });
 }
 //call back necessary since fs.readFile is async 

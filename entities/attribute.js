@@ -4,7 +4,7 @@ function attribute(left,right){
 }
 
 attribute.prototype.toString = function () {
-    return "(attribute: "+this.left.toString() + "." + this.right.toString() + ")"
+    return "(attribute: "+this.left.toString() + this.right.toString() + ")"
 }
 
 module.exports = attribute

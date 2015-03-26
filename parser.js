@@ -54,7 +54,7 @@ function parseFile(file, callback) {
                     callback(false)
                 }
             }
-            console.log("you did it!"+"\n")
+            //console.log("you did it!"+"\n")
             callback(script.toString())
         }
 
@@ -116,11 +116,11 @@ function parseFile(file, callback) {
                 tokenIndex++
             }
             if (type === tokens[tokenIndex].type) {
-                console.log("found: " + tokens[tokenIndex].type + " " + tokens[tokenIndex].lexeme)
+                //console.log("found: " + tokens[tokenIndex].type + " " + tokens[tokenIndex].lexeme)
                 tokenIndex++
                 return true
             } else {
-                console.log("->"+type)
+                //console.log("->"+type)
                 return false
             }
         }
@@ -298,7 +298,7 @@ function parseFile(file, callback) {
                 var exps = []
                 while (at('comma') || !at(']')) {
                     if (at('comma')) {
-                        exps.push("")
+                        exps.push('')
                         continue
                     }
                     exps.push(parseExp())
