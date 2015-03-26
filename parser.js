@@ -331,7 +331,7 @@ function parseFile(file, callback) {
             var names = []
             do {
                 var attr = parseAtttribute()
-                if(attr){names.push()}
+                if(attr){names.push(attr)}
                 else{return false}
             } while (at('comma'))
 
@@ -460,18 +460,13 @@ function parseFile(file, callback) {
             var left = parseExp6()
             if(!left){throwError()}           
             var right = ''
-            if (at('dot')) {
-                return new attribute(left, parseExp5())               
-            } else if (match('[')) {
-                right = parseArray()
-                left = new attribute(left, right)
-                if(at('dot')){
-                    return new attribute(left, parseExp5())
-                }  
-            } else if (match('(')) {
+            if (match('(')) {
                 tokenIndex--
-                right = parseMethodCall()
-                return new attribute(right,parseExp5())
+                left = parseMethodCall()
+            }
+            if(at('dot')){
+                var attr = parseAtttribute()
+                if(attr){return new attribute(left, right)}
             }
             return left
         }
