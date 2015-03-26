@@ -289,12 +289,15 @@ function parseFile(file, callback) {
             at('id')
             at('(')
             var params = []
-            while (at('type')) {
-                params.push(tokens[tokenIndex].lexeme)
+            while (match('type')) {
+                var paramtype = tokens[tokenIndex].lexeme
+                at('type')
+                var paramname = tokens[tokenIndex].lexeme
                 if (!at('id')) {
                     return false
                 }
                 at('comma')
+                params.push(new VariableDeclaration(paramtype, paramname, ''))
             }
             at(')')
             if (parseEnd()) {
