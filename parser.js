@@ -82,7 +82,7 @@ function parseFile(file, callback) {
                     var stmt = parseStatement()
                     if (stmt) {
                         if(stmt!==true)statements.push(stmt)
-                    }
+                    }else {return false}
                 } while (!match('EOF') && indents[1] >= indents[0])
                 return new Block(statements)
             }
@@ -320,10 +320,9 @@ function parseFile(file, callback) {
             var exp
             if(at('assop')){
                 if (!match('EOL')) {exp = parseExp()} 
-            }
-            if(at('fixop')||exp===undefined){exp = ''}            
+                if (!exp){return false}
+            }else if(at('fixop')||exp===undefined){exp = ''}                  
             return new assignmentStatement(names, operator, exp)
-
         }
 
         function parseForStatement() {
