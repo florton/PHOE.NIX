@@ -1,0 +1,19 @@
+{
+  "name": "PHOE.NIX",
+  "version": "0.1.0",
+  "description": "A compiler for the Phoenix programming language",
+  "dependencies": {
+    "byline": "latest",
+    "hashmap": "latest",
+    "requirejs": "latest",
+    "yargs": "latest",
+    "xregexp": "latest"
+  },
+  "devDependencies": {
+    "mocha": "latest",
+    "should": "latest"
+  },
+  "scripts": {
+    "test": "mocha"
+  }
+}
