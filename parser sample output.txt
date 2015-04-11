@@ -5,7 +5,7 @@ int makeChange(int x)
     for int x[5] = [1,2,3] while x < 4 : x++
         if x==0
             print x
-            coins[0]= x/25.5
+            coins[0] = x/25.5
             coins[3] = x % 25
             coins[1] = coins[3]/10
             coins[3] /= 10
