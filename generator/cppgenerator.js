@@ -101,7 +101,7 @@ var generator = {
     }
 
     'arrayIndex' : function(array){
-
+        
     }
 
     'attribute' : function(attr){
