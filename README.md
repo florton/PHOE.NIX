@@ -3,7 +3,7 @@
 
 ####Like the legend of the Phoenix, we understand that C++ is an extremely powerful programming language, but are also aware that it is difficult for modern programmers to adopt. In the spirit of modern syntactical languages like Python, with Phoenix we attempt to retain the functionality of C++ while making it much simpler for the programmer to write.
 
-####Phoenix files end in `.nix` and are compiled down into a C++11 `.cpp` file and a `.h` header. Our initial goal is primary functionality, but we will continue to expand and have been discussing ways  to eventually allow all valid C++ code, however, in the alpha version, only what is specified within the Phoenix Documentation will be valid Phoenix code. Using the `<extern>` scope will allow cpp classes and functions to be used
+####Phoenix files end in `.nix` and are compiled down into a C++11 `.cpp` file and a `.h` header. Our initial goal is primary functionality, but we will continue to expand and have been discussing ways  to eventually allow all valid C++ code, however, in the alpha version, only what is specified within the Phoenix Documentation will be valid Phoenix code. 
 
 ##Basic Syntax
 	//Comments start with double backslash
@@ -32,10 +32,6 @@
 
 	//strings can be added together 
 	string str = "First part of the string" + "second part of the string"
-
-	//Multiple assignments
-	int x,y = 5
-	double a,b,c,d
 
 
 ###Arrays
@@ -158,15 +154,6 @@
 	int b = 6
 	a :=: b
 	//now a = 6 and b = 5
-
-
-##C++ standard library use
-	//methods and classes used in the standard c++ 11 library can be used by scoping them
-	//with the "<extern>" keyword just as you would use "std::" in c++
-	
-	//such as 
-
-	<extern>::map<string, int> wordcounts
 
 
 ##Examples
