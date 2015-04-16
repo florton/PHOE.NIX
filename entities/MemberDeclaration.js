@@ -3,8 +3,8 @@ function memberDec(access,block){
     this.block = block
 }
 
-methodDec.prototype.toString = function () {
-    return "(methoddec: "+this.access.toString() + "\n" + this.block.toString() +")"
+memberDec.prototype.toString = function () {
+    return "(memberDec: "+this.access.toString() + "\n" + this.block.toString() +")"
 }
 
-module.exports = methodDec
+module.exports = memberDec

@@ -3,8 +3,8 @@ function ifStatement(condition,block){
     this.block = block
 }
 
-IfStatement.prototype.toString = function () {
+ifStatement.prototype.toString = function () {
     return "(if: " + this.condition.toString() + "\n" + this.block.toString() +")"
 }
 
-module.exports = IfStatement
+module.exports = ifStatement

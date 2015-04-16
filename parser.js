@@ -331,12 +331,13 @@ function parseFile(file, callback) {
         }
 
         function parseAssignmentStatement() {
-            var names = []
-            do {
-                var attr = parseAtttribute()
-                if(attr){names.push(attr)}
-                else{return false}
-            } while (at('comma'))
+            var name = ''
+            var attr = parseAtttribute()
+            if(attr){
+                name=attr
+            }else{
+                return false
+            }
 
             var operator = tokens[tokenIndex].lexeme
             var exp
@@ -344,7 +345,7 @@ function parseFile(file, callback) {
                 if (!match('EOL')) {exp = parseExp()} 
                 if (!exp){return false}
             }else if(at('fixop')||exp===undefined){exp = ''}                  
-            return new assignmentStatement(names, operator, exp)
+            return new assignmentStatement(name, operator, exp)
         }
 
         function parseForStatement() {
@@ -376,7 +377,7 @@ function parseFile(file, callback) {
             var condition = parseExp()
             if (parseEnd()) {
                 var block = parseBlock()
-                return new ifStatement(condition, block)
+                return new IfStatement(condition, block)
             }
             return false
         }

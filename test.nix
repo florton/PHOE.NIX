@@ -7,9 +7,9 @@ string s = "Hello"
 bool t = true
 bool f = false 
 string str = "First part of the string" + "second part of the string"
-int x,y = 5
+int y = 5
 int x
-double a,b,c,d
+
 
 //Arrays
 int x[4] = [1,2,3,4]  
