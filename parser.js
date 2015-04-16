@@ -376,7 +376,7 @@ function parseFile(file, callback) {
             var condition = parseExp()
             if (parseEnd()) {
                 var block = parseBlock()
-                return new IfStatement(condition, block)
+                return new ifStatement(condition, block)
             }
             return false
         }

@@ -1,4 +1,4 @@
-function IfStatement(condition,block){
+function ifStatement(condition,block){
     this.condition = condition
     this.block = block
 }

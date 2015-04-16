@@ -1,4 +1,4 @@
-function methodDec(access,block){
+function memberDec(access,block){
     this.access=access
     this.block = block
 }
