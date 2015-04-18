@@ -54,9 +54,7 @@ var generator = {
     },
 
     'assignmentStatement': function (statement) {
-        for(var i = 0 ; i<gen(statement.names.length);i++){
-            emit(util.format('%s %s %s;', gen(statement.names[i]), gen(statement.operator),gen(statement.exp)))
-        }
+            emit(util.format('%s %s %s;', gen(statement.name), gen(statement.operator),gen(statement.exp)))
     },
 
     'whileStatement': function (statement) {
@@ -98,19 +96,19 @@ var generator = {
 
     'addop' : function(exp){
         emit(util.format('%s %s %s', gen(exp.left), gen(exp.op), gen(exp.right)))
-    }
+    },
 
     'arrayIndex' : function(array){
         
-    }
+    },
 
     'attribute' : function(attr){
         emit(util.format('%s.%s', gen(attr.left),gen(attr.right)))
-    }
+    },
 
     'funcDec' : function(func){
-        emit(gen(func.type) + ' ' + gen(func.name) +'('+ 
-        for(var i = 0 ; i<gen(func.params.length);i++){
+        emit(gen(func.type) + ' ' + gen(func.name) +'(') 
+        emit(for(var i = 0 ; i<gen(func.params.length);i++){
             if(gen(func.params[i])=== gen(func.params.length-1)){
                 gen(func.params[i])
             }else{
@@ -119,67 +117,70 @@ var generator = {
         } + ')')
         emit(gen(func.block))
         emit('}')
-    }
+    },
 
     'memberDec' : function(declaration){
         emit(gen(declaration.access)+':')
         gen(statement.block)
         emit('}')
-    }
+    },
 
     'methodCall' : function(method){
-        emit(gen(method.name)+'('+
-        for(var i = 0 ; i<gen(method.args.length);i++){
+        emit(gen(method.name)+'(')
+        emit(for(var i = 0 ; i<gen(method.args.length);i++){
             if(gen(method.args[i])=== gen(method.args.length-1)){
                 gen(method.args[i])
             }else{
                 gen(method.args[i])+','
             }
         } + ')')
-    }
+    },
 
     'printStatement' : function(statement){
-        emit('cout<< '+for(var i = 0 ; i<gen(statement.exps.length);i++){
-                           if(gen(statement.exps[i])=== gen(statement.exps.length-1)){
-                               gen(statement.exps[i])
-                           }else{
-                                gen(statement.exps[i])+'<<'
-            }   })
-    }
+        emit('cout<< ')
+        emit(for(var i = 0 ; i<gen(statement.exps.length);i++){
+            if(gen(statement.exps[i])=== gen(statement.exps.length-1)){
+                gen(statement.exps[i])
+            }else{
+                gen(statement.exps[i])+'<<'
+            }   
+        })
+    },
 
     'promptStatement' : function(statement){
         statement.exps.forEach(function (variable) {
             emit(util.format('scanf("%%d\\n", &%s);', makeVariable(variable.referent)))
         })
-    }
+    },
 
     'returnStatement' : function(statement){
-        emit(util.format('return %s;', gen(statement.exp[0])))
-    }
+        emit(util.format('return %s;', gen(statement.exp)))
+    },
 
     'varDec' : function(statement){
-        emit(util.format('%s %s %s;', gen(statement.type), makeVariable(statement.name), gen(statement.exp)))
-    }
+        emit(util.format('%s %s;', gen(statement.type), gen(statement.exp)))
+        makeVariable(statement.name)
+    },
 
     'postfixop' : function(expression){
-        util.format('(%s %s)',gen(expression.exp),gen(expression.op))
-    }
+        return util.format('%s%s',gen(expression.exp),gen(expression.op))
+    },
 
     'prefixop' : function(expression){
-        return util.format('(%s %s)',gen(expression.op),gen(expression.exp))
-    }
+        return util.format('%s%s',gen(expression.op),gen(expression.exp))
+    },
 
     'multop' : function(expression){
         return util.format('%s %s %s', gen(exp.left), gen(exp.op), gen(exp.right))
-    }
+    },
 
     'relop' : function(expression){
         return util.format('%s %s %s', gen(exp.left), gen(exp.op), gen(exp.right))
-    }
+    },
 
     'scope' : function(expression){
         return util.format('%s %s %s', gen(exp.left), gen(exp.op), gen(exp.right))
-    }
+    },
 
     'BooleanLiteral': function (literal) {
         return literal.toString()
