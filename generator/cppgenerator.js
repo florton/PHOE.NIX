@@ -13,8 +13,8 @@ function emit(line) {
   console.log(Array(pad+1).join(' ') + line)
 }
 
-function generate(node){
-    return generator[node.constructor.name](node)
+function gen(node){
+    return gen[node.constructor.name](node)
 }
 
 var makeVariable = (function () {
