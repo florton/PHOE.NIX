@@ -55,7 +55,7 @@ function parseFile(file, callback) {
                     callback(false)
                 }
             }
-            callback(script.toString())
+            callback(script)
         }
         
         function throwError(){
@@ -77,7 +77,7 @@ function parseFile(file, callback) {
                 }
             } while (!at('EOF'))
 
-            return new Block(block)
+            return new Script(new Block(block))
         }
 
         function parseBlock() {
@@ -239,7 +239,7 @@ function parseFile(file, callback) {
                 return false
             }
             if(parseEnd()){
-                return new returnStatement(expressions)
+                return new returnStatement(expression)
             }
             return false
         }

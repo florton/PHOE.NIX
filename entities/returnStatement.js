@@ -1,4 +1,4 @@
-function returnStatement(exps){
+function returnStatement(exp){
     this.exp = exp
 }
 

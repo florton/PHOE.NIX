@@ -14,7 +14,8 @@ function emit(line) {
 }
 
 function gen(node){
-    return gen[node.constructor.name](node)
+    console.log(node.constructor.name)
+    return generator[node.constructor.name](node)
 }
 
 var makeVariable = (function () {
