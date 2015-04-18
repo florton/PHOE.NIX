@@ -20,12 +20,13 @@ x[0]= 5
 //matrixes 
 
 string st[3][2]
-st = [[,],[,],[,]]
+//st = [[,],[,],[,]]
 st[0][0]=99
 st[0][1]="here I am"
-st= [[99,"here I am"],[43,2],[,]]
+//st= [[99,"here I am"],[,],[,]]
 st[2]="hello"
-st= [[,"here I am"],[,],[hello]]
+//st= [[99,"here I am"],[,],[hello]]
+
 
 //Standard IO
 

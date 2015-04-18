@@ -9,7 +9,7 @@ var argv = require('yargs')
   .argv
 
 
-//var generate = require('./generator')(argv.target)
+var generate = require('./generator/cppgenerator').generate
 var scan = require('./scanner').scan
 var parse = require('./parser').parse
 var error = require('./error')
@@ -28,5 +28,6 @@ parse(argv._[0], function (tokens) {
     console.log(program.toString())
     return
   }
-  //program.analyze()
+  program.generate()
 })
+
