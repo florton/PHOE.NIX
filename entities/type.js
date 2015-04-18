@@ -9,6 +9,7 @@ Type.bool = new Type('bool');
 Type.intLit = new Type('intLit');
 Type.stringLit = new Type('stringLit');
 Type.doubleLit = new Type('doubleLit');
+Type.ARBITRARY = new Type('<arbitrary_type>')
 Type.prototype.toString = function () {
   return this.name
 }
@@ -43,5 +44,6 @@ module.exports = {
   intLit: Type.intLit,
   stringLit: Type.stringLit,
   doubleLit: Type.doubleLit,
+  ARBITRARY: Type.ARBITRARY,
   forName: function (name) {return cache[name]}
 }

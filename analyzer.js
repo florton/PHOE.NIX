@@ -1,5 +1,5 @@
 var error = require('./error')
-//var VariableDeclaration = require('./entities/VariableDeclaration')
+var VariableDeclaration = require('./entities/variableDeclaration.js')
 
 function AnalysisContext(parent) {
   this.parent = parent
@@ -30,7 +30,7 @@ AnalysisContext.prototype.lookupVariable = function (token) {
     return variable
   } else if (!this.parent) {
     error('Variable ' + token.lexeme + ' not found', token)
-    return VariableDeclaration.ARBITRARY
+    return varDec.ARBITRARY
   } else {
     return this.parent.lookupVariable(token)
   }

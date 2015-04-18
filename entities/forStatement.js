@@ -10,4 +10,12 @@ forStatement.prototype.toString = function () {
     " : " + this.incrementer.toString() + "\n" + this.block.toString()+")"
 }
 
+forStatement.prototype.analyze = function(context){
+	this.statement.analyze(context)
+	this.condition.analyze(context)
+	this.condition.type.mustBeBoolean('Condition in "for" statement must be boolean')
+	this.incrementer.analyze(context)
+    this.body.analyze(context)
+}
+
 module.exports = forStatement
