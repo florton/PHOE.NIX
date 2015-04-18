@@ -108,43 +108,43 @@ var generator = {
 
     'funcDec' : function(func){
         emit(gen(func.type) + ' ' + gen(func.name) +'(') 
-        emit(for(var i = 0 ; i<gen(func.params.length);i++){
-            if(gen(func.params[i])=== gen(func.params.length-1)){
-                gen(func.params[i])
+        for(var i = 0 ; i<gen(func.params.length);i++){
+            if(gen(func.params[i]) === gen(func.params.length-1)){
+                emit(gen(func.params[i]))
             }else{
-                gen(func.params[i])+','
+                emit(gen(func.params[i])+',')
             }
-        } + ')')
-        emit(gen(func.block))
+        } 
+        emit(')' + gen(func.block))
         emit('}')
     },
 
     'memberDec' : function(declaration){
         emit(gen(declaration.access)+':')
         gen(statement.block)
-        emit('}')
     },
 
     'methodCall' : function(method){
         emit(gen(method.name)+'(')
-        emit(for(var i = 0 ; i<gen(method.args.length);i++){
+        for(var i = 0 ; i<gen(method.args.length);i++){
             if(gen(method.args[i])=== gen(method.args.length-1)){
-                gen(method.args[i])
+               emit(gen(method.args[i]))
             }else{
-                gen(method.args[i])+','
+                emit(gen(method.args[i])+',')
             }
-        } + ')')
+        } 
+        emit(');')
     },
 
     'printStatement' : function(statement){
         emit('cout<< ')
-        emit(for(var i = 0 ; i<gen(statement.exps.length);i++){
+        for(var i = 0 ; i<gen(statement.exps.length);i++){
             if(gen(statement.exps[i])=== gen(statement.exps.length-1)){
-                gen(statement.exps[i])
+                emit(gen(statement.exps[i])+'<< endl;')
             }else{
-                gen(statement.exps[i])+'<<'
+                emit(gen(statement.exps[i])+'<<')
             }   
-        })
+        }
     },
 
     'promptStatement' : function(statement){
