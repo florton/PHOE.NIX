@@ -1,9 +1,9 @@
 function returnStatement(exps){
-    this.exps = exps
+    this.exp = exp
 }
 
 returnStatement.prototype.toString = function () {
-    return "(return: " + this.exps.toString() + ")"
+    return "(return: " + this.exp.toString() + ")"
 }
 
 module.exports = returnStatement

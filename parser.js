@@ -234,9 +234,8 @@ function parseFile(file, callback) {
 
         function parseReturnStatement() {
             at('return')
-            var expressions = []
-            expressions.push(parseExp())
-            if (!expressions[0]) {
+            var expression = parseExp()
+            if (expression === false) {
                 return false
             }
             if(parseEnd()){
