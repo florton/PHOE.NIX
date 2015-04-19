@@ -65,7 +65,7 @@ var generator = {
     'doStatement' : function (statement) {
         emit('do {')
         gen(statement.block);
-        emit('} while('+ gen(statement.exp) +');')
+        emit('} while('+ gen(statement.condition) +');')
     },
 
     'ifStatement' : function (statement) {
