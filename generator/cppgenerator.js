@@ -96,12 +96,27 @@ var generator = {
         emit('}')
     },
 
-    'arrayIndex' : function(array){
-        
+    'arrayIndex' : function(arrayIndex){
+        var index = ""        
+        for(var i = 0 ; i< arrayIndex.exps.length;i++){
+            index += '[' + arrayIndex.exps[i] + ']'
+        }
+        return index
+    },
+    
+    'arrayLit' : function(array){
+        var list = ""        
+        for(var i = 0 ; i< array.exps.length;i++){
+            list += gen(array.exps[i])
+            if(i !== array.exps.length-1){
+                list += ', '
+            }
+        }
+        return '{'+list+'}'
     },
 
     'attribute' : function(attr){
-        emit(util.format('%s.%s', gen(attr.left),gen(attr.right)))
+        return util.format('%s %s', gen(attr.left),gen(attr.right))
     },
 
     'funcDec' : function(func){
@@ -158,8 +173,8 @@ var generator = {
 
     'varDec' : function(statement){
         var stmt = statement.exp.exp
-        if(stmt!==''){stmt = gen(statement.exp.exp)}
-        emit(util.format('%s %s %s %s;', statement.type, statement.exp.name, statement.exp.operator, stmt))
+        if(stmt!==''){stmt = gen(statement.exp.exp)} 
+        emit(util.format('%s %s %s %s;', statement.type, gen(statement.exp.name), statement.exp.operator, stmt))
         makeVariable(statement.name)
     },
 
@@ -199,7 +214,11 @@ var generator = {
         return literal.toString()
     },
 
-    'String': function (literal) {
+    'stringLit': function (literal) {
+        return literal.toString()
+    }, 
+    
+    'String' : function (literal) {
         return literal.toString()
     } 
 }

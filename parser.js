@@ -192,18 +192,21 @@ function parseFile(file, callback) {
         }
 
         function parseAtttribute(){
-            var names =[]
-            var name = (tokens[tokenIndex].lexeme)
+            var left = tokens[tokenIndex].lexeme
+            var right = ''
             if(!at('id')){return false}
-            if (at('dot')){
-                names.push(new attribute(name, parseAtttribute()))
-            } else if (match('[')) {
-                names.push(new attribute(name, parseArray("index")))
-                if(at('dot')){
-                    names.push(new attribute(name, parseAtttribute()))
+            while(match('dot')||match('[')){
+                if (at('dot')){
+                    right = parseAtttribute()
+                } else if (match('[')) {
+                    right = parseArray("index")
+                    if(at('dot')){
+                        right = parseAtttribute()
+                    }
                 }
-            } else {names.push(name)}
-            return names
+                left = new attribute(left,right)
+            }    
+            return left
         }
         
         function parsePrintStatement() {
