@@ -107,9 +107,9 @@ var generator = {
     'funcDec' : function(func){
         makeVariable(func.name)
         var params = ""        
-        for(var i = 0 ; i<gen(func.params.length);i++){
+        for(var i = 0 ; i< func.params.length;i++){
             params += gen(func.params[i])
-            if(gen(func.params[i]) !== gen(func.params.length-1)){
+            if(i !== func.params.length-1){
                 params += ', '
             }
         } 
@@ -126,9 +126,9 @@ var generator = {
     'methodCall' : function(method){
         emit(method.name+'(')
         var params = "" 
-        for(var i = 0 ; i<gen(method.args.length);i++){
+        for(var i = 0 ; i< method.args.length;i++){
             params += gen(method.args[i])
-            if(gen(method.args[i])!== gen(method.args.length-1)){
+            if(i !== method.args.length-1){
             params += ', '
             }
         } 
@@ -138,9 +138,9 @@ var generator = {
     'printStatement' : function(statement){
         emit('cout<< ')
         var exps = "" 
-        for(var i = 0 ; i<gen(statement.exps.length);i++){
+        for(var i = 0 ; i< statement.exps.length;i++){
             exps += gen(statement.exps[i])+'<<'
-            if(gen(statement.exps[i])!== gen(statement.exps.length-1)){
+            if(i !== statement.exps.length-1){
                 exps += '<< endl;'
             } 
         }
