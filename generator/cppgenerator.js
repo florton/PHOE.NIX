@@ -14,8 +14,8 @@ function emit(line) {
 }
 
 function gen(node){
-    console.log(node.constructor.name)
-    console.log(node)
+    //console.log(node.constructor.name)
+    //console.log(node)
     return generator[node.constructor.name](node)
 }
 
@@ -108,7 +108,7 @@ var generator = {
         makeVariable(func.name)
         var params = ""        
         for(var i = 0 ; i< func.params.length;i++){
-            params += gen(func.params[i])
+            params += func.params[i].type + " " + func.params[i].name
             if(i !== func.params.length-1){
                 params += ', '
             }
@@ -199,7 +199,7 @@ var generator = {
         return literal.toString()
     },
 
-    'stringLit': function (literal) {
+    'String': function (literal) {
         return literal.toString()
     } 
 }
