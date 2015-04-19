@@ -75,7 +75,7 @@ var generator = {
     },
 
     'forStatement' : function (statement) {
-        emit('for('+ gen(statement.statement) + ';'+ gen(statement.condition)+';'+gen(statement.incrementer)+') {')
+        emit('for('+ gen(statement.statement) + '; '+ gen(statement.condition)+'; '+gen(statement.incrementer)+') {')
         gen(statement.block);
         emit('}')
     },
@@ -136,7 +136,7 @@ var generator = {
     },
 
     'methodCall' : function(method){
-        emit(method.name+'(')
+        
         var params = "" 
         for(var i = 0 ; i< method.args.length;i++){
             params += gen(method.args[i])
@@ -144,7 +144,7 @@ var generator = {
             params += ', '
             }
         } 
-        emit(');')
+        emit(method.name+'(' + params + ');')
     },
 
     'printStatement' : function(statement){
