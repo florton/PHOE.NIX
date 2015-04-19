@@ -1,5 +1,5 @@
 class programming
-    private:
+    private
         int variable
 
     void input_value()
