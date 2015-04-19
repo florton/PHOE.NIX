@@ -56,7 +56,7 @@ var generator = {
     },
 
     'assignmentStatement': function (statement) {
-        emit(util.format('%s %s %s;', statement.name, statement.operator, gen(statement.exp)))
+        emit(util.format('%s %s %s;', gen(statement.name), statement.operator, gen(statement.exp)))
     },
 
     'whileStatement': function (statement) {
@@ -178,27 +178,27 @@ var generator = {
         makeVariable(statement.name)
     },
 
-    'postfixop' : function(expression){
-        return util.format('%s%s',gen(expression.exp),expression.op)
+    'postfixop' : function(exp){
+        return util.format('%s%s',gen(exp.exp),exp.op)
     },
 
-    'prefixop' : function(expression){
-        return util.format('%s%s',expression.op,gen(expression.exp))
+    'prefixop' : function(exp){
+        return util.format('%s%s',exp.op,gen(exp.exp))
     },
     
     'addop' : function(exp){
         return util.format('%s %s %s', gen(exp.left), exp.op, gen(exp.right))
     },
 
-    'multop' : function(expression){
+    'multop' : function(exp){
         return util.format('%s %s %s', gen(exp.left), exp.op, gen(exp.right))
     },
 
-    'relop' : function(expression){
+    'relop' : function(exp){
         return util.format('%s %s %s', gen(exp.left), exp.op, gen(exp.right))
     },
 
-    'scope' : function(expression){
+    'scope' : function(exp){
         return util.format('%s %s %s', gen(exp.left), exp.op, gen(exp.right))
     },
 
