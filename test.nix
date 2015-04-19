@@ -48,16 +48,12 @@ void prinX(int x)
 int returX(int x)
     return x
 
-print args[0]
-print args[1]
-print args[2]
-print args[3]
+class a
+    public
+        int x
 
-public:
-    int x
-
-private:
-    string y
+    private
+        string y
 
 int nextOdd(int x)
     int currentNum = x
@@ -121,7 +117,7 @@ int makeChange(int x)
     return coins
 
 class programming
-    private:
+    private
         int variable
 
     void input_value()

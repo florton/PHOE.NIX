@@ -37,9 +37,6 @@ var generator = {
         emit('#include <vector>')
         emit('using namespace std;')
         emit('int main(int argc, char** argv) {')
-        indentLevel++
-        emit('char** args[argc]= argv;')
-        indentLevel--
         gen(program.block)
         indentLevel++
         emit('return 0;')
@@ -72,7 +69,7 @@ var generator = {
     },
 
     'ifStatement' : function (statement) {
-        emit('if('+ gen(statement.exp) +') {')
+        emit('if('+ gen(statement.condition) +') {')
         gen(statement.block);
         emit('}')
     },
@@ -86,7 +83,7 @@ var generator = {
     'classDec' : function (declaration) {
         emit('class '+ declaration.name +'{')
         makeVariable(declaration.name)
-        gen(statement.block);
+        gen(declaration.block);
         emit('}')
     },
 
