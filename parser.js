@@ -346,9 +346,9 @@ function parseFile(file, callback) {
             if(attr){
                 name=attr
             }else{return false}
-
-            var operator = tokens[tokenIndex].lexeme
-            var exp
+            
+            if(!match('EOL')){var operator = tokens[tokenIndex].lexeme}else{var operator = ''}
+            var exp = ''
             if(at('assop')){
                 if (!match('EOL')) {exp = parseExp()} 
                 if (!exp){return false}

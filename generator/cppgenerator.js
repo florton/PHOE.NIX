@@ -15,6 +15,7 @@ function emit(line) {
 
 function gen(node){
     console.log(node.constructor.name)
+    console.log(node)
     return generator[node.constructor.name](node)
 }
 
@@ -43,7 +44,7 @@ var generator = {
         indentLevel++
         emit('return 0;')
         indentLevel--
-        mit('}')
+        emit('}')
     },
     
     'Block': function (block) {
@@ -55,7 +56,7 @@ var generator = {
     },
 
     'assignmentStatement': function (statement) {
-            emit(util.format('%s %s %s;', gen(statement.name), gen(statement.operator),gen(statement.exp)))
+        emit(util.format('%s %s %s;', statement.name, statement.operator, gen(statement.exp)))
     },
 
     'whileStatement': function (statement) {
@@ -67,11 +68,11 @@ var generator = {
     'doStatement' : function (statement) {
         emit('do {')
         gen(statement.block);
-        emit('} while('+gen(statement.exp)+');')
+        emit('} while('+ gen(statement.exp) +');')
     },
 
     'ifStatement' : function (statement) {
-        emit('if('+gen(statement.exp)+') {')
+        emit('if('+ gen(statement.exp) +') {')
         gen(statement.block);
         emit('}')
     },
@@ -83,7 +84,8 @@ var generator = {
     },
 
     'classDec' : function (declaration) {
-        emit('class '+gen(declaration.name)+'{')
+        emit('class '+ declaration.name +'{')
+        makeVariable(declaration.name)
         gen(statement.block);
         emit('}')
     },
@@ -92,11 +94,6 @@ var generator = {
         emit('else {')
         gen(statement.block);
         emit('}')
-
-    },
-
-    'addop' : function(exp){
-        emit(util.format('%s %s %s', gen(exp.left), gen(exp.op), gen(exp.right)))
     },
 
     'arrayIndex' : function(array){
@@ -108,30 +105,31 @@ var generator = {
     },
 
     'funcDec' : function(func){
-        emit(gen(func.type) + ' ' + gen(func.name) +'(') 
+        makeVariable(func.name)
+        var params = ""        
         for(var i = 0 ; i<gen(func.params.length);i++){
-            if(gen(func.params[i]) === gen(func.params.length-1)){
-                emit(gen(func.params[i]))
-            }else{
-                emit(gen(func.params[i])+',')
+            params += gen(func.params[i])
+            if(gen(func.params[i]) !== gen(func.params.length-1)){
+                params += ', '
             }
         } 
-        emit(')' + gen(func.block))
+        emit(func.type + ' ' + func.name +'(' + params + ')')
+        emit(gen(func.block))
         emit('}')
     },
 
     'memberDec' : function(declaration){
-        emit(gen(declaration.access)+':')
+        emit(declaration.access+':')
         gen(statement.block)
     },
 
     'methodCall' : function(method){
-        emit(gen(method.name)+'(')
+        emit(method.name+'(')
+        var params = "" 
         for(var i = 0 ; i<gen(method.args.length);i++){
-            if(gen(method.args[i])=== gen(method.args.length-1)){
-               emit(gen(method.args[i]))
-            }else{
-                emit(gen(method.args[i])+',')
+            params += gen(method.args[i])
+            if(gen(method.args[i])!== gen(method.args.length-1)){
+            params += ', '
             }
         } 
         emit(');')
@@ -139,12 +137,12 @@ var generator = {
 
     'printStatement' : function(statement){
         emit('cout<< ')
+        var exps = "" 
         for(var i = 0 ; i<gen(statement.exps.length);i++){
-            if(gen(statement.exps[i])=== gen(statement.exps.length-1)){
-                emit(gen(statement.exps[i])+'<< endl;')
-            }else{
-                emit(gen(statement.exps[i])+'<<')
-            }   
+            exps += gen(statement.exps[i])+'<<'
+            if(gen(statement.exps[i])!== gen(statement.exps.length-1)){
+                exps += '<< endl;'
+            } 
         }
     },
 
@@ -159,28 +157,34 @@ var generator = {
     },
 
     'varDec' : function(statement){
-        emit(util.format('%s %s;', gen(statement.type), gen(statement.exp)))
+        var stmt = statement.exp.exp
+        if(stmt!==''){stmt = gen(statement.exp.exp)}
+        emit(util.format('%s %s %s %s;', statement.type, statement.exp.name, statement.exp.operator, stmt))
         makeVariable(statement.name)
     },
 
     'postfixop' : function(expression){
-        return util.format('%s%s',gen(expression.exp),gen(expression.op))
+        return util.format('%s%s',gen(expression.exp),expression.op)
     },
 
     'prefixop' : function(expression){
-        return util.format('%s%s',gen(expression.op),gen(expression.exp))
+        return util.format('%s%s',expression.op,gen(expression.exp))
+    },
+    
+    'addop' : function(exp){
+        return util.format('%s %s %s', gen(exp.left), exp.op, gen(exp.right))
     },
 
     'multop' : function(expression){
-        return util.format('%s %s %s', gen(exp.left), gen(exp.op), gen(exp.right))
+        return util.format('%s %s %s', gen(exp.left), exp.op, gen(exp.right))
     },
 
     'relop' : function(expression){
-        return util.format('%s %s %s', gen(exp.left), gen(exp.op), gen(exp.right))
+        return util.format('%s %s %s', gen(exp.left), exp.op, gen(exp.right))
     },
 
     'scope' : function(expression){
-        return util.format('%s %s %s', gen(exp.left), gen(exp.op), gen(exp.right))
+        return util.format('%s %s %s', gen(exp.left), exp.op, gen(exp.right))
     },
 
     'BooleanLiteral': function (literal) {
