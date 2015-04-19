@@ -102,15 +102,15 @@
 	//All function declarations will be automatically placed into the .h file when compiled
 	//The user can also define additons to the .h file by adding them under a "header" block
 
-	header:
+	header
 		//everything here is added to the header file
 
 	//Users can also declare private and public variables with "public" and "private"
 
-	public:
+	public
 		int x
 	
-	private:
+	private
 		string y
 
 
@@ -236,7 +236,7 @@
 	
 ####Phoenix
 	class programming
-		private:
+		private
 			int variable
 	
 		void input_value()
