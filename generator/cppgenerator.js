@@ -113,7 +113,7 @@ var generator = {
                 params += ', '
             }
         } 
-        emit(func.type + ' ' + func.name +'(' + params + ')')
+        emit(func.type + ' ' + func.name +'(' + params + ') {')
         emit(gen(func.block))
         emit('}')
     },
