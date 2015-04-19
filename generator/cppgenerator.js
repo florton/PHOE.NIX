@@ -151,14 +151,9 @@ var generator = {
     },
 
     'printStatement' : function(statement){
-        emit('cout<< ')
-        var exps = "" 
-        for(var i = 0 ; i< statement.exps.length;i++){
-            exps += gen(statement.exps[i])+'<<'
-            if(i !== statement.exps.length-1){
-                exps += '<< endl;'
-            } 
-        }
+        statement.exps.forEach(function (exp) {
+            emit(util.format('printf("%%d\\n", %s);', gen(exp)))
+        })
     },
 
     'promptStatement' : function(statement){
