@@ -135,7 +135,7 @@ var generator = {
 
     'memberDec' : function(declaration){
         emit(declaration.access+':')
-        gen(statement.block)
+        gen(declaration.block)
     },
 
     'methodCall' : function(method){
