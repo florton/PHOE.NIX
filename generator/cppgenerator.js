@@ -53,7 +53,9 @@ var generator = {
     },
 
     'assignmentStatement': function (statement) {
-        emit(util.format('%s %s %s;', gen(statement.name), statement.operator, gen(statement.exp)))
+        var assignment = util.format('%s %s %s', gen(statement.name), statement.operator, gen(statement.exp))
+        if(arguments.callee.caller.caller.toString().substring(10,22)==='forStatement'){return assignment}
+        emit(assignment+';')
     },
 
     'whileStatement': function (statement) {
@@ -74,9 +76,9 @@ var generator = {
         emit('}')
     },
 
-    'forStatement' : function (statement) {
-        emit('for('+ gen(statement.statement) + '; '+ gen(statement.condition)+'; '+gen(statement.incrementer)+') {')
-        gen(statement.block);
+    'forStatement' : function (forStatement) {
+        emit('for('+ gen(forStatement.statement) + ' ' + gen(forStatement.condition)+'; '+gen(forStatement.incrementer)+') {')
+        gen(forStatement.block);
         emit('}')
     },
 
@@ -168,7 +170,9 @@ var generator = {
     'varDec' : function(statement){
         var stmt = statement.exp.exp
         if(stmt!==''){stmt = gen(statement.exp.exp)} 
-        emit(util.format('%s %s %s %s;', statement.type, gen(statement.exp.name), statement.exp.operator, stmt))
+        var varDec = util.format('%s %s %s %s;', statement.type, gen(statement.exp.name), statement.exp.operator, stmt)
+        if(arguments.callee.caller.caller.toString().substring(10,22)==='forStatement'){return varDec}
+        emit(varDec)
         makeVariable(statement.name)
     },
 
