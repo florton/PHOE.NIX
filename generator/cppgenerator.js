@@ -34,7 +34,6 @@ var generator = {
         emit('#include <iostream>')
         emit('#include <stdio.h>')
         emit('#include <string>')
-        emit('#include <vector>')
         emit('using namespace std;')
         emit('int main(int argc, char** argv) {')
         gen(program.block)
@@ -152,15 +151,15 @@ var generator = {
     },
 
     'printStatement' : function(statement){
+        var output = ''
         statement.exps.forEach(function (exp) {
-            emit(util.format('printf("%%d\\n", %s);', gen(exp)))
+            output += gen(exp) + " << "
         })
+        emit("cout << " + output + "endl;")
     },
 
     'promptStatement' : function(statement){
-        statement.exps.forEach(function (variable) {
-            emit(util.format('scanf("%%d\\n", &%s);', makeVariable(variable.referent)))
-        })
+        emit("getline(cin, " + statement.exp + ");")
     },
 
     'returnStatement' : function(statement){

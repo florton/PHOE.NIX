@@ -224,13 +224,10 @@ function parseFile(file, callback) {
 
         function parsePromptStatement() {
             at('prompt')
-            var expressions = []
-            expressions.push(parseExp())
-            if (!expressions[0]) {
-                return false
-            }
+            var exp = tokens[tokenIndex].lexeme
+            at('id')
             if(parseEnd()){
-                return new promptStatement(expressions)
+                return new promptStatement(exp)
             }
             return false
         }
