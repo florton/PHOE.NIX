@@ -366,6 +366,7 @@ function parseFile(file, callback) {
             var incrementer = parseAssignmentStatement()
             if(!parseEnd()){return false}
             var block = parseBlock()
+            if(!block){return false}
             return new forStatement(statement, condition, incrementer, block)
         }
 
@@ -374,6 +375,7 @@ function parseFile(file, callback) {
                 var condition = parseExp()
                 if (parseEnd()) {
                     var block = parseBlock()
+                    if(!block){return false}
                     return new whileStatement(condition, block)
                 }
             }
@@ -385,6 +387,7 @@ function parseFile(file, callback) {
             var condition = parseExp()
             if (parseEnd()) {
                 var block = parseBlock()
+                if(!block){return false}
                 return new IfStatement(condition, block)
             }
             return false
@@ -410,6 +413,7 @@ function parseFile(file, callback) {
             at('else')
             if (parseEnd()) {
                 var block = parseBlock()
+                if(!block){return false}
                 return new elseStatement(block)
             }
             if (match('if')) {
