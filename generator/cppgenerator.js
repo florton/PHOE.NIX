@@ -113,7 +113,9 @@ var generator = {
     },
 
     'attribute' : function(attr){
-        return util.format('%s %s', gen(attr.left),gen(attr.right))
+        var divider = ''
+        if (attr.right.constructor.name === 'attribute'||attr.right.constructor.name === 'String'){divider = '.'}
+        return util.format('%s%s%s', gen(attr.left),divider, gen(attr.right))
     },
 
     'funcDec' : function(func){
@@ -144,7 +146,7 @@ var generator = {
             params += ', '
             }
         } 
-        emit(method.name+'(' + params + ');')
+        emit(gen(method.name)+'(' + params + ');')
     },
 
     'printStatement' : function(statement){
