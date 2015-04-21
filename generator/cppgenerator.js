@@ -162,7 +162,11 @@ var generator = {
     'printStatement' : function(statement){
         var output = ''
         statement.exps.forEach(function (exp) {
-            output += gen(exp) + " << "
+            if(exp.constructor.name=='addop'){
+                output+= gen(exp.left) + " << " + gen(exp.right + " << ")
+            }else{
+                output += gen(exp) + " << "
+            }
         })
         emit("cout << " + output + "endl;")
     },

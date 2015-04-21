@@ -99,12 +99,6 @@
 		
 	//All code not within function declarations is run as if it were in a main
 
-	//All function declarations will be automatically placed into the .h file when compiled
-	//The user can also define additons to the .h file by adding them under a "header" block
-
-	header
-		//everything here is added to the header file
-
 	//Users can also declare private and public variables with "public" and "private"
 
 	public
@@ -147,7 +141,13 @@
 	
 	//runs 5 times
 	
-	
+###Break:
+
+	for int x = 0 while x : x++
+		if x==5
+			break
+
+	print "Done"	
 
 ###Swap statement (Credit to Kobrascript)
 	int a = 5
