@@ -163,7 +163,11 @@ var generator = {
         var output = ''
         statement.exps.forEach(function (exp) {
             if(exp.constructor.name=='addop'){
-                output+= gen(exp.left) + " << " + gen(exp.right + " << ")
+                if((exp.left.constructor.name == 'intLit' && exp.right.constructor.name == 'intLit')||(exp.left.constructor.name == 'doubleLit' && exp.right.constructor.name == 'doubleLit')){
+                    output+= gen(exp.left) + exp.op + gen(exp.right) + " << "
+                }else{
+                    output+= gen(exp.left) + " << " + gen(exp.right) + " << "
+                }     
             }else{
                 output += gen(exp) + " << "
             }

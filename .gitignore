@@ -14,3 +14,5 @@ hello.nix
 wordgame.cpp
 wordgame.exe
 
+test/data/break.cpp
+test/data/break.exe
