@@ -12,27 +12,31 @@ while a!= "Y" && a!= "Yes" && a!= "y" && a!= "yes"
 	prompt a
 print "I admire your courage. Lead on!"
 int health = 100
-string inventory[100]
+string inventory[10]
 
-string grid[5][5]
+class scene
+    public
+        string start
+        string items[5][3]
 
-grid[3][3] = "You find yourself in a clearing. \n To your north is a castle \n to your east is a wall \n to your west is an open field \n to your south is a dark forest. \n"
-grid[3][4] = "You find yourself at a decaying and abandoned castle"
-grid[3][2] = "Y find yourself in a dark vine filled Forest"
-grid[4][3] = "You are at wall, wow, its a wall"
-grid[2][3] = "You stand alone in a huge field, hope there's no thunder"
+        
+scene grid[5][5]
 
+grid[3][3].start = "You find yourself in a clearing. \n To your north is a castle \n to your east is a wall \n to your west is an open field \n to your south is a dark forest."
+grid[3][4].start = "You find yourself at a decaying and abandoned castle"
+grid[3][2].start = "You find yourself in a dark vine filled Forest"
+grid[4][3].start = "You are at wall, wow, its a wall"
+grid[2][3].start = "You stand alone in a huge field, hope there's no thunder"
 
 int posx = 3
-
 int posy = 3
 
 while true
     int current_xpos = posx
     int current_ypos = posy
     print "-------------------------------------"
-    print grid[posx][posy]
-    print "What will you do? [type help for list of commands]"
+    print grid[posx][posy].start
+    print "\nWhat will you do? [type help for list of commands]"
     string choice
     prompt choice
     if choice == "help"
@@ -48,7 +52,7 @@ while true
     else
         print "that is not a valid command"
         
-    if grid[posx][posy]==""
+    if grid[posx][posy].start==""
             print "You cannot go that way"
             posx = current_xpos
             posy = current_ypos

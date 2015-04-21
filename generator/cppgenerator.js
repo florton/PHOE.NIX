@@ -65,33 +65,38 @@ var generator = {
 
     'doStatement' : function (statement) {
         emit('do {')
-        gen(statement.block);
+        gen(statement.block)
         emit('} while('+ gen(statement.condition) +');')
     },
 
     'ifStatement' : function (statement) {
         emit('if('+ gen(statement.condition) +') {')
-        gen(statement.block);
+        gen(statement.block)
         emit('}')
     },
 
     'forStatement' : function (forStatement) {
         emit('for('+ gen(forStatement.statement) + ' ' + gen(forStatement.condition)+'; '+gen(forStatement.incrementer)+') {')
-        gen(forStatement.block);
+        gen(forStatement.block)
         emit('}')
     },
 
     'classDec' : function (declaration) {
         emit('class '+ declaration.name +'{')
         makeVariable(declaration.name)
-        gen(declaration.block);
-        emit('}')
+        gen(declaration.block)
+        emit('};')
     },
 
     'elseStatement' : function (statement) {
-        emit('else {')
-        gen(statement.block);
-        emit('}')
+        if(statement.block.constructor.name !== "ifStatement"){  
+            emit('else {')
+            gen(statement.block)
+            emit('}')
+        }else{
+            emit('else ')
+            gen(statement.block)        
+        }       
     },
 
     'arrayIndex' : function(arrayIndex){
