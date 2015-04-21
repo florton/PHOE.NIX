@@ -81,6 +81,7 @@ function parseFile(file, callback) {
         }
 
         function parseBlock() {
+            var globalIndent = indents[1]
             var statements = []
             if (indents[1] > indents[0]) {
                 do {
@@ -88,7 +89,7 @@ function parseFile(file, callback) {
                     if (stmt) {
                         if(stmt!==true)statements.push(stmt)
                     }else {return false}
-                } while (!match('EOF') && indents[1] >= indents[0])
+                } while (!match('EOF') && indents[1] >= globalIndent)
                 return new Block(statements)
             }
             return false
@@ -104,8 +105,7 @@ function parseFile(file, callback) {
             if (at('EOL')) {
                 if(!match('EOF')){
                     indents = [indents[1], 0]
-                    indentLevel()
-                    
+                    indentLevel()                    
                 }
                 return true
             }
