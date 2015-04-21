@@ -59,8 +59,12 @@ var generator = {
 
     'whileStatement': function (statement) {
         emit('while (' + gen(statement.condition) + ') {')
-        gen(statement.block);
+        gen(statement.block)
         emit('}')
+    },
+    
+    'breakStatement': function (statement){
+        emit('break;')
     },
 
     'doStatement' : function (statement) {

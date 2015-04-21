@@ -30,6 +30,7 @@ var MemberDeclaration = require("./entities/MemberDeclaration.js")
 var scope = require("./entities/scope.js")
 var doStatement = require("./entities/doStatement.js")
 var classDec = require("./entities/classDec.js")
+var breakStatement = require("./entities/breakStatement.js")
 
 if (process.argv.length > 2) {
     parseFile(process.argv[2], function() {})
@@ -166,6 +167,8 @@ function parseFile(file, callback) {
                 return parsePromptStatement()
             } else if (match('return')) {
                 return parseReturnStatement()
+            } else if (at('break')) {
+                return new breakStatement()    
             } else {
                 return parseEnd()
             }
