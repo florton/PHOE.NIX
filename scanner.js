@@ -88,7 +88,6 @@ function getTokens(line) {
         } else if (isToken("dot", dot, line)) {
         } else if (isToken("comma", comma, line)) {
         } else if (isToken("access", access, line)) { 
-        } else if (isToken("access", access, line)) {
         } else if (isToken("class", classDec, line)) {
             while(space.test(line.substring(line_pos))){line_pos++;}
             if (isToken("id", id, line)){
@@ -120,6 +119,7 @@ function addToken(line_num, line_pos, type, lexeme) {
 function isToken(type, regex, line) {
     var match = regex.exec(line.substring(line_pos));
     if (match !== null && match.index == 0) {
+        if(type==="type" && !space.test(line.substring(line_pos+match[0].length))){return false}
         if (type == "$") {
             type = match[0];
         }
