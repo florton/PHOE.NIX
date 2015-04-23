@@ -16,7 +16,7 @@ AnalysisContext.prototype.createChildContext = function () {
 
 AnalysisContext.prototype.variableMustNotBeAlreadyDeclared = function (token) {
   if (this.symbolTable[token]) {
-    error('Variable ' + token + ' already declared', token)
+    error('Variable ' + token + ' already declared')
   }
 }
 
