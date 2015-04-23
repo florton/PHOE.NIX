@@ -279,7 +279,7 @@ function parseFile(file, callback) {
             tokenIndex--
             var assmt = parseAssignmentStatement()
             if(!assmt){return false}
-            return new VariableDeclaration(varType, name, assmt)
+            return new VariableDeclaration(varType, name.token, assmt)
         }
 
         function parseFunctionDec() {

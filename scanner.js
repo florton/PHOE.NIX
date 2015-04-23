@@ -44,7 +44,7 @@ function readFile(file, callback) {
     fs.readFile(file, {
         encoding: 'utf-8'
     }, function(err, data) {
-        if (err) throw err;
+        if (err) throw "Cannot open file"
         var array_of_lines = data.split("\n");
         line_num = 1;
         tokens = [];

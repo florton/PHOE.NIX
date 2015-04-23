@@ -15,8 +15,7 @@ function parseError(message, line_num, line_pos, lexeme) {
 }
 
 
-function analyzeError(token){
-	var error = 'Variable ' + token + ' not found'
+function analyzeError(error){
 	throw new Error(error);
 }
 

@@ -30,7 +30,7 @@ AnalysisContext.prototype.lookupVariable = function (token) {
   if (variable) {
     return variable
   } else if (!this.parent) {
-    error(token)
+    error('Variable ' + token + ' not found')
     return varDec.ARBITRARY
   } else {
     return this.parent.lookupVariable(token)
