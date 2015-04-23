@@ -42,8 +42,8 @@ var generator = {
     
     'Block': function (block) {
         indentLevel++
-        block.statements.forEach(function (statement) {
-            gen(statement)
+        block.statements.forEach(function (block) {
+            gen(block)
         })
         indentLevel--
     },
@@ -152,7 +152,7 @@ var generator = {
             params += ', '
             }
         } 
-        if(arguments.callee.caller.caller.toString().substring(10,22)!=='block'){return gen(gen(method.name)+'(' + params + ')')}
+        if(arguments.callee.caller.caller.toString().substring(10,15)!=='block'){return gen(gen(method.name)+'(' + params + ')')}
         emit(gen(method.name)+'(' + params + ');')
     },
 

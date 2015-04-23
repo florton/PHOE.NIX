@@ -8,13 +8,13 @@ bool t = true
 bool f = false 
 string str = "First part of the string" + "second part of the string"
 int y = 5
-int x = 0
+
 
 
 //Arrays
-int x[4] = [1,2,3,4]  
+int arr[4] = [1,2,3,4]  
 // x = [1,2,3,4] 
-x[0]= 5
+arr[0]= 5
 //x = [5,2,3,4]
 
 //matrixes 
