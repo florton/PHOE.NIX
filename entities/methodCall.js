@@ -7,4 +7,11 @@ methodCall.prototype.toString = function () {
     return "methodCall: " + "("+ this.name.toString() + "(" + this.args.toString() + ")"+")"
 }
 
+methodCall.prototype.analyze = function (context) {
+	this.name.analyze(context)
+	this.args.forEach(function(arg) {
+  	arg.analyze(context)
+  })
+}
+
 module.exports = methodCall
