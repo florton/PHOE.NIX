@@ -7,7 +7,7 @@ elseStatement.prototype.toString = function () {
 }
 
 elseStatement.prototype.analyze = function(context){
-    this.body.analyze(context)
+    this.block.analyze(context)
 }
 
 module.exports = elseStatement

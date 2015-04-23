@@ -7,7 +7,7 @@ printStatement.prototype.toString = function () {
 }
 
 printStatement.prototype.analyze = function (context) {
-  this.exps.analyze(context)
+  this.exps[0].analyze(context)
 }
 
 module.exports = printStatement

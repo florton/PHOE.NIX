@@ -25,9 +25,9 @@ var inFunc = false
 function emit(line) {
     var pad = indentPadding * indentLevel
     if(inGlobal){
-        globals += '    ' + line + "\n"
+        globals += line + "\n"
     }else if (inFunc&&!inClass){
-        functions += Array(pad+1).join(' ') + line + "\n"
+        functions += Array(pad-4).join(' ') + line + "\n"
     }else{
         main += Array(pad+1).join(' ') + line + "\n"
     }

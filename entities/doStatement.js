@@ -9,8 +9,7 @@ doStatement.prototype.toString = function(){
 
 doStatement.prototype.analyze = function(context){
 	this.condition.analyze(context)
-	this.condition.type.mustBeBoolean('Condition in "do" statement must be boolean')
-    this.body.analyze(context)
+    this.block.analyze(context)
 }
 
 module.exports = doStatement

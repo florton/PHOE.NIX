@@ -8,10 +8,8 @@ methodCall.prototype.toString = function () {
 }
 
 methodCall.prototype.analyze = function (context) {
-	this.name.analyze(context)
-	this.args.forEach(function(arg) {
-  	arg.analyze(context)
-  })
+  this.referent = context.lookupVariable(this.name)
+  this.type = this.referent.type	
 }
 
 module.exports = methodCall

@@ -9,8 +9,7 @@ whileStatement.prototype.toString = function () {
 
 whileStatement.prototype.analyze = function(context){
 	this.condition.analyze(context)
-	this.condition.type.mustBeBoolean('Condition in "while" statement must be boolean')
-    this.body.analyze(context)
+    this.block.analyze(context)
 }
 
 module.exports = whileStatement

@@ -71,7 +71,7 @@ else if x > 7
 else
     nextOdd( x %5 )
 
-for int x=1 while x<=10 : x++
+for x = 1 while x<=10 : x++
     //do something 10 times
 
 while x != 10

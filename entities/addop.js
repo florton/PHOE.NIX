@@ -14,10 +14,7 @@ addop.prototype.analyze = function (context){
 		this.op =''
 		this.right = ''
 	}
-	if((this.left.constructor.name == 'intLit' || this.left.constructor.name == 'doubleLit') && (this.right.constructor.name == 'intLit' || this.right.constructor.name == 'doubleLit')){
-	}else{
-		throw new Error("Cannot add non strings or numebers")
-	}	
+
 }
 
 module.exports = addop

@@ -9,8 +9,7 @@ ifStatement.prototype.toString = function () {
 
 ifStatement.prototype.analyze = function(context){
 	this.condition.analyze(context)
-	this.condition.type.mustBeBoolean('Condition in "if" statement must be boolean')
-    this.body.analyze(context)
+    this.block.analyze(context)
 }
 
 module.exports = ifStatement

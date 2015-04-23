@@ -8,7 +8,6 @@ classDec.prototype.toString = function(){
 }
 
 classDec.prototype.analyze = function(context){
-	this.name.analyze(context)
 	this.block.analyze(context)
 	context.variableMustNotBeAlreadyDeclared(this.name)
     context.addVariable(this.name, this)

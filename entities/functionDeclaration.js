@@ -10,10 +10,10 @@ funcDec.prototype.toString = function () {
 }
 
 funcDec.prototype.analyze = function(context){
-  this.name.analyze(context)
-  this.params.forEach(function(param) {
-  	param.name.analyze(context)
-  })	
+  
+  // this.params.forEach(function(param) {
+  // 	param.name.analyze(context)
+  // })	
   context.variableMustNotBeAlreadyDeclared(this.name)
   context.addVariable(this.name, this)
 }
