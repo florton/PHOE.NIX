@@ -33,13 +33,9 @@ var classDec = require("./entities/classDec.js")
 var breakStatement = require("./entities/breakStatement.js")
 var variableReference = require("./entities/variableReference.js")
 
-if (process.argv.length > 2) {
-    parseFile(process.argv[2], function() {})
-}
-
 module.exports = {
     parse: function(filepath, callback) {
-        parseFile(filepath, callback)
+        parseFile(filepath, callback);
     }
 }
 
@@ -54,6 +50,7 @@ function parseFile(file, callback) {
                 var script = parseScript()
                 if (!script) {
                     callback(false)
+                    return;     // I added this because it should stop after finding the file to be bad.
                 }
             }
             callback(script)

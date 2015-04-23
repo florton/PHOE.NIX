@@ -10,7 +10,7 @@ function scanError (line,line_num,line_pos){
 
 
 function parseError(message, line_num, line_pos, lexeme) {
-    var error = message + " at line " + line_num + ", column " + line_pos + " token is '" + lexeme + "'"
+    var error = message + " at line " + line_num + ", column " + (line_pos + 1) + " token is '" + lexeme + "'"
     throw new Error(error);
 }
 
