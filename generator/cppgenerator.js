@@ -2,15 +2,35 @@ var util = require('util')
 var HashMap = require('hashmap').HashMap
 
 module.exports = function (program) {
-  gen(program)  
+  gen(program) 
+  console.log('#include <iostream>')
+  console.log('#include <stdio.h>')
+  console.log('#include <string>')
+  console.log('using namespace std;')
+  console.log(globals)
+  console.log(functions)
+  console.log(main)
 }
 
 var indentPadding = 4
 var indentLevel = 0
 
+var functions = ""
+var main = ""
+var globals = ""
+var inGlobal = false
+var inClass = false
+var inFunc = false
+
 function emit(line) {
     var pad = indentPadding * indentLevel
-    console.log(Array(pad+1).join(' ') + line)
+    if(inGlobal){
+        globals += '    ' + line + "\n"
+    }else if (inFunc&&!inClass){
+        functions += Array(pad+1).join(' ') + line + "\n"
+    }else{
+        main += Array(pad+1).join(' ') + line + "\n"
+    }
 }
 
 function gen(node){
@@ -28,10 +48,6 @@ function makeVariable(variable) {
 var generator = {
     
     'script': function (program) {
-        emit('#include <iostream>')
-        emit('#include <stdio.h>')
-        emit('#include <string>')
-        emit('using namespace std;')
         emit('int main(int argc, char** argv) {')
         gen(program.block)
         indentLevel++
@@ -83,10 +99,12 @@ var generator = {
     },
 
     'classDec' : function (declaration) {
+        inClass = true
         emit('class '+ gen(declaration.name) +'{')
         makeVariable(gen(declaration.name))
         gen(declaration.block)
         emit('};')
+        inClass = false
     },
 
     'elseStatement' : function (statement) {
@@ -134,14 +152,20 @@ var generator = {
                 params += ', '
             }
         }
-        emit('auto' + ' ' + gen(func.name) +' = [](' + params + ') {')
+        inFunc = true
+        emit(func.type + " " + gen(func.name) + '(' + params + ')' +'{')
         gen(func.block)
-        emit('};')
+        emit('}')
+        inFunc = false
     },
 
     'memberDec' : function(declaration){
-        emit(declaration.access+':')
-        gen(declaration.block)
+        if(declaration.access!=="global"){
+            emit(declaration.access+':')
+        }else{inGlobal = true}    
+        
+            gen(declaration.block)
+        inGlobal = false
     },
 
     'methodCall' : function(method){   

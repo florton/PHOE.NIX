@@ -24,7 +24,7 @@ string st[3][2]
 st[0][0]=99
 st[0][1]="here I am"
 //st= [[99,"here I am"],[,],[,]]
-st[2]="hello"
+st[2][3]="hello"
 //st= [[99,"here I am"],[,],[hello]]
 
 
@@ -117,16 +117,18 @@ int makeChange(int x)
     return coins
 
 class programming
-    private
-        int variable
+    global
+        string variable
+        
+    public
 
-    void input_value()
-        print "In function input_value, Enter an integer\n"
-        prompt variable
+        void input_value()
+            print "In function input_value, Enter an integer\n"
+            prompt variable
 
-    void output_value()
-        print "Variable entered is "
-        print variable + "\n"
+        void output_value()
+            print "Variable entered is "
+            print variable + "\n"
 
 programming object
 

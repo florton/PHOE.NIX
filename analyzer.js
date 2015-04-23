@@ -25,7 +25,6 @@ AnalysisContext.prototype.addVariable = function (name, entity) {
 }
 
 AnalysisContext.prototype.lookupVariable = function (token) {
-  console.log(token)
   var variable = this.symbolTable[token]
   if (variable) {
     return variable

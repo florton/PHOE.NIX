@@ -11,7 +11,7 @@ var string = /"([^"\\]|[\\][\\bfnrt])*"/;
 var type = "void|int|double|string|bool";
 var keyword = /(return|print|prompt|if|else|for|while|until|do|break)/;
 var classDec = /class/;
-var access = /(public|private)/;
+var access = /(public|private|global)/;
 var paren = /[()\[\]]/;
 var equals = /[=]{2,3}/;
 var assop = /:=:|=|\+=|-=|\/=|\*=|%=/;
