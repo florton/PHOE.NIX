@@ -15,6 +15,14 @@ function parseError(message, line_num, line_pos, lexeme) {
 }
 
 
+function analyzeError(token){
+	var error = 'Variable ' + token + ' not found'
+	throw new Error(error);
+}
+
+
 exports.parseError = parseError
 
 exports.scanError = scanError
+
+exports.analyzeError = analyzeError

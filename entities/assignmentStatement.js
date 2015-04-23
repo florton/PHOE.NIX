@@ -8,4 +8,9 @@ assignmentStatement.prototype.toString = function () {
     return "(assignmentStatement: "+ this.name.toString() + this.operator + this.exp+ ")"
 }
 
+assignmentStatement.prototype.analyze = function (context) {
+  this.name.analyze(context)
+  this.exp.analyze(context)
+}
+
 module.exports = assignmentStatement

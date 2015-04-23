@@ -8,7 +8,7 @@ bool t = true
 bool f = false 
 string str = "First part of the string" + "second part of the string"
 int y = 5
-int x
+int x = 0
 
 
 //Arrays

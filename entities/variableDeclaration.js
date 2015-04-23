@@ -10,6 +10,9 @@ varDec.prototype.toString = function () {
     return "(varDec: "+ this.type + " " + this.name.toString() + " " + this.exp.toString() + ")"
 }
 
-varDec.ARBITRARY = new varDec('<arbitrary>', Type.ARBITRARY)
+varDec.prototype.analyze = function (context) {
+  context.variableMustNotBeAlreadyDeclared(this.name)
+  context.addVariable(this.name, this)
+}
 
 module.exports = varDec

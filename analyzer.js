@@ -1,4 +1,4 @@
-var error = require('./error')
+var error = require('./error.js').analyzeError
 var VariableDeclaration = require('./entities/variableDeclaration.js')
 
 function AnalysisContext(parent) {
@@ -15,8 +15,8 @@ AnalysisContext.prototype.createChildContext = function () {
 }
 
 AnalysisContext.prototype.variableMustNotBeAlreadyDeclared = function (token) {
-  if (this.symbolTable[token.lexeme]) {
-    error('Variable ' + token.lexeme + ' already declared', token)
+  if (this.symbolTable[token]) {
+    error('Variable ' + token + ' already declared', token)
   }
 }
 
@@ -25,11 +25,12 @@ AnalysisContext.prototype.addVariable = function (name, entity) {
 }
 
 AnalysisContext.prototype.lookupVariable = function (token) {
-  var variable = this.symbolTable[token.lexeme]
+  console.log(token)
+  var variable = this.symbolTable[token]
   if (variable) {
     return variable
   } else if (!this.parent) {
-    error('Variable ' + token.lexeme + ' not found', token)
+    error(token)
     return varDec.ARBITRARY
   } else {
     return this.parent.lookupVariable(token)

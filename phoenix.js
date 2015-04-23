@@ -30,7 +30,12 @@ parse(argv._[0], function (tokens) {
     console.log(program.toString())
     return
   }
+  program.analyze()
 
+  // if (argv.i) {
+  //   program.showSemanticGraph()
+  //   return
+  // }
   generate(program)
   
 })
