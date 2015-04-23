@@ -23,7 +23,6 @@ function makeVariable(variable) {
     var lastId = 0
     var map = new HashMap()
     if (!map.has(variable)){map.set(variable, ++lastId)}  
-    return
 }
 
 var generator = {
@@ -134,10 +133,10 @@ var generator = {
             if(i !== func.params.length-1){
                 params += ', '
             }
-        } 
-        emit(func.type + ' ' + func.name +'(' + params + ') {')
+        }
+        emit('auto' + ' ' + func.name +' = [](' + params + ') {')
         gen(func.block)
-        emit('}')
+        emit('};')
     },
 
     'memberDec' : function(declaration){
@@ -145,8 +144,7 @@ var generator = {
         gen(declaration.block)
     },
 
-    'methodCall' : function(method){
-        
+    'methodCall' : function(method){   
         var params = "" 
         for(var i = 0 ; i< method.args.length;i++){
             params += gen(method.args[i])
@@ -154,6 +152,7 @@ var generator = {
             params += ', '
             }
         } 
+        if(arguments.callee.caller.caller.toString().substring(10,22)!=='block'){return gen(gen(method.name)+'(' + params + ')')}
         emit(gen(method.name)+'(' + params + ');')
     },
 
