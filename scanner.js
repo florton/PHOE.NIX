@@ -1,4 +1,3 @@
-var file = process.argv[2];
 var fs = require('fs');
 var error = require('./error').scanError;
 var indent = /[\t]|[\s]{4}/
@@ -27,12 +26,7 @@ var space = /^\s/;
 var line_num = 1;
 var line_pos = 0;
 var tokens = [];
-// allows to be run individually with filepath as the first arg
-if (process.argv.length > 2) {
-    readFile(file, function(arr) {
-       //console.log(arr);
-    });
-}
+
 //call back necessary since fs.readFile is async 
 module.exports = {
     scan: function(filepath, callback) {
@@ -41,23 +35,19 @@ module.exports = {
 };
 
 function readFile(file, callback) {
-    fs.readFile(file, {
-        encoding: 'utf-8'
-    }, function(err, data) {
-        if (err) throw "Cannot open file"
-        var array_of_lines = data.split("\n");
-        line_num = 1;
-        tokens = [];
-        for (line in array_of_lines) {
-            if (!(/^\s+$/g.test(array_of_lines[line]))) {
-                getTokens(array_of_lines[line] + '');
-                addToken(line_num, array_of_lines[line].length, "EOL", "\n");
-            }
-            line_num++;
+    var data = fs.readFileSync(file, {encoding: 'utf-8'});
+    var array_of_lines = data.split("\n");
+    line_num = 1;
+    tokens = [];
+    for (line in array_of_lines) {
+        if (!(/^\s+$/g.test(array_of_lines[line]))) {
+            getTokens(array_of_lines[line] + '');
+            addToken(line_num, array_of_lines[line].length, "EOL", "\n");
         }
-        addToken(line_num,array_of_lines.length,"EOF","");
-        callback(tokens);
-    });
+        line_num++;
+    }
+    addToken(line_num,array_of_lines.length,"EOF","");
+    callback(tokens);
 }
 
 function getTokens(line) {
