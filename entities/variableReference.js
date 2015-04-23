@@ -1,9 +1,9 @@
-function varRef(name){
-    this.name = name
+function varRef(token){
+    this.token = token
 }
 
 varRef.prototype.toString = function () {
-    return "(varRef: "+ this.name +")"
+    return "(varRef: "+ this.token +")"
 }
 
 varRef.prototype.analyze = function (context) {

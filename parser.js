@@ -31,6 +31,7 @@ var scope = require("./entities/scope.js")
 var doStatement = require("./entities/doStatement.js")
 var classDec = require("./entities/classDec.js")
 var breakStatement = require("./entities/breakStatement.js")
+var variableReference = require("./entities/variableReference.js")
 
 if (process.argv.length > 2) {
     parseFile(process.argv[2], function() {})
@@ -41,7 +42,6 @@ module.exports = {
         parseFile(filepath, callback)
     }
 }
-
 
 function parseFile(file, callback) {
     scanner(file, function(tokens) {
@@ -208,7 +208,7 @@ function parseFile(file, callback) {
             }    
             return left
         }
-        
+
         function parsePrintStatement() {
             at('print')
             var expressions = []
@@ -505,7 +505,7 @@ function parseFile(file, callback) {
                     tokenIndex--
                     return parseAtttribute()
                 }
-                return name
+                return new variableReference(name)
             }
             if (match('[')) {
                 return parseArray("lit")

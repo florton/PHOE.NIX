@@ -9,8 +9,8 @@ var indentPadding = 4
 var indentLevel = 0
 
 function emit(line) {
-  var pad = indentPadding * indentLevel
-  console.log(Array(pad+1).join(' ') + line)
+    var pad = indentPadding * indentLevel
+    console.log(Array(pad+1).join(' ') + line)
 }
 
 function gen(node){
@@ -19,14 +19,12 @@ function gen(node){
     return generator[node.constructor.name](node)
 }
 
-var makeVariable = (function () {
-  var lastId = 0
-  var map = new HashMap()
-  return function (variable) {
-    if (!map.has(variable)) map.set(variable, ++lastId)
-    return '_v' + map.get(variable)
-  }
-}())
+function makeVariable(variable) {
+    var lastId = 0
+    var map = new HashMap()
+    if (!map.has(variable)){map.set(variable, ++lastId)}  
+    return
+}
 
 var generator = {
     
@@ -106,7 +104,7 @@ var generator = {
     'arrayIndex' : function(arrayIndex){
         var index = ""        
         for(var i = 0 ; i< arrayIndex.exps.length;i++){
-            index += '[' + arrayIndex.exps[i] + ']'
+            index += '[' + gen(arrayIndex.exps[i]) + ']'
         }
         return index
     },
@@ -177,6 +175,7 @@ var generator = {
 
     'promptStatement' : function(statement){
         emit("getline(cin, " + statement.exp + ");")
+        makeVariable(statement.exp)
     },
 
     'returnStatement' : function(statement){
@@ -190,6 +189,10 @@ var generator = {
         if(arguments.callee.caller.caller.toString().substring(10,22)==='forStatement'){return varDec}
         emit(varDec)
         makeVariable(statement.name)
+    },
+    
+    'varRef' : function(reference){
+        return reference.token
     },
 
     'postfixop' : function(exp){

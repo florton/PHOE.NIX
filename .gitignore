@@ -16,3 +16,5 @@ wordgame.exe
 
 test/data/break.cpp
 test/data/break.exe
+func.cpp
+func.nix
