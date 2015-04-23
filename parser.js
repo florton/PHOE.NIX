@@ -195,7 +195,7 @@ function parseFile(file, callback) {
         }
 
         function parseAtttribute(){           
-            var left = tokens[tokenIndex].lexeme
+            var left = new variableReference(tokens[tokenIndex].lexeme)
             at('id')
             var right = ''
             while(match('dot')||match('[')){
@@ -224,7 +224,7 @@ function parseFile(file, callback) {
 
         function parsePromptStatement() {
             at('prompt')
-            var exp = tokens[tokenIndex].lexeme
+            var exp = new variableReference(tokens[tokenIndex].lexeme)
             at('id')
             if(parseEnd()){
                 return new promptStatement(exp)
@@ -258,7 +258,7 @@ function parseFile(file, callback) {
 
         function parseClassDec() {
             at('class')
-            var name = tokens[tokenIndex].lexeme
+            var name = new variableReference(tokens[tokenIndex].lexeme)
             at('id')
             if (parseEnd()) {
                 var block = parseBlock()
@@ -270,7 +270,7 @@ function parseFile(file, callback) {
         function parseType() {
             var varType = tokens[tokenIndex].lexeme
             at('type')
-            var name = tokens[tokenIndex].lexeme
+            var name = new variableReference(tokens[tokenIndex].lexeme)
             if(!at('id')){return false}
             if (match('(')) {
                 tokenIndex -= 2
@@ -285,14 +285,14 @@ function parseFile(file, callback) {
         function parseFunctionDec() {
             var type = tokens[tokenIndex].lexeme
             at('type')
-            var name = tokens[tokenIndex].lexeme
+            var name = new variableReference(tokens[tokenIndex].lexeme)
             at('id')
             at('(')
             var params = []
             while (match('type')) {
                 var paramtype = tokens[tokenIndex].lexeme
                 at('type')
-                var paramname = tokens[tokenIndex].lexeme
+                var paramname = new variableReference(tokens[tokenIndex].lexeme)
                 if (!at('id')) {
                     return false
                 }

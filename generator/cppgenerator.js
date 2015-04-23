@@ -83,8 +83,8 @@ var generator = {
     },
 
     'classDec' : function (declaration) {
-        emit('class '+ declaration.name +'{')
-        makeVariable(declaration.name)
+        emit('class '+ gen(declaration.name) +'{')
+        makeVariable(gen(declaration.name))
         gen(declaration.block)
         emit('};')
     },
@@ -121,7 +121,7 @@ var generator = {
 
     'attribute' : function(attr){
         var divider = ''
-        if (attr.right.constructor.name === 'attribute'||attr.right.constructor.name === 'String'){divider = '.'}
+        if (attr.right.constructor.name === 'attribute'||attr.right.constructor.name === 'varRef'){divider = '.'}
         return util.format('%s%s%s', gen(attr.left),divider, gen(attr.right))
     },
 
@@ -129,12 +129,12 @@ var generator = {
         makeVariable(func.name)
         var params = ""        
         for(var i = 0 ; i< func.params.length;i++){
-            params += func.params[i].type + " " + func.params[i].name
+            params += func.params[i].type + " " + gen(func.params[i].name)
             if(i !== func.params.length-1){
                 params += ', '
             }
         }
-        emit('auto' + ' ' + func.name +' = [](' + params + ') {')
+        emit('auto' + ' ' + gen(func.name) +' = [](' + params + ') {')
         gen(func.block)
         emit('};')
     },
@@ -173,8 +173,8 @@ var generator = {
     },
 
     'promptStatement' : function(statement){
-        emit("getline(cin, " + statement.exp + ");")
-        makeVariable(statement.exp)
+        emit("getline(cin, " + gen(statement.exp) + ");")
+        makeVariable(gen(statement.exp))
     },
 
     'returnStatement' : function(statement){
