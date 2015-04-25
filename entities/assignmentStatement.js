@@ -10,7 +10,9 @@ assignmentStatement.prototype.toString = function () {
 
 assignmentStatement.prototype.analyze = function (context) {
   this.name.analyze(context)
-  this.exp.analyze(context)
+  if(this.operator!==("++" || "--" )){
+    this.exp.analyze(context)
+  }
 }
 
 module.exports = assignmentStatement
