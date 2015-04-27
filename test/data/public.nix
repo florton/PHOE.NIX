@@ -1,5 +1,8 @@
-public:
+public
     int x
 
-private:
+private
     string y
+
+global
+    int y = 5
