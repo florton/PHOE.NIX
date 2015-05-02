@@ -10,7 +10,7 @@ assignmentStatement.prototype.toString = function () {
 
 assignmentStatement.prototype.analyze = function (context) {
   this.name.analyze(context)
-  if(this.operator!==("++" || "--" )){
+  if(this.operator!=="++" && this.operator!=="--" ){
     this.exp.analyze(context)
   }
 }
