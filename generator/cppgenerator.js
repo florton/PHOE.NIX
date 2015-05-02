@@ -206,9 +206,15 @@ var generator = {
     },
 
     'varDec' : function(statement){
+        var type = statement.type
         var stmt = statement.exp.exp
         if(stmt!==''){stmt = gen(statement.exp.exp)} 
-        var varDec = util.format('%s %s %s %s;', statement.type, gen(statement.exp.name), statement.exp.operator, stmt)
+        if(statement.exp.name.constructor.name ==='attribute'){
+            if(statement.exp.name.right.constructor.name ==='arrayIndex'){
+                type = "static "+type
+            }
+        }
+        var varDec = util.format('%s %s %s %s;', type, gen(statement.exp.name), statement.exp.operator, stmt)
         if(arguments.callee.caller.caller.toString().substring(10,22)==='forStatement'){return varDec}
         emit(varDec)
         makeVariable(statement.name)
