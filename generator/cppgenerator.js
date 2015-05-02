@@ -93,7 +93,7 @@ var generator = {
     },
 
     'forStatement' : function (forStatement) {
-        emit('for('+ gen(forStatement.statement) + ' ' + gen(forStatement.condition)+'; '+gen(forStatement.incrementer)+') {')
+        emit('for('+ gen(forStatement.statement) + '; ' + gen(forStatement.condition)+'; '+gen(forStatement.incrementer)+') {')
         gen(forStatement.block)
         emit('}')
     },

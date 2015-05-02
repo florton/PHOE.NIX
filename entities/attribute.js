@@ -9,7 +9,6 @@ attribute.prototype.toString = function () {
 
 attribute.prototype.analyze = function (context) {
     this.left.analyze(context)
-    //this.right.analyze(context)
 }
 
 module.exports = attribute
