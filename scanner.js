@@ -70,7 +70,7 @@ function getTokens(line) {
     }
     while (line_pos < line.length) {
         if (isToken("comment", comment, line)) {                   
-        } else if (isToken("type", new RegExp(type), line)) { 
+        } else if (isToken("type", new RegExp('('+type+')[*]?'), line)) { 
         } else if (isToken("string", string, line)) {          
         } else if (isToken("bool", bool, line)) {           
         } else if (isToken("double", Double, line)) {     

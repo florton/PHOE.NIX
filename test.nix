@@ -6,7 +6,7 @@ double d = 10.432
 string s = "Hello"
 bool t = true
 bool f = false 
-string str = "First part of the string" + "second part of the string"
+string str = "First part of the string " + "second part of the string"
 int y = 5
 
 
@@ -102,7 +102,7 @@ print fibonacci(7)
 print nextOdd(8)
 //Console prints 9
 
-int makeChange(int x)
+int* makeChange(int x)
     int coins[4]
     if x<0
         print "amount cannot be negative"
@@ -121,7 +121,7 @@ class programming
         string variable
         
     public
-
+          
         void input_value()
             print "In function input_value, Enter an integer\n"
             prompt variable

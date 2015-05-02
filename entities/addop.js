@@ -1,3 +1,5 @@
+var stringLit = require("./string.js")
+
 function addop(left,op,right){
     this.left = left
     this.op = op
@@ -9,11 +11,11 @@ addop.prototype.toString = function () {
 }
 
 addop.prototype.analyze = function (context){
-	if((this.left.constructor.name == 'String' || this.left.constructor.name == 'stringLit') && (this.right.constructor.name == 'String' || this.right.constructor.name == 'stringLit')){
-		this.left = this.left+this.right
-		this.op =''
-		this.right = ''
-	}
+    if(this.left instanceof stringLit && this.right instanceof stringLit){
+        this.left = this.left.name.slice(0,-1) + this.right.name.slice(1)
+        this.op =''
+        this.right = ''
+    }
 
 }
 
