@@ -13,6 +13,10 @@ script.prototype.analyze = function () {
   this.block.analyze(initialContext())
 }
 
+script.prototype.optimize = function () {
+  this.block.optimize()
+}
+
 script.prototype.showSemanticGraph = function () {
   var tag = 0
   var seenEntities = new HashMap();

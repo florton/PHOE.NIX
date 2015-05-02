@@ -13,6 +13,21 @@ Block.prototype.analyze = function (context) {
   })
 }
 
+Block.prototype.optimize = function () {
+  var atReturn = false
+  for(var i = 0; i < this.statements.length; i++){
+    if(!atReturn){
+        try{
+            this.statements[i].block.optimize()
+        }catch(e){}
+        if(this.statements[i].constructor.name==='returnStatement'){atReturn=true}
+    }else{
+        delete this.statements[i]
+    }
+  }
+  
+}
+
 
 
 module.exports = Block

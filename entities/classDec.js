@@ -1,6 +1,6 @@
 function classDec(name,block){
-	this.name = name
-	this.block = block
+    this.name = name
+    this.block = block
 }
 
 classDec.prototype.toString = function(){
@@ -8,8 +8,8 @@ classDec.prototype.toString = function(){
 }
 
 classDec.prototype.analyze = function(context){
-	this.block.analyze(context)
-	context.variableMustNotBeAlreadyDeclared(this.name)
+    this.block.analyze(context)
+    context.variableMustNotBeAlreadyDeclared(this.name)
     context.addVariable(this.name.token, this)
 }
 

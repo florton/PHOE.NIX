@@ -30,6 +30,7 @@ parse(argv._[0], function (tokens) {
     return
   }
   program.analyze()
+  program.optimize()
 
   if (argv.i) {
     program.showSemanticGraph()
