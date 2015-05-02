@@ -27,11 +27,6 @@ AnalysisContext.prototype.addVariable = function (name, entity) {
 }
 
 AnalysisContext.prototype.lookupVariable = function (token) {
-  if(token instanceof attribute){
-    token.left = this.lookupVariable(token.left)
-    token.right = this.lookupVariable(token.right) 
-    return token
-  }else{
     var variable = this.symbolTable[token]
     if (variable) {
         return variable
@@ -41,7 +36,6 @@ AnalysisContext.prototype.lookupVariable = function (token) {
     } else {
         return this.parent.lookupVariable(token)
     }
-  }
 }
 
 exports.initialContext = AnalysisContext.initialContext

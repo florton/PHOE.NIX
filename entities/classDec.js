@@ -10,7 +10,7 @@ classDec.prototype.toString = function(){
 classDec.prototype.analyze = function(context){
 	this.block.analyze(context)
 	context.variableMustNotBeAlreadyDeclared(this.name)
-    context.addVariable(this.name, this)
+    context.addVariable(this.name.token, this)
 }
 
 module.exports = classDec

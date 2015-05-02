@@ -11,11 +11,11 @@ funcDec.prototype.toString = function () {
 
 funcDec.prototype.analyze = function(context){
   
-  // this.params.forEach(function(param) {
-  // 	param.name.analyze(context)
-  // })	
+  this.params.forEach(function(param) {
+  //  context.addVariable(param.name, this)
+  }	)
   context.variableMustNotBeAlreadyDeclared(this.name)
-  context.addVariable(this.name, this)
+  context.addVariable(this.name.token, this)
 }
 
 module.exports = funcDec

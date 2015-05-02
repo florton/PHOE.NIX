@@ -6,7 +6,7 @@ arrayIndex.prototype.toString = function () {
     return "(arrayIndex: " + this.exps.toString() + ")"
 }
 
-arrayIndex.prototype.toString = function (context) {
+arrayIndex.prototype.analyze = function (context) {
 }
 
 module.exports = arrayIndex
