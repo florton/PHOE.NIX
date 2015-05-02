@@ -153,7 +153,7 @@ var generator = {
             }
         }
         inFunc = true
-        emit(func.type + " " + gen(func.name) + '(' + params + ')' +'{')
+        emit("inline"+func.type + " " + gen(func.name) + '(' + params + ')' +'{')
         gen(func.block)
         emit('}')
         inFunc = false
