@@ -26,7 +26,6 @@ addop.prototype.analyze = function() {
 }
 
 addop.prototype.optimize = function (){
-    console.log(this.left+this.op+this.right)
     if((this.left instanceof intLit || this.left instanceof doubleLit)&&(this.right instanceof intLit || this.right instanceof doubleLit)){
         switch (this.op){
             case "+":

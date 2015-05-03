@@ -21,7 +21,6 @@ multop.prototype.analyze = function() {
 }
 
 multop.prototype.optimize = function (){
-    console.log(this.left+this.op+this.right)
     if((this.left instanceof intLit || this.left instanceof doubleLit)&&(this.right instanceof intLit || this.right instanceof doubleLit)){
         switch (this.op){
             case "*":
@@ -38,7 +37,6 @@ multop.prototype.optimize = function (){
             this.op = ''
             this.right = ''
     }
-    console.log(this.left+this.op+this.right)
 }
 
 module.exports = multop
