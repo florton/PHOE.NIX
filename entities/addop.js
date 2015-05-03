@@ -17,6 +17,11 @@ addop.prototype.analyze = function() {
         if(this.right.op === '' && this.right.right === ''){
             this.right = this.right.left
         }
+        if(this.left instanceof stringLit && this.right instanceof stringLit){
+            this.left = new stringLit(this.left.name.slice(0,-1) + this.right.name.slice(1))
+            this.op =''
+            this.right = ''
+        }
         //this.optimize()
 }
 
