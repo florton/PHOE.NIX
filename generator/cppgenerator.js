@@ -211,7 +211,7 @@ var generator = {
         if(stmt!==''){stmt = gen(statement.exp.exp)} 
         if(statement.exp.name.constructor.name ==='attribute'){
             if(statement.exp.name.right.constructor.name ==='arrayIndex'){
-                type = "static "+type
+                type = type
             }
         }
         var varDec = util.format('%s %s %s %s;', type, gen(statement.exp.name), statement.exp.operator, stmt)

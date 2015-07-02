@@ -29,8 +29,8 @@ parse(argv._[0], function (tokens) {
     console.log(program.toString())
     return
   }
-  program.analyze()
-  program.optimize()
+  //program.analyze()
+  //program.optimize()
 
   if (argv.i) {
     program.showSemanticGraph()
