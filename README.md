@@ -1,18 +1,18 @@
 ![PHOE.NIX](logo/logo.png)
-#[Phoenix Theme Song](https://www.youtube.com/watch?v=h5EofwRzit0)
+# [Phoenix Theme Song](https://www.youtube.com/watch?v=h5EofwRzit0)
 
-####Like the legend of the Phoenix, we understand that C++ is an extremely powerful programming language, but are also aware that it is difficult for modern programmers to adopt. In the spirit of modern syntactical languages like Python, with Phoenix we attempt to retain the functionality of C++ while making it much simpler for the programmer to write.
+#### Like the legend of the Phoenix, we understand that C++ is an extremely powerful programming language, but are also aware that it is difficult for modern programmers to adopt. In the spirit of modern syntactical languages like Python, with Phoenix we attempt to retain the functionality of C++ while making it much simpler for the programmer to write.
 
-####Phoenix files end in `.nix` and are compiled down into a C++11 `.cpp` file and a `.h` header. Our initial goal is primary functionality, but we will continue to expand and have been discussing ways  to eventually allow all valid C++ code, however, in the alpha version, only what is specified within the Phoenix Documentation will be valid Phoenix code. 
+#### Phoenix files end in `.nix` and are compiled down into a C++11 `.cpp` file and a `.h` header. Our initial goal is primary functionality, but we will continue to expand and have been discussing ways  to eventually allow all valid C++ code, however, in the alpha version, only what is specified within the Phoenix Documentation will be valid Phoenix code. 
 
-##Basic Syntax
+## Basic Syntax
 	//Comments start with double backslash
 
 	//There are no semicolons or curly braces in Phoenix
 	//Scoping is accomplished through indentation
 	//Statements are one line unless the line ends with a comma
 	
-###Variables
+### Variables
 
 	//Variables must be typed
 	//There are 4 basic types
@@ -34,7 +34,7 @@
 	string str = "First part of the string" + "second part of the string"
 
 
-###Arrays
+### Arrays
 	int x[4] = [1,2,3,4]  
 	// x = [1,2,3,4] 
 	x[0]= 5
@@ -51,7 +51,7 @@
 	//s= [[,here I am],[,],[hello]]
 	
 	
-###Standard IO
+### Standard IO
 
 	//The standard input (cin) is "prompt"
 
@@ -67,7 +67,7 @@
 	//prints "hello" to console
 
 
-###Functions
+### Functions
 	//function declaratons must have a return type or can be void
 	void printx(int x)
 		print x
@@ -76,7 +76,7 @@
 		return x
 
 
-####Command Line arguments
+#### Command Line arguments
 
 	//Every Phoenix program has a reserved array "args"
 	//args contains command line arguments
@@ -95,7 +95,7 @@
 	print args[3]
 	//prints "5"
 	
-####File layout
+#### File layout
 		
 	//All code not within function declarations is run as if it were in a main
 
@@ -108,25 +108,25 @@
 		string y
 
 
-##Statements
+## Statements
 
-###If statement:
+### If statement:
     if x == 5
 		//do something
-###If Else & Else if statements:
+### If Else & Else if statements:
 	if x <= 5
 		//do something
 	else if x > 7
 		//do something
 	else
 		//do something
-###For loop:
+### For loop:
 	for int x=1 while x<=10 : x++
 		//do something 10 times
-###While loop:
+### While loop:
 	while x != 10
 		//do something
-###Do While:
+### Do While:
 
 	do 
 		//do something
@@ -141,7 +141,7 @@
 	
 	//runs 5 times
 	
-###Break:
+### Break:
 
 	for int x = 0 while x : x++
 		if x==5
@@ -149,15 +149,15 @@
 
 	print "Done"	
 
-###Swap statement (Credit to Kobrascript)
+### Swap statement (Credit to Kobrascript)
 	int a = 5
 	int b = 6
 	a :=: b
 	//now a = 6 and b = 5
 
 
-##Examples
-###Returns the xth number in the Fibonacci sequence, the 0th and 1st numbers being 1
+## Examples
+### Returns the xth number in the Fibonacci sequence, the 0th and 1st numbers being 1
 	int fibonacci(int x)
 		if x<2
 			return 1
@@ -167,7 +167,7 @@
 	print fibonacci(7)
 	//Console prints 21
 
-###Returns the next odd number
+### Returns the next odd number
 	int nextOdd(int x)
 		int currentNum = x
 		if x % 2 == 0
@@ -178,7 +178,7 @@
 	print nextOdd(8)
 	//Console prints 9
 
-###Accepts a number of cents x and returns an array containing respectively, the smallest number of quarters, dimes, nickels, and pennies as change
+### Accepts a number of cents x and returns an array containing respectively, the smallest number of quarters, dimes, nickels, and pennies as change
 
 	int makeChange(int x)
 		int coins[4]
@@ -196,7 +196,7 @@
 
 ## A small C++ program vs its Phoenix equivalent
 
-####C++
+#### C++
 	
 	#include<iostream>
 	 
@@ -234,7 +234,7 @@
 	   return 0;
 	}
 	
-####Phoenix
+#### Phoenix
 	class programming
 		private
 			int variable
@@ -252,11 +252,11 @@
 	object.input_value()
 	object.output_value()
 
-#Syntax
+# Syntax
 
-##[Go Here For Syntax Railroad Diagrams](http://my.cs.lmu.edu/~florton/diagram.xhtml)
+## [Go Here For Syntax Railroad Diagrams](http://my.cs.lmu.edu/~florton/diagram.xhtml)
 
-##Phoenix MacroSyntax
+## Phoenix MacroSyntax
 
 	Script ::= Block
 	Block ::= newline indent Stmt+ (dedent)?
@@ -287,7 +287,7 @@
 	Exp6 ::= (Exp7? '::')? Exp7
 	Exp7 ::= id|string|int|double|bool|array
 
-##Phoenix MicroSyntax
+## Phoenix MicroSyntax
 
 	keyword ::='return'|'print'|'prompt'|'args'|'if'|'else'|'elseif'|'for'|'while'|'until'|'class'|'public'|'private'|'header'
 	type ::= 'void'|'int'|'double'|'string'|'bool'|'func' 
